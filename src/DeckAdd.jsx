@@ -2,31 +2,30 @@ import './App.css'
 import React, {useState} from 'react'
 import DecksService from './services/Decks'
 
-//setLisäystila-props - päästään lähtemään pois lisäyslomakkeelta!
 const DeckAdd = ({setCreate, setIsPositive, setShowMessage, setMessage }) => {
 
 const [newDeckId, setNewDeckId] = useState('')
-const [newDeckName, setNewDeckName] = useState('')
-const [newDeckFormat, setNewDeckFormat] = useState('')
+const [newName, setNewName] = useState('')
+const [newFormat, setNewFormat] = useState('')
 const [newLoginId, setNewLoginId] = useState('')
 
 // onSubmit tapahtumankäsittelijä-funktio
-const handleSubmit = (event) => {
+const handleSubmit = (event) => {  
   // estää oletusarvoisen käyttäytymisen
   event.preventDefault()
   // luodaan deck-olio, joka poimii stateistä datan
   var newDeck = {
-    deckId: newDeckId,
-    deckName: newDeckName,
-    deckFormat: newDeckFormat,
-    loginId: newLoginId
+    // deckId: newDeckId,
+    name: newName,
+    format: newFormat,
+    loginId: parseInt(newLoginId)
   }
 
   // uuden deckin lisääminen
   DecksService.create(newDeck)
   .then(response => {
     if (response.status === 200) {
-      setMessage("Added new Deck: " + newDeck.deckName)
+      setMessage("Added a new Deck: " + newDeck.name)
       setIsPositive(true)
       setShowMessage(true)
 
@@ -55,20 +54,20 @@ const handleSubmit = (event) => {
         <h2>Create a new deck</h2>        
 
         <form onSubmit={handleSubmit}>
-          <div>
+          {/* <div>
             <label>deck_id: </label>
-              <input type='text' value={newDeckId} placeholder='id pitäisi tulla automaattisesti tietokannasta' maxLength="5" minLength="1"
+              <input type='number' value={newDeckId} placeholder='id pitäisi tulla automaattisesti tietokannasta' maxLength="5" minLength="1"
                   onChange={({target}) => setNewDeckId(target.value)} disabled />
-          </div>
+          </div> */}
           <div>
               <label>Deck's name: </label>
-              <input type='text' value={newDeckName} placeholder='Deck name'
-                  onChange={({target}) => setNewDeckName(target.value)} required />
+              <input type='text' value={newName} placeholder='Deck name'
+                  onChange={({target}) => setNewName(target.value)} required />
           </div>
           <div>
               <label>Format: </label>
               <input type='text' placeholder='Format'
-                  value={newDeckFormat} onChange={({target}) => setNewDeckFormat(target.value)} />
+                  value={newFormat} onChange={({target}) => setNewFormat(target.value)} />
           </div>
           <div>
               <label>login_id: </label>

@@ -1,31 +1,35 @@
 import './App.css'
 import React, {useState} from 'react'
+import AllCardsService from './services/AllCards'
+import CommandersService from './services/Commanders'
 import DecksService from './services/Decks'
 
-const DeckEdit = ({setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
+const CommanderEdit = ({setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
 
-const [newDeckId, setNewDeckId] = useState(editDeck.deckId)
-const [newName, setNewName] = useState(editDeck.name)
-const [newFormat, setNewFormat] = useState(editDeck.format)
-const [newLoginId, setNewLoginId] = useState(editDeck.loginId)
+const [newIndexId, setNewIndexId] = useState(editCommander.indexId)
+const [newDeckId, setNewDeckId] = useState(editCommander.deckId)
+const [newId, setNewId] = useState(editCommander.id)
+const [newCount, setNewCount] = useState(editCommander.count)
+const [newLoginId, setNewLoginId] = useState(editCommander.loginId)
 
 // onSubmit tapahtumankäsittelijä-funktio
 const handleSubmit = (event) => {
   // estää oletusarvoisen käyttäytymisen
   event.preventDefault()
   // luodaan customer-olio, joka poimii stateistä datan
-  var newDeck = {
-    deckId: parseInt(newDeckId),
-    name: newName,
-    format: newFormat,
+  var newCommander = {
+    indexId: newIndexId,
+    deckId: newDeckId,
+    id: newId,
+    count: parseInt(newCount),
     loginId: parseInt(newLoginId)
   }
 
-  // Deckin update
-  DecksService.update(newDeck)
+  // Commanderin update
+  CommandersService.update(newCommander)
   .then(response => {
     if (response.status === 200) {
-      setMessage("Updated the deck: " + newDeck.name)
+      setMessage("Updated the commander to: " + newCommander.id)
       setIsPositive(true)
       setShowMessage(true)
 
@@ -38,7 +42,7 @@ const handleSubmit = (event) => {
     }
   })
   .catch(error => {
-    console.log(newDeck)
+    console.log(newCommander)
     setMessage(error.message)
     setIsPositive(false)
     setShowMessage(true)
@@ -53,7 +57,7 @@ const handleSubmit = (event) => {
 
   return (
     <div id="edit">        
-        <h2>Update the deck</h2>        
+        <h2>Update the Commander</h2>        
 
         <form onSubmit={handleSubmit}>
           <div>
@@ -61,19 +65,19 @@ const handleSubmit = (event) => {
               <input type='number' value={newDeckId} disabled />
           </div>
           <div>
-              <label>Deck's name: </label>
-              <input type='text' placeholder='Deck Name'
-                  value={newName} onChange={({target}) => setNewName(target.value)} required />
+              <label>id: </label>
+              <input type='text' placeholder='id'
+                  value={newId} onChange={({target}) => setNewId(target.value)} required />
           </div>
           <div>
-              <label>Format: </label>
-              <input type='text' placeholder='Format'
-                  value={newFormat} onChange={({target}) => setNewFormat(target.value)} />
+              <label>Count: </label>
+              <input type='number' placeholder='Count'
+                  value={newCount} onChange={({target}) => setNewCount(target.value)} required />
           </div>
           <div>
               <label>login_id: </label>
               <input type='number' placeholder='login_id'
-                  value={newLoginId} onChange={({target}) => setNewLoginId(target.value)} />
+                  value={newLoginId} onChange={({target}) => setNewLoginId(target.value)} required />
           </div>
           
           <input type='submit' value='Save' />
@@ -86,4 +90,4 @@ const handleSubmit = (event) => {
   )
 }
 
-export default DeckEdit
+export default CommanderEdit

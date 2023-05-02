@@ -2,20 +2,20 @@ import './App.css'
 import React, {useState} from 'react'
 import DecksService from './services/Decks'
 
-const Deck = ({deck, editDeck, setIsPositive, setMessage, setShowMessage, reload, reloadNow}) => {
+const Deck = ({deck, updateDeck, setIsPositive, setMessage, setShowMessage, reload, reloadNow}) => {
 
 //komponentin tilan määritys
 const [showDetails, setShowDetails] = useState(false)
 
 const deleteDeck = (deck) => {
-    let answer = window.confirm(`Remove Deck ${deck.deckName}`)
+    let answer = window.confirm(`Are you sure you want to permanently remove the deck: ${deck.name}?`)
 
     if(answer === true) {
         
     DecksService.remove(deck.deckId)
     .then(res => {
         if (res.status === 200) {
-            setMessage(`Succesfully removed deck ${deck.deckName}`)
+            setMessage(`Succesfully removed the deck: ${deck.name}.`)
             setIsPositive(true)
             setShowMessage(true)
             window.scrollBy(0, -10000) // Scrollaa ylös ruudun
@@ -40,7 +40,7 @@ const deleteDeck = (deck) => {
 
     } // Jos poisto perutaan, annetaan ilmoitus onnistuneesta perumisesta.
     else {
-        setMessage('Canceled deleting the deck.')
+        setMessage('Canceled the deletion of the deck.')
             setIsPositive(true)
             setShowMessage(true)
             window.scrollBy(0, -10000) // Scrollaa ylös ruudun
@@ -64,7 +64,7 @@ const deleteDeck = (deck) => {
 
         {showDetails && <div className='deckDetails'>
             <h3>{deck.name}</h3>
-            <button onClick={() => editDeck(deck)}>Edit</button>
+            <button onClick={() => updateDeck(deck)}>Edit</button>
             <button onClick={() => deleteDeck(deck)}>Delete</button>
             <table>
                 <thead>
