@@ -72,6 +72,8 @@ const deleteCommander = (commander) => {
                 <thead>
                     <tr>
                         <th>deck_id</th>
+                        <th>Deck</th>
+                        <th>Name</th>
                         <th>id</th>
                         <th>Count</th>
                         <th>login_id</th>
@@ -80,6 +82,8 @@ const deleteCommander = (commander) => {
                 <tbody>
                     <tr>
                         <td>{commander.deckId}</td>
+                        <td>{commander.deckName}</td>
+                        <td>{commander.name}</td>
                         <td>{commander.id}</td>
                         <td>{commander.count}</td>
                         <td>{commander.loginId}</td>

@@ -24,7 +24,7 @@ useEffect(() => {
     setCommanders(data)
   })
   .catch(error => console.log(error))
-},[reload]
+},[create, edit, reload]
 // kun lisäystila muuttuu, haetaan bäkendistä päivittynyt data
 )
 
