@@ -11,7 +11,8 @@ const DecksList = ({setIsPositive, setShowMessage, setMessage}) => {
 const [decks, setDecks] = useState([])
 const [showDecks, setShowDecks] = useState(false)
 const [reload, reloadNow] = useState(false)
-const [search, setSearch] = useState("")
+const [searchName, setSearchName] = useState("")
+const [searchFormat, setSearchFormat] = useState("")
 const [create, setCreate] = useState(false)
 const [edit, setEdit] = useState(false)
 const [editDeck, setEditDeck] = useState(false)
@@ -28,10 +29,15 @@ useEffect(() => {
 // kun lisäystila muuttuu, haetaan bäkendistä päivittynyt data
 )
 
-//hakukentän funktio
-const handleSearchInputChange = (event) => {
+// Nimi-hakukentän funktio
+const handleSearchNameInputChange = (event) => {
     setShowDecks(true)
-    setSearch(event.target.value.toLowerCase())
+    setSearchName(event.target.value.toLowerCase())
+}
+// Format-hakukentän funktio
+const handleSearchFormatInputChange = (event) => {
+  setShowDecks(true)
+  setSearchFormat(event.target.value.toLowerCase())
 }
 
 //edit-funktio
@@ -51,10 +57,12 @@ const updateDeck = (deck) =>  {
         </h1>
 
         {/* hakukenttä */}
-        {/* onChange viittaus omaan hakukentän funktioon yllä */}
-        {/* onChange viittaus omaan hakukentän funktioon yllä */}
+        {/* onChange viittaus omaan hakukentän funktioon yllä */}        
         {!create && !edit &&
-          <input placeholder="Search decks by name" value={search} onChange={handleSearchInputChange} />
+          <input placeholder="Search decks by name" value={searchName} onChange={handleSearchNameInputChange} />
+        }     
+        {!create && !edit &&
+          <input placeholder="Search decks by format" value={searchFormat} onChange={handleSearchFormatInputChange} />
         }
 
         {create && <DeckAdd setCreate={setCreate}
@@ -74,7 +82,8 @@ const updateDeck = (deck) =>  {
           !create && !edit && showDecks && decks && decks.map(d => 
             {
               const lowerCaseName = d.name.toLowerCase()
-              if (lowerCaseName.indexOf(search) > -1) {
+              const lowerCaseFormat = d.format.toLowerCase()
+              if ((lowerCaseName.indexOf(searchName) > -1) && (lowerCaseFormat.indexOf(searchFormat) > -1) ) {
                 return(
                 <Deck key={d.deckId} deck={d} reloadNow={reloadNow} reload={reload}
                 setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}

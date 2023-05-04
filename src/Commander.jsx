@@ -3,6 +3,7 @@ import React, {useState} from 'react'
 import CommandersService from './services/Commanders'
 import AllCardsService from './services/AllCards'
 import DecksService from './services/Decks'
+import AllCard from './AllCard'
 
 const Commander = ({commander, updateCommander, setIsPositive, setMessage, setShowMessage, reload, reloadNow}) => {
 
@@ -58,14 +59,14 @@ const deleteCommander = (commander) => {
         
         {/* <h4 onMouseEnter={() => setShowDetails(true)}
         onMouseLeave={() => setShowDetails(false)}
-        > */}
+        > */}        
 
         <h4 onClick={() => setShowDetails(!showDetails)}>
-            {commander.id} , {commander.deckId}
+        {commander.name} | {commander.deckName} | {commander.id} | {commander.deckId}
         </h4>
 
         {showDetails && <div className='deckDetails'>
-            <h3>{commander.id}</h3>
+            <h3>{commander.name} | {commander.deckName}</h3>
             <button onClick={() => updateCommander(commander)}>Edit</button>
             <button onClick={() => deleteCommander(commander)}>Delete</button>
             <table>
