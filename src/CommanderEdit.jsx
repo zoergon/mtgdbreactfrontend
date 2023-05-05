@@ -3,11 +3,12 @@ import React, {useState, useEffect} from 'react'
 import AllCardsService from './services/AllCards'
 import CommandersService from './services/Commanders'
 import DecksService from './services/Decks'
-// import AsyncSelect from 'react-select/async'
 import DecksList from './DecksList'
+import ResultList from './components/ResultList.js'
+import SearchBar from './components/SearchBar.js'
 
 
-const CommanderEdit = ({setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
+const CommanderEdit = ({ setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
 
 // newCommanderin statet
 const [newIndexId, setNewIndexId] = useState(editCommander.indexId)
@@ -19,6 +20,10 @@ const [newCount, setNewCount] = useState(editCommander.count)
 const [newLoginId, setNewLoginId] = useState(editCommander.loginId)
 
 // Dropdown-listan statet
+// const [allData,setAllData] = useState([])
+// const [filteredData,setFilteredData] = useState(allData)
+const [listItems, setListItems] = useState([])
+const [searchResults, setSearchResults] = useState([])
 
 // onSubmit tapahtumankäsittelijä-funktio
 const handleSubmit = (event) => {
@@ -63,19 +68,48 @@ const handleSubmit = (event) => {
   })
 }
 
-// Dropdown-valikkoon data
-const [searchValue, setSearchValue]  = useState('')
-const [select, setSelected]  = useState('')
-const [optionList, setOptionList] = useState([])
-useEffect(() => {
-    AllCardsService.getAll()
-  .then(data => {
-    console.log(data)
-    setOptionList(data)
-})
-  .catch(error => console.log(error))
-},[]
-)
+// Dropdown-valikkoon data GetAll
+// const [searchValue, setSearchValue]  = useState('')
+// const [select, setSelected]  = useState('')
+// const [optionList, setOptionList] = useState([])
+// useEffect(() => {
+//     AllCardsService.getAll()
+//   .then(data => {
+//     console.log(data)
+//     setOptionList(data)
+// })
+//   .catch(error => console.log(error))
+// },[]
+// )
+
+// class DataContainer extends React.Component {
+//   state = {    
+//     names: []
+//   }
+// }
+
+// const fetchNames = (query) => {
+//   fetch(
+//     AllCardsService.get({query})
+//   )
+//   // .then((res) => res.json())
+//   .then(data => {
+//     console.log(data)
+//     this.setState({
+//       names: data.Search
+//     })
+// })
+
+// function SearchBar(props) {
+//   const query = React.useRef()
+
+//   const handleSearch = (e) => {
+//     e.preventDefault()
+//     const queryVal = query.current.value
+//     props.fetchNames(queryVal.trim())
+//   }
+// }
+// }
 
 // react-select dropdown-valikko
 // const options = [optionList]
@@ -97,23 +131,41 @@ useEffect(() => {
 //   // Callback time in ms
 // }
 
+const handleChange = e => {
+  let filterResults = listItems.filter(card => {
+    return card.name.toLowerCase().includes(e.target.value.toLowerCase())
+  })
+  setSearchResults(filterResults)
+}
+
+useEffect(() => {
+  AllCardsService.getAll().then(
+    result => {
+      setListItems(result)      
+      setSearchResults(result)
+    }
+  )
+}, [])
+
+if (listItems.length > 0) {
   return (
+
+  // return (
     <div id="edit">
 
-        {/* <AsyncSelect
-          getOptionValue={option => option.deckId}
-          getOptionLabel={option => option.name}
-          loadOptions={loadOptions} defaultOptions onChange={handleChange} /> */}
+      <SearchBar handleChange={handleChange} />
+      <ResultList searchResults={searchResults} />
 
         {/* input = searchbar */}
         {/* datalist = haettu data optionListiin */}
-        <input list="data" onChange={(e) => setSearchValue(e.target.value)} placeholder="Search" />
+        {/* <input list="data" onChange={(e) => setSearchValue(e.target.value)} placeholder="Search" />
         <datalist id="data">{optionList.map((item) => (
             <option key={item.id} value={item.name}>
                 {item.name}
             </option>))}
-        </datalist>
+        </datalist> */}
 
+        {/* hakee deckit dropdowniin */}
         {/* <select
             disabled={false}
             value={select}
@@ -125,6 +177,20 @@ useEffect(() => {
             </option>
             ))}
         </select> */}
+
+        {/* useRef */}
+        {/* <form onSubmit={handleSearch} className="search-bar">
+          <label>Card: </label>
+            <input
+              className="search-bar"
+              autoFocus={true}              
+              ref={query}
+              label="Search Names"
+              placeholder="Card's name"
+              // required={true}                      
+            />
+          <button type="submit">NAPPISAATANA</button>
+        </form> */}
 
         <h2>Update the Commander</h2>        
 
@@ -165,7 +231,17 @@ useEffect(() => {
         </form>
 
     </div>
+
+)
+} else {
+  return (
+    <div>
+      <SearchBar handleChange={handleChange} />
+      <p>*** now loading ***</p>
+    </div>
   )
+}
+
 }
 
 export default CommanderEdit

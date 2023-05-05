@@ -10,4 +10,12 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
-export default { getAll }
+const get = name => {
+    const config = {
+        headers: {},
+    }
+    const request = axios.get(`${baseUrl}/${name}`, config)
+    return request.then(response => response.data)
+}
+
+export default { getAll, get }
