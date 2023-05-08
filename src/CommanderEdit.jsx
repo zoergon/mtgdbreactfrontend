@@ -5,7 +5,9 @@ import CommandersService from './services/Commanders'
 import DecksService from './services/Decks'
 import DecksList from './DecksList'
 import ResultList from './components/ResultList.js'
+// import DropdownResultList from './components/DropdownResultList.js'
 import SearchBar from './components/SearchBar.js'
+import Dropdown from "./Dropdown"
 
 
 const CommanderEdit = ({ setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
@@ -147,6 +149,18 @@ useEffect(() => {
   )
 }, [])
 
+const options = [
+  { value: "red", label: "Red" },
+  { value: "green", label: "Green" },
+  { value: "blue", label: "Blue" },
+  { value: "black", label: "Black" },
+  { value: "white", label: "White" },
+  { value: "cyan", label: "Cyan" },
+  { value: "magenta", label: "Magenta" },
+  { value: "orange", label: "Orange" },
+  { value: "yellow", label: "Yellow" }
+]
+
 if (listItems.length > 0) {
   return (
 
@@ -154,7 +168,9 @@ if (listItems.length > 0) {
     <div id="edit">
 
       <SearchBar handleChange={handleChange} />
-      <ResultList searchResults={searchResults} />
+      {/* <ResultList searchResults={searchResults} /> */}
+      {/* <DropdownResultList searchResults={searchResults} /> */}
+      <Dropdown placeHolder="Select..." options={options} />
 
         {/* input = searchbar */}
         {/* datalist = haettu data optionListiin */}
