@@ -10,7 +10,7 @@ import SearchBar from './components/SearchBar.js'
 import Dropdown from "./Dropdown"
 
 
-const CommanderEdit = ({ setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
+const CommanderEdit = ({ searchValue, setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
 
 // newCommanderin statet
 const [newIndexId, setNewIndexId] = useState(editCommander.indexId)
@@ -24,8 +24,8 @@ const [newLoginId, setNewLoginId] = useState(editCommander.loginId)
 // Dropdown-listan statet
 // const [allData,setAllData] = useState([])
 // const [filteredData,setFilteredData] = useState(allData)
-const [listItems, setListItems] = useState([])
-const [searchResults, setSearchResults] = useState([])
+// const [listItems, setListItems] = useState([])
+// const [searchResults, setSearchResults] = useState([])
 
 // onSubmit tapahtumankäsittelijä-funktio
 const handleSubmit = (event) => {
@@ -71,18 +71,19 @@ const handleSubmit = (event) => {
 }
 
 // Dropdown-valikkoon data GetAll
-// const [searchValue, setSearchValue]  = useState('')
+// const [searchValue, setSearchValue]  = useState("")
 // const [select, setSelected]  = useState('')
-// const [optionList, setOptionList] = useState([])
-// useEffect(() => {
-//     AllCardsService.getAll()
-//   .then(data => {
-//     console.log(data)
-//     setOptionList(data)
-// })
-//   .catch(error => console.log(error))
-// },[]
-// )
+const [optionList, setOptionList] = useState([])
+const [query, setQuery] = useState("")
+useEffect(() => {
+    DecksService.getName(query)
+  .then(data => {
+    console.log("getName", data)
+    setOptionList(data)
+})
+  .catch(error => console.log(error))
+},[query]
+)
 
 // class DataContainer extends React.Component {
 //   state = {    
@@ -133,44 +134,46 @@ const handleSubmit = (event) => {
 //   // Callback time in ms
 // }
 
-const handleChange = e => {
-  let filterResults = listItems.filter(card => {
-    return card.name.toLowerCase().includes(e.target.value.toLowerCase())
-  })
-  setSearchResults(filterResults)
-}
+// Tämä on osa ResultList/SearchBaria
+// const handleChange = e => {
+//   let filterResults = listItems.filter(card => {
+//     return card.name.toLowerCase().includes(e.target.value.toLowerCase())
+//   })
+//   setSearchResults(filterResults)
+// }
 
-useEffect(() => {
-  AllCardsService.getAll().then(
-    result => {
-      setListItems(result)      
-      setSearchResults(result)
-    }
-  )
-}, [])
+// useEffect(() => {
+//   AllCardsService.getAll().then(
+//     result => {
+//       setListItems(result)      
+//       setSearchResults(result)
+//     }
+//   )
+// }, [])
 
-const options = [
-  { value: "red", label: "Red" },
-  { value: "green", label: "Green" },
-  { value: "blue", label: "Blue" },
-  { value: "black", label: "Black" },
-  { value: "white", label: "White" },
-  { value: "cyan", label: "Cyan" },
-  { value: "magenta", label: "Magenta" },
-  { value: "orange", label: "Orange" },
-  { value: "yellow", label: "Yellow" }
-]
+// const options = [
+//   { value: "red", label: "Red" },
+//   { value: "green", label: "Green" },
+//   { value: "blue", label: "Blue" },
+//   { value: "black", label: "Black" },
+//   { value: "white", label: "White" },
+//   { value: "cyan", label: "Cyan" },
+//   { value: "magenta", label: "Magenta" },
+//   { value: "orange", label: "Orange" },
+//   { value: "yellow", label: "Yellow" }
+// ]
 
-if (listItems.length > 0) {
+// if (listItems.length > 0) {
   return (
 
   // return (
     <div id="edit">
 
-      <SearchBar handleChange={handleChange} />
+      {/* <SearchBar handleChange={handleChange} /> */}
       {/* <ResultList searchResults={searchResults} /> */}
       {/* <DropdownResultList searchResults={searchResults} /> */}
-      <Dropdown placeHolder="Select..." options={options} />
+      <Dropdown isSearchable isMulti placeHolder="Select..." options={optionList} onChange={(value) => console.log(value)} />
+      {/* täytyykö tässä kohtaa olla "value"? */}
 
         {/* input = searchbar */}
         {/* datalist = haettu data optionListiin */}
@@ -249,14 +252,14 @@ if (listItems.length > 0) {
     </div>
 
 )
-} else {
-  return (
-    <div>
-      <SearchBar handleChange={handleChange} />
-      <p>*** now loading ***</p>
-    </div>
-  )
-}
+// } else {
+//   return (
+//     <div>
+//       <SearchBar handleChange={handleChange} />
+//       <p>*** now loading ***</p>
+//     </div>
+//   )
+// }
 
 }
 
