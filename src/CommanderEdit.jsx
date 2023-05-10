@@ -7,10 +7,10 @@ import DecksList from './DecksList'
 import ResultList from './components/ResultList.js'
 // import DropdownResultList from './components/DropdownResultList.js'
 import SearchBar from './components/SearchBar.js'
-import Dropdown from "./Dropdown"
+import Dropdown from "./components/Dropdown.js"
 
 
-const CommanderEdit = ({ searchValue, setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
+const CommanderEdit = ({ props, setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
 
 // newCommanderin statet
 const [newIndexId, setNewIndexId] = useState(editCommander.indexId)
@@ -75,7 +75,9 @@ const handleSubmit = (event) => {
 // const [select, setSelected]  = useState('')
 const [optionList, setOptionList] = useState([])
 const [query, setQuery] = useState("")
+// if ((lowerCaseName.indexOf(searchName) > -1) && (lowerCaseDeckName.indexOf(searchDeckName) > -1) )
 useEffect(() => {
+  if (query !== "")
     DecksService.getName(query)
   .then(data => {
     console.log("getName", data)
@@ -163,6 +165,21 @@ useEffect(() => {
 //   { value: "yellow", label: "Yellow" }
 // ]
 
+// Input id='haku' -kentän päivitys
+// const onQuery = (e) => {
+//   setQuery(e.target.value)
+//   console.log("query: ", query)      
+// }
+// Yritys saada Dropdownin searchRef value
+// const searchRefValue = Dropdown.searchRef.current.getInstance()
+
+// Yritys saada child -> parent toimimaan
+const callback = payload => {
+    setQuery(payload)
+    console.log("callback:", query)
+}
+
+
 // if (listItems.length > 0) {
   return (
 
@@ -172,7 +189,11 @@ useEffect(() => {
       {/* <SearchBar handleChange={handleChange} /> */}
       {/* <ResultList searchResults={searchResults} /> */}
       {/* <DropdownResultList searchResults={searchResults} /> */}
-      <Dropdown isSearchable isMulti placeHolder="Select..." options={optionList} onChange={(value) => console.log(value)} />
+      {/* <div>
+        <label>{(query)}</label>
+          <input id='haku' type='text' value={query} onChange={onQuery} />
+      </div> */}
+      <Dropdown callback={callback} isSearchable isMulti placeHolder={query} options={optionList} onChange={(value) => console.log("onChange: ", value)} />
       {/* täytyykö tässä kohtaa olla "value"? */}
 
         {/* input = searchbar */}

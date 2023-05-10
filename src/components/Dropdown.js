@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import "./App.css";
+// import "./App.css";
 
 const Icon = () => {
   return (
@@ -18,7 +18,7 @@ const CloseIcon = () => {
 };
 
 // isMulti = multiselect
-const Dropdown = ({ placeHolder, options, isMulti, isSearchable, onChange }) => {
+const Dropdown = ({ callback, placeHolder, options, isMulti, isSearchable, onChange }) => {
     const [showMenu, setShowMenu] = useState(false)
     const [selectedValue, setSelectedValue] = useState(isMulti ? [] : null)
     const [searchValue, setSearchValue] = useState("")
@@ -46,6 +46,8 @@ const Dropdown = ({ placeHolder, options, isMulti, isSearchable, onChange }) => 
 
     const onSearch = (e) => {
       setSearchValue(e.target.value)
+      console.log("searchValue: ", searchValue)
+      // console.log("searchRef: ", searchRef.current)     
     }
     const getOptions = () => {
       if (!searchValue) {
@@ -135,6 +137,14 @@ const Dropdown = ({ placeHolder, options, isMulti, isSearchable, onChange }) => 
       return selectedValue.deckId === option.deckId
     }
 
+    // Yritys lähettää child -> parent
+    // const state = {
+    //   example: 'Tämä viesti tulee perille'
+    // }
+    // Here we are setting the payload for the callback inside the Parent
+    const handleCallback = () => callback(searchValue)
+    
+
   return (
     <div className="dropdown-container">
       <div onClick={handleInputClick} className="dropdown-input">
@@ -148,7 +158,7 @@ const Dropdown = ({ placeHolder, options, isMulti, isSearchable, onChange }) => 
             <div className="dropdown-menu">
             {isSearchable && (
               <div className="search-box">
-                <input onChange={onSearch} value={searchValue} ref={searchRef} />
+                <input onInput={handleCallback} onChange={onSearch} value={searchValue} ref={searchRef} />
               </div>
             )}
             {getOptions().map((option) => (
@@ -164,7 +174,7 @@ const Dropdown = ({ placeHolder, options, isMulti, isSearchable, onChange }) => 
         )}        
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Dropdown;
+export default Dropdown
