@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-// import "./App.css";
 
 const Icon = () => {
   return (
@@ -14,11 +13,11 @@ const CloseIcon = () => {
       <svg height="20" width="20" viewBox="0 0 20 20">
           <path d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"></path>
       </svg>
-  );
-};
+  )
+}
 
 // isMulti = multiselect
-const Dropdown = ({ callback, placeHolder, options, isMulti, isSearchable, onChange }) => {
+const Dropdown = ({ selected, setSelected,  placeHolder, options, isMulti, isSearchable, onChange }) => {
     const [showMenu, setShowMenu] = useState(false)
     const [selectedValue, setSelectedValue] = useState(isMulti ? [] : null)
     const [searchValue, setSearchValue] = useState("")
@@ -46,15 +45,14 @@ const Dropdown = ({ callback, placeHolder, options, isMulti, isSearchable, onCha
 
     const onSearch = (e) => {
       setSearchValue(e.target.value)
-      console.log("searchValue: ", searchValue)
-      // console.log("searchRef: ", searchRef.current)     
+      // console.log("searchValue: ", searchValue)
     }
     const getOptions = () => {
       if (!searchValue) {
           return options
       }
       // Hakee mistä tahansa kohtaa haettavista hakukriteerit täyttäviä optioita
-      return options.filter((option) => option.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0)
+      return options.filter((option) => option.setName.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0)
       // Hakee hakukohteiden alusta hakusanat täyttäviä kohteita
       // return options.filter((option) => option.label.toLowerCase().indexOf(searchValue.toLowerCase()) === 0
     }
@@ -68,6 +66,7 @@ const Dropdown = ({ callback, placeHolder, options, isMulti, isSearchable, onCha
     // }
 
     // Multiselect -update ylläolevaan:
+    // Mitä dropdownissa näytetään: placeholder vai valinnat.
     const getDisplay = () => {
       if (!selectedValue || selectedValue.length === 0) {
           return placeHolder
@@ -76,24 +75,26 @@ const Dropdown = ({ callback, placeHolder, options, isMulti, isSearchable, onCha
           return (
               <div className="dropdown-tags">
                   {selectedValue.map((option) => (
-                      <div key={option.deckId} className="dropdown-tag-item">
-                          {option.name} | {option.format}
+                      <div key={option.id} className="dropdown-tag-item">
+                          {option.name} | {option.setName}
                           <span onClick={(e) => onTagRemove(e, option)} className="dropdown-tag-close"><CloseIcon /></span>
                       </div>
                   ))}
               </div>
-          );
+          )
       }
       return selectedValue.name
-    };
+    }
     const removeOption = (option) => {
-      return selectedValue.filter((o) => o.deckId !== option.deckId)
+      return selectedValue.filter((o) => o.id !== option.id)
     }
     const onTagRemove = (e, option) => {
       e.stopPropagation()
       const newValue = removeOption(option)
       // setSelectedValue(removeOption(option))
-      setSelectedValue(newValue)
+      setSelected(newValue)
+      console.log("@ REMOVED selected:", selected)
+      setSelectedValue(newValue)      
       onChange(newValue)
     }
 
@@ -102,20 +103,22 @@ const Dropdown = ({ callback, placeHolder, options, isMulti, isSearchable, onCha
     //     setSelectedValue(option)
     // }
 
-    // Tämä tuli multiselectin myötä:
+    // Multiselect yllä olevan tilalle:
     const onItemClick = (option) => {
       let newValue
       if (isMulti) {
-          if (selectedValue.findIndex((o) => o.deckId === option.deckId) >= 0) {
-              newValue = removeOption(option);
+          if (selectedValue.findIndex((o) => o.id === option.id) >= 0) {
+              newValue = removeOption(option)
           } else {
               newValue = [...selectedValue, option]
           }
       } else {
           newValue = option
       }
-      setSelectedValue(newValue)
-      onChange(newValue)
+      setSelected(newValue)
+      console.log("@ selected:", selected)
+      setSelectedValue(newValue)      
+      onChange(newValue)      
     }
 
     // Tämä oli ennen multiselectiä:
@@ -129,21 +132,20 @@ const Dropdown = ({ callback, placeHolder, options, isMulti, isSearchable, onCha
     // Tämä multiselectin myötä:
     const isSelected = (option) => {
       if (isMulti) {
-          return selectedValue.filter((o) => o.deckId === option.deckId).length > 0
+          return selectedValue.filter((o) => o.id === option.id).length > 0
       }
       if (!selectedValue) {
           return false
       }
-      return selectedValue.deckId === option.deckId
+      return selectedValue.id === option.id
     }
 
     // Yritys lähettää child -> parent
     // const state = {
     //   example: 'Tämä viesti tulee perille'
     // }
-    // Here we are setting the payload for the callback inside the Parent
-    const handleCallback = () => callback(searchValue)
-    
+    // Tämä toimii. Vaatii <input onInput={handleCallback}>
+    // const handleCallback = () => callback(selectedValue)
 
   return (
     <div className="dropdown-container">
@@ -158,16 +160,17 @@ const Dropdown = ({ callback, placeHolder, options, isMulti, isSearchable, onCha
             <div className="dropdown-menu">
             {isSearchable && (
               <div className="search-box">
-                <input onInput={handleCallback} onChange={onSearch} value={searchValue} ref={searchRef} />
+                <label>Filter by set name:</label>
+                <input onChange={onSearch} value={searchValue} ref={searchRef} />
               </div>
             )}
             {getOptions().map((option) => (
               <div
                   onClick={() => onItemClick(option)}
-                  key={option.deckId}
+                  key={option.id}
                   className={`dropdown-item ${isSelected(option) && "selected"}`}
               >
-                  {option.name} | {option.format}
+                  {option.name} | {option.setName}
               </div>
             ))}
         </div>

@@ -5,12 +5,12 @@ import CommandersService from './services/Commanders'
 import DecksService from './services/Decks'
 import DecksList from './DecksList'
 import ResultList from './components/ResultList.js'
-// import DropdownResultList from './components/DropdownResultList.js'
 import SearchBar from './components/SearchBar.js'
 import Dropdown from "./components/Dropdown.js"
+import SelectedCard from "./components/SelectedCard.js"
 
 
-const CommanderEdit = ({ props, setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
+const CommanderEdit = ({ setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
 
 // newCommanderin statet
 const [newIndexId, setNewIndexId] = useState(editCommander.indexId)
@@ -21,11 +21,7 @@ const [newName, setNewName] = useState(editCommander.name)
 const [newCount, setNewCount] = useState(editCommander.count)
 const [newLoginId, setNewLoginId] = useState(editCommander.loginId)
 
-// Dropdown-listan statet
-// const [allData,setAllData] = useState([])
-// const [filteredData,setFilteredData] = useState(allData)
-// const [listItems, setListItems] = useState([])
-// const [searchResults, setSearchResults] = useState([])
+const [selected, setSelected] = useState([])
 
 // onSubmit tapahtumankäsittelijä-funktio
 const handleSubmit = (event) => {
@@ -70,15 +66,13 @@ const handleSubmit = (event) => {
   })
 }
 
-// Dropdown-valikkoon data GetAll
-// const [searchValue, setSearchValue]  = useState("")
-// const [select, setSelected]  = useState('')
-const [optionList, setOptionList] = useState([])
-const [query, setQuery] = useState("")
-// if ((lowerCaseName.indexOf(searchName) > -1) && (lowerCaseDeckName.indexOf(searchDeckName) > -1) )
+
+const [optionList, setOptionList] = useState([]) // Backendistä saatu data sijoitetaan tänne
+const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana
+// Dropdown-valikkoon data .getName
 useEffect(() => {
-  if (query !== "")
-    DecksService.getName(query)
+  if (query !== "") // Ei hae tyhjällä stringillä
+    AllCardsService.getName(query)
   .then(data => {
     console.log("getName", data)
     setOptionList(data)
@@ -116,12 +110,6 @@ useEffect(() => {
 // }
 // }
 
-// react-select dropdown-valikko
-// const options = [optionList]
-// console.log(options)
-//   // [{ value: "jack", label: "Jack" },
-//   // { value: "john", label: "John" },]
-
 // const handleChange = (selectedOption) => {
 //   console.log("handleChange", selectedOption)
 // }
@@ -153,31 +141,17 @@ useEffect(() => {
 //   )
 // }, [])
 
-// const options = [
-//   { value: "red", label: "Red" },
-//   { value: "green", label: "Green" },
-//   { value: "blue", label: "Blue" },
-//   { value: "black", label: "Black" },
-//   { value: "white", label: "White" },
-//   { value: "cyan", label: "Cyan" },
-//   { value: "magenta", label: "Magenta" },
-//   { value: "orange", label: "Orange" },
-//   { value: "yellow", label: "Yellow" }
-// ]
-
-// Input id='haku' -kentän päivitys
-// const onQuery = (e) => {
-//   setQuery(e.target.value)
-//   console.log("query: ", query)      
-// }
-// Yritys saada Dropdownin searchRef value
-// const searchRefValue = Dropdown.searchRef.current.getInstance()
-
-// Yritys saada child -> parent toimimaan
-const callback = payload => {
-    setQuery(payload)
-    console.log("callback:", query)
+// Commanderin haku <input> asettaa queryn, jota käytetään useEffectillä backendille pyyntöihin
+const onQuery = (e) => {
+  setQuery(e.target.value)
+  // console.log("query: ", query)
 }
+
+// Callback child -> parent. Vaatii <Dropdown callback={callback}>
+// const callback = payload => {
+//     setSelected(payload)
+//     console.log("callback:", selected)
+// }
 
 
 // if (listItems.length > 0) {
@@ -188,14 +162,14 @@ const callback = payload => {
 
       {/* <SearchBar handleChange={handleChange} /> */}
       {/* <ResultList searchResults={searchResults} /> */}
-      {/* <DropdownResultList searchResults={searchResults} /> */}
-      {/* <div>
-        <label>{(query)}</label>
-          <input id='haku' type='text' value={query} onChange={onQuery} />
-      </div> */}
-      <Dropdown callback={callback} isSearchable isMulti placeHolder={query} options={optionList} onChange={(value) => console.log("onChange: ", value)} />
-      {/* täytyykö tässä kohtaa olla "value"? */}
-
+      <div>
+        <label>Commanderin haku: </label>
+          <input type='text' value={query} onChange={onQuery} />          
+          <Dropdown selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={query} options={optionList} onChange={(value) => console.log("X onChange: ", value)} />
+          <label>Asetettu commander: </label>
+          <SelectedCard selected={selected} />
+      </div>
+      
         {/* input = searchbar */}
         {/* datalist = haettu data optionListiin */}
         {/* <input list="data" onChange={(e) => setSearchValue(e.target.value)} placeholder="Search" />

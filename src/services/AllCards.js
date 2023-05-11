@@ -1,6 +1,7 @@
 import axios from "axios"
 
 const baseUrl = "https://localhost:7120/api/allcards"
+const nameUrl = "https://localhost:7120/api/allcards/name"
 
 const getAll = () => {
     const config = {
@@ -10,12 +11,12 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
-const get = name => {
+const getName = (query) => {
     const config = {
-        headers: {},
+        headers: {},        
     }
-    const request = axios.get(`${baseUrl}/${name}`, config)
+    const request = axios.get(`${nameUrl}/${query}`, config)
     return request.then(response => response.data)
 }
 
-export default { getAll, get }
+export default { getAll, getName }

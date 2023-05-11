@@ -3,18 +3,16 @@ import axios from "axios"
 const baseUrl = "https://localhost:7120/api/decks"
 const nameUrl = "https://localhost:7120/api/decks/name"
 
-// const getAll = () => {
-//     const config = {
-//         headers: {},
-//     }
-//     const request = axios.get(baseUrl, config)
-//     return request.then(response => response.data)
-// }
+const getAll = () => {
+    const config = {
+        headers: {},
+    }
+    const request = axios.get(baseUrl, config)
+    return request.then(response => response.data)
+}
 
 const getName = (query) => {
     const config = {
-        // url: 'name',
-        // params: { name: "elffi" },
         headers: {},        
     }
     const request = axios.get(`${nameUrl}/${query}`, config)
@@ -43,4 +41,4 @@ const update = object => {
 }
 
 
-export default { getName, create, remove, update }
+export default { getAll, getName, create, remove, update }

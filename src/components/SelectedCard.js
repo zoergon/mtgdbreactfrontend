@@ -1,8 +1,8 @@
-export default function ResultList(props) {
+export default function SelectedCard(props) {
     return (
-        <div className='ResultList'>
+        <div className='SelectedCard'>
             <ul>
-                {props.searchResults.map(function (resultCards) {                
+                {props.selected.map(function (resultCards) {
                     return <li key={resultCards.id}>
                         {resultCards.name} | {resultCards.setName}
                     </li>
