@@ -17,9 +17,7 @@ const CloseIcon = () => {
 }
 
 // isMulti = multiselect
-// Sen sisään on rakennettu muitakin ominaisuuksia, esim. tägit ja filtteröinti setNamen mukaan erillisen haun ulkopuolelle.
-// Tässä komponentissa multiselect EI ole käytössä. DropdownMulti.js -> multiselectiin.
-const Dropdown = ({ newId, setNewId, newName, setNewName, selected, setSelected,  placeHolder, options, isMulti, isSearchable, onChange }) => {
+const Dropdown = ({ selected, setSelected,  placeHolder, options, isMulti, isSearchable, onChange }) => {
     const [showMenu, setShowMenu] = useState(false)
     const [selectedValue, setSelectedValue] = useState(isMulti ? [] : null)
     const [searchValue, setSearchValue] = useState("")
@@ -93,18 +91,10 @@ const Dropdown = ({ newId, setNewId, newName, setNewName, selected, setSelected,
     const onTagRemove = (e, option) => {
       e.stopPropagation()
       const newValue = removeOption(option)
-      // setSelectedValue(removeOption(option)) // Tämä on kommentoitu pois jo alkuperäisestä, ennen multiselectiä. Voinee poistaa.
-      setSelected(newValue)      
+      // setSelectedValue(removeOption(option))
+      setSelected(newValue)
       console.log("@ REMOVED selected:", selected)
-      
-      if (newValue === []) {
-        var noId = ([])
-        setNewId(noId) // Tämä state palautuu parentille, joka pitäisi saada päivittymään input-valueen 
-        console.log("ID - NO ID", newId)
-        setNewName(noId)
-      }
-      
-      setSelectedValue(newValue)
+      setSelectedValue(newValue)      
       onChange(newValue)
     }
 
@@ -119,23 +109,16 @@ const Dropdown = ({ newId, setNewId, newName, setNewName, selected, setSelected,
       if (isMulti) {
           if (selectedValue.findIndex((o) => o.id === option.id) >= 0) {
               newValue = removeOption(option)
-          } else { // Vaihtamalla kommentoidun rivin alemman tilalle, saa multiselectin käyttöön. Nyt valitsee tai poistaa yhden.
-              // newValue = [...selectedValue, option]
-              newValue = [option]              
+          } else {
+              newValue = [...selectedValue, option]
           }
       } else {
           newValue = option
       }
-      setSelected(newValue) // Tämä state palautuu parentille ("asetettu commander" - tarvitaanko debuggaamisen jälkeen?)
-      // console.log("@ selected:", selected)
-      const selectedId = selected.map((s) => s.id)
-      setNewId(selectedId) // Tämä state palautuu parentille
-      console.log("ID - newId:", newId)
-      const selectedName = selected.map((s) => s.setName)
-      setNewName(selectedName) // Tämä state palautuu parentille    
-
-      setSelectedValue(newValue)        
-      onChange(newValue)
+      setSelected(newValue)
+      console.log("@ selected:", selected)
+      setSelectedValue(newValue)      
+      onChange(newValue)      
     }
 
     // Tämä oli ennen multiselectiä:
@@ -154,7 +137,7 @@ const Dropdown = ({ newId, setNewId, newName, setNewName, selected, setSelected,
       if (!selectedValue) {
           return false
       }
-      return selectedValue.id === option.id      
+      return selectedValue.id === option.id
     }
 
     // Yritys lähettää child -> parent
