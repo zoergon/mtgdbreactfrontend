@@ -27,6 +27,7 @@ return (
         {/* nämä linkit vaihtelevat osoiterivin tekstiä selaimessa */}
         <Navbar bg="dark" variant="dark">
           <Nav className="mr-auto">
+            <Nav.Link href={'/'} className='nav-link'>Home</Nav.Link>
             <Nav.Link href={'/AllCards'} className='nav-link'>All cards</Nav.Link>
             <Nav.Link href={'/OwnedCards'} className='nav-link'>Owned cards</Nav.Link>
             <Nav.Link href={'/Decks'} className='nav-link'>Decks</Nav.Link>

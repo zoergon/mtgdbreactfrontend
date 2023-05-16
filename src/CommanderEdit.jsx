@@ -8,7 +8,6 @@ import ResultList from './components/ResultList.js'
 import SearchBar from './components/SearchBar.js'
 import Dropdown from "./components/Dropdown.js"
 import SelectedCard from "./components/SelectedCard.js"
-import Table from "./Table"
 
 
 const CommanderEdit = ({ setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
@@ -21,6 +20,7 @@ const [newId, setNewId] = useState(editCommander.id)
 const [newName, setNewName] = useState(editCommander.name)
 const [newCount, setNewCount] = useState(editCommander.count)
 const [newLoginId, setNewLoginId] = useState(editCommander.loginId)
+const [reload, reloadNow] = useState(false)
 
 const [selected, setSelected] = useState([])
 // Tablen statet
@@ -142,10 +142,11 @@ const onQuery = (e) => {
       {/* <ResultList searchResults={searchResults} /> */}
       <div>
         <label>Commanderin haku: </label>
-          <input type='text' value={query} onChange={onQuery} />          
+          <input type='text' value={query} onChange={onQuery} />
           <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={query} options={optionList} onChange={(value) => console.log("X onChange: ", value)} />
           <label>Asetettu commander: </label>
           <SelectedCard selected={selected} />
+          
       </div>
       
 
@@ -162,12 +163,12 @@ const onQuery = (e) => {
           </div>
           <div>
               <label>id: </label>
-              <input refId={ref} type='text' placeholder='id'
+              <input type='text' placeholder='id'
                   value={newId || ''} onChange={({target}) => setNewId(target.value)} required />
           </div>
           <div>
               <label>Commander: </label>
-              <input refName={ref} type='text' placeholder='Commander'
+              <input type='text' placeholder='Commander'
                   value={newName || ''} onChange={({target}) => setNewName(target.value)} required />
           </div>
           <div>

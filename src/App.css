@@ -1,5 +1,5 @@
-.App {
-  text-align: center;
+.App {  text-align: center;
+  
 }
 
 .App-logo {
@@ -69,6 +69,14 @@
   margin-left: 15%;
 }
 
+/* yleiset */
+.aligned {  
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+
 /* buttonit */
 
 .button {
@@ -102,6 +110,39 @@
   padding-left: 10%;
   padding-right: 10%;
 }
+
+/* table-muotoilut */
+/* table {
+  background-color: white;
+  border-style: solid;
+  width: 60%;
+  margin: 5rem auto;
+  margin-bottom: 50px;
+  border-radius: 5px;
+  border-collapse: collapse;
+  box-shadow: 0 0 0 1px black;
+  overflow: hidden;
+  max-width: 80rem;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+thead {
+  font-size: 1.2rem;
+  background-color: #443C68;
+  color: #fff;  
+}
+
+th, td {
+  border: 1px solid #443C68;
+  min-width: 5rem;
+  padding: 0.75rem;
+  line-height: 1.7;
+}
+
+td {
+  font-size: 1rem;
+} */
 
 /* dropdown-muotoilut */
 

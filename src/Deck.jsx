@@ -51,8 +51,8 @@ const deleteDeck = (deck) => {
     }
 }
 
-  return (
-    <div className='deckDiv'>
+  return (    
+    <div className='deckDiv'>        
         
         {/* <h4 onMouseEnter={() => setShowDetails(true)}
         onMouseLeave={() => setShowDetails(false)}

@@ -1,9 +1,11 @@
 import './App.css'
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import DecksService from './services/Decks'
 import Deck from './Deck'
 import DeckAdd from './DeckAdd'
 import DeckEdit from './DeckEdit'
+import Table from "./Table"
+import { TableDecks } from "./components/TableDecks"
 
 const DecksList = ({setIsPositive, setShowMessage, setMessage}) => {
 
@@ -46,8 +48,22 @@ const updateDeck = (deck) =>  {
   setEdit(true)
 }
 
+// Tableen headingin backendistä haetusta decks-statesta
+// const getHeadings = () => {
+//     return Object.keys(decks[0])
+// }
+
+// Tarkistaa onko data haettu backendistä decks-stateen.
+// Jollei ole, antaa sillä välin 'now loading' -paragrafin ilmoitukseksi.
+if (decks.length > 0) {
   return (
     <>        
+
+        <div className='table'>
+            {/* <Table theadData={getHeadings()} tbodyData={decks}/> */}
+            <TableDecks tbodyData={decks}/>
+        </div>
+
         {/* <h2 onClick={() => setShowAllCards(!showAllCards)}>All cards</h2> */}
         <h1><nobr style={{ cursor: 'pointer'}}
         onClick={() => setShowDecks(!showDecks)}>Decks</nobr>        
@@ -97,6 +113,15 @@ const updateDeck = (deck) =>  {
 
     </>
   )
+
+} else {
+  return (
+    <div>      
+      <p>*** now loading ***</p>
+    </div>
+  )
+}
+
 }
 
 export default DecksList
