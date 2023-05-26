@@ -1,54 +1,50 @@
 import React, { useMemo, useEffect, useState } from 'react'
-import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useImperativeHandle } from 'react-table'
-import { COLUMNS } from './ColumnsDecks'
+import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder } from 'react-table'
 import './table.css'
 import { GlobalFilter } from './GlobalFilter'
 import { ColumnFilter } from './ColumnFilter'
 import { Checkbox } from './Checkbox'
-import DecksService from '../services/Decks'
-import DeckEdit from '../DeckEdit'
-import DecksList from '../DecksList'
+// import MainDecksService from '../services/MainDecks'
+// import MainDeckEdit from '../MainDeckEdit'
+// import MainDecksList from '../MainDecksList'
 
-export const TableDecks = ({ edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData }) => {
+export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, card, updateCard, deleteCard, tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
 
-    const [aDeck, setADeck] = useState([]) // Tämä lisätty, todennäköisesti ei tarvitse.
-
     const defaultColumn = useMemo(() => {
         return {
             Filter: ColumnFilter
         }
-    })    
-
-    // Tätä ei todennäköisesti tarvitse. (Checkboxin tai rivin klikkaamisessa asetetaan ko. rivi stateen.)
-    const setRowToADeck = (deck) => {
-        setADeck(deck)
-        // console.log("setADeck:", aDeck)
-      }
+    })   
 
     // Tämä oli alunperin ColumnsDecks.js:ssä
     const columns = useMemo(
         () => [
         {
-            id: 'deckId', // luultavimmin voi poistaa
-            Header: 'deckId',
-            Footer: 'deckId',
-            accessor: 'deckId',
+            id: 'indexId', // luultavimmin voi poistaa
+            Header: 'indexId',
+            Footer: 'indexId',
+            accessor: 'indexId',
             // Filter: ColumnFilter,
             // disableFilters: true
         },
         {
             Header: 'Deck',
             Footer: 'Deck',
-            accessor: 'name',        
+            accessor: 'deckId',        
         },
         {
-            Header: 'Format',
-            Footer: 'Format',
-            accessor: 'format',
+            Header: 'Name',
+            Footer: 'Name',
+            accessor: 'id',
+        },
+        {
+            Header: 'count',
+            Footer: 'count',
+            accessor: 'count',
         },
         {
             Header: 'loginId',
@@ -71,18 +67,18 @@ export const TableDecks = ({ edit, setEdit, create, setCreate, editDeck, deck, u
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
     function handleEdit(row) {
         // console.log(row)
-        updateDeck(row)        
+        updateCard(row)        
     }
 
     // Käsittelee ko. riviltä painetun Deletee-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
     function handleDelete(row) {
         // console.log(row)
-        deleteDeck(row)
+        deleteCard(row)
     }
 
-    function handleShowDeck(row) {
+    function handleShowCard(row) {
         console.log(row)
-        // showDeck(row)
+        // showCard(row)
     }
 
     const {
@@ -128,7 +124,7 @@ export const TableDecks = ({ edit, setEdit, create, setCreate, editDeck, deck, u
                 Header: ({ getToggleAllRowsSelectedProps }) => (
                     <Checkbox {...getToggleAllRowsSelectedProps()} />
                 ),
-                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => setRowToADeck(row.original)}/>
+                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />
                 },
                 ...columns
             ])
@@ -142,9 +138,10 @@ export const TableDecks = ({ edit, setEdit, create, setCreate, editDeck, deck, u
       // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
       const changeOrder = () => {
         setColumnOrder([
-            'format',            
-            'name',
-            'deckId',          
+            'count',            
+            'id',
+            'deckId',
+            'indexId',
             'loginId',
         ])
       }
@@ -188,10 +185,9 @@ export const TableDecks = ({ edit, setEdit, create, setCreate, editDeck, deck, u
             <tbody {...getTableBodyProps()}>
                 {page.map((row) => {                                
                     prepareRow(row)
-                    // console.log("row:", row.original.deckId)
-                    return (
-                        // <tr key={row.original.deckId} {...row.getRowProps()} onClick={() => setRowToADeck(row.original)}>
-                        <tr key={row.original.deckId} {...row.getRowProps()} onClick={() => handleShowDeck(row.original)}>
+                    // console.log("row:", row.original.indexId)
+                    return (                        
+                        <tr key={row.original.indexId} {...row.getRowProps()} onClick={() => handleShowCard(row.original)}>
                             {row.cells.map((cell) => {
                                 return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                             })}                            

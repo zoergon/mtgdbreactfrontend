@@ -80,10 +80,10 @@
 /* buttonit */
 
 .button {
-  border-radius: 10px;
+  border-radius: 5px;
   margin-left: 10px;
-  font-size: 26px;
-  background-color: green;
+  font-size: 16px;
+  background-color: darkcyan;
   color: white;
 }
 
