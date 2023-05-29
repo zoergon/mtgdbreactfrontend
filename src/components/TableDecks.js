@@ -8,8 +8,9 @@ import { Checkbox } from './Checkbox'
 import DecksService from '../services/Decks'
 import DeckEdit from '../DeckEdit'
 import DecksList from '../DecksList'
+import MainDecksList from '../MainDecksList'
 
-export const TableDecks = ({ edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData }) => {
+export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -83,6 +84,9 @@ export const TableDecks = ({ edit, setEdit, create, setCreate, editDeck, deck, u
     function handleShowDeck(row) {
         console.log(row)
         // showDeck(row)
+        setQuery(row.deckId)
+        console.log("setQuery:", row.deckId)
+        setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
     }
 
     const {

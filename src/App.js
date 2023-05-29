@@ -4,6 +4,7 @@ import AllCardsList from './AllCardsList'
 import CommandersList from './CommandersList'
 import DecksList from './DecksList'
 import MainDecksList from './MainDecksList'
+import MainDecksListDeckId from './MainDecksListDeckId'
 import Message from './Message'
 
 import Navbar from 'react-bootstrap/Navbar'
@@ -35,6 +36,7 @@ return (
             <Nav.Link href={'/Commanders'} className='nav-link'>Commanders</Nav.Link>
             <Nav.Link href={'/Companions'} className='nav-link'>Companions</Nav.Link>
             <Nav.Link href={'/MainDecks'} className='nav-link'>MainDecks</Nav.Link>
+            <Nav.Link href={'/MainDecks'} className='nav-link'>MainDecksDeckId</Nav.Link>
             <Nav.Link href={'/Maybeboards'} className='nav-link'>Maybeboards</Nav.Link>
             <Nav.Link href={'/Sideboards'} className='nav-link'>Sideboards</Nav.Link>
             <Nav.Link href={'/Tokens'} className='nav-link'>Tokens</Nav.Link>
@@ -55,6 +57,7 @@ return (
           <Route path="/Commanders"> <CommandersList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
           {/* <Route path="/Companions"> <CompanionsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           <Route path="/MainDecks"> <MainDecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
+          <Route path="/MainDecks"> <MainDecksListDeckId setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
           {/* <Route path="/Maybeboards"> <MaybeboardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Sideboards"> <SideboardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Tokens"> <TokensList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}

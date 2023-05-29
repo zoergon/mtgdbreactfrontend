@@ -32,13 +32,28 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
             // disableFilters: true
         },
         {
-            Header: 'Deck',
-            Footer: 'Deck',
+            Header: 'deckId',
+            Footer: 'deckId',
             accessor: 'deckId',        
         },
         {
-            Header: 'Name',
-            Footer: 'Name',
+            Header: 'Deck',
+            Footer: 'Deck',
+            accessor: 'deck',
+        },
+        {
+            Header: 'Card',
+            Footer: 'Card',
+            accessor: 'name',
+        },
+        {
+            Header: 'Set',
+            Footer: 'Set',
+            accessor: 'setName',
+        },
+        {
+            Header: 'id',
+            Footer: 'id',
             accessor: 'id',
         },
         {
@@ -53,7 +68,7 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
         },
         {
             width: 50,
-            Header: ('Action'),
+            Header: ('Actions'),
             // accessor: 'action',
             Cell: row => (
             <div>
@@ -78,7 +93,7 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
 
     function handleShowCard(row) {
         console.log(row)
-        // showCard(row)
+        // showCard(row)        
     }
 
     const {
