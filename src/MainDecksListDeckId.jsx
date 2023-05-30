@@ -6,7 +6,7 @@ import MainDeckAdd from './MainDeckAdd'
 import MainDeckEdit from './MainDeckEdit'
 import { TableMainDecks } from "./components/TableMainDecks"
 
-const MainDecksListDeckId = ({setIsPositive, setShowMessage, setMessage}) => {
+const MainDecksListDeckId = ({query, setIsPositive, setShowMessage, setMessage}) => {
 
 const [cards, setCards] = useState([])
 const [showCards, setShowCards] = useState(false)
@@ -28,7 +28,7 @@ const [editCard, setEditCard] = useState(false)
 // )
 
 // const [optionList, setOptionList] = useState([]) // Backendistä saatu data sijoitetaan tänne
-const [query, setQuery] = useState(1) // Bäckendille lähtevä hakusana (deckId)
+// const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId)
 
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
