@@ -9,7 +9,7 @@ export const GlobalFilter = ({ filter, setFilter }) => {
   return (
     <span>
       Search:{' '}
-      <input
+      <input        
         value={value || ''}
         onChange={e => {
           setValue(e.target.value)

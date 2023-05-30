@@ -6,7 +6,8 @@ import MainDeckAdd from './MainDeckAdd'
 import MainDeckEdit from './MainDeckEdit'
 import { TableMainDecks } from "./components/TableMainDecks"
 
-const MainDecksListDeckId = ({query, setIsPositive, setShowMessage, setMessage}) => {
+const MainDecksListDeckId = ({ query, setQuery, setIsPositive, setShowMessage, setMessage}) => {
+// query = parentilta tuleva, tablesta klikatun deckin antama row.original.deckId = deckId, jolla haetaan backendistä oikean pakan kortit
 
 const [cards, setCards] = useState([])
 const [showCards, setShowCards] = useState(false)
@@ -16,6 +17,7 @@ const [searchFormat, setSearchFormat] = useState("")
 const [create, setCreate] = useState(false)
 const [edit, setEdit] = useState(false)
 const [editCard, setEditCard] = useState(false)
+// const [loading, setLoading] = useState(true)
 
 // useEffect(() => {
 //     MainDecksService.getAll()
@@ -30,16 +32,28 @@ const [editCard, setEditCard] = useState(false)
 // const [optionList, setOptionList] = useState([]) // Backendistä saatu data sijoitetaan tänne
 // const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId)
 
+// const handleFetch = (query) => {
+//   MainDecksService.getByDeckId(query).then((res) => {
+//     setCards(res.data)
+//     // setLoading(false)
+//   }).catch(error => console.log(error))}
+  
+
+// useEffect(() => {
+//   if (query !== "")
+//   handleFetch(query)
+// })
+
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
   MainDecksService.getByDeckId(query) // parseInt stringille
   .then(data => {
-    console.log("getByDeckId", data)
+    // console.log("getByDeckId", data)
     // setOptionList(data)
     setCards(data)
 })
   .catch(error => console.log(error))
-},[query]
+},[reload]
 )
 
 // Edit-funktio
@@ -99,7 +113,7 @@ if (cards.length > 0) {
     <>        
 
         <div className='table'>            
-            {!create && <button className="button" onClick={() => setCreate(true)}>Create a new card</button>}{' '}
+            {!create && <button className="button" onClick={() => setCreate(true)}>Add a new card</button>}{' '}
             <TableMainDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editCard={editCard} reloadNow={reloadNow} reload={reload}
                     setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
                     updateCard={updateCard} deleteCard={deleteCard} tbodyData={cards}/>            
@@ -123,12 +137,12 @@ if (cards.length > 0) {
         } */}
 
         {create && <MainDeckAdd setCreate={setCreate}
-        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
+        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setQuery={setQuery} reloadNow={reloadNow}
         />}
 
         {edit && <MainDeckEdit setEdit={setEdit}
-        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-        editCard={editCard}
+        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} reload={reload} reloadNow={reloadNow}
+        editCard={editCard} setQuery={setQuery}
         />}
 
         {/* {

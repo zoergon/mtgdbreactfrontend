@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useState } from 'react'
-import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useImperativeHandle } from 'react-table'
+import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useImperativeHandle, useFlexLayout } from 'react-table'
 import { COLUMNS } from './ColumnsDecks'
 import './table.css'
 import { GlobalFilter } from './GlobalFilter'
@@ -40,24 +40,38 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
             accessor: 'deckId',
             // Filter: ColumnFilter,
             // disableFilters: true
+            maxWidth: 80,
+            minWidth: 40,
+            width: 80,
         },
         {
             Header: 'Deck',
             Footer: 'Deck',
-            accessor: 'name',        
+            accessor: 'name',
+            maxWidth: 300,
+            minWidth: 80,
+            width: 250,
         },
         {
             Header: 'Format',
             Footer: 'Format',
             accessor: 'format',
+            maxWidth: 200,
+            minWidth: 80,
+            width: 150,
         },
         {
             Header: 'loginId',
             Footer: 'loginId',
             accessor: 'loginId',
+            maxWidth: 60,
+            minWidth: 40,
+            width: 60,
         },
         {
-            width: 50,
+            maxWidth: 100,
+            minWidth: 40,
+            width: 80,
             Header: ('Action'),
             // accessor: 'action',
             Cell: row => (
@@ -71,21 +85,16 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
 
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
     function handleEdit(row) {
-        // console.log(row)
         updateDeck(row)        
     }
 
     // Käsittelee ko. riviltä painetun Deletee-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
     function handleDelete(row) {
-        // console.log(row)
         deleteDeck(row)
     }
 
     function handleShowDeck(row) {
-        console.log(row)
-        // showDeck(row)
         setQuery(row.deckId)
-        console.log("setQuery:", row.deckId)
         setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
     }
 
@@ -119,6 +128,7 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
           defaultColumn,
           initialState: { pageIndex : 0 }          
         },
+        useFlexLayout,
         useFilters,
         useGlobalFilter,
         useSortBy,
@@ -129,6 +139,7 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
             hooks.visibleColumns.push(columns => [
                 {
                 id: 'selection',
+                width: 40,
                 Header: ({ getToggleAllRowsSelectedProps }) => (
                     <Checkbox {...getToggleAllRowsSelectedProps()} />
                 ),

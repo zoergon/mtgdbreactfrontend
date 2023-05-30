@@ -9,6 +9,7 @@ export default function SearchBar(props) {
                     <span className='visually-hidden'>Search for something</span>
                 </label>
                 <input
+                max-width="flex"
                 className='SearchBar'
                 type='text'
                 id='header-search'

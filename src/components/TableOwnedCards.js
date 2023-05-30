@@ -1,123 +1,36 @@
-import React, { useMemo, useEffect, useState } from 'react'
-import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useFlexLayout } from 'react-table'
+import React, { useMemo, useState } from 'react'
+import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useImperativeHandle, useFlexLayout, useBlockLayout, useAbsoluteLayout } from 'react-table'
 import './table.css'
+import { COLUMNS } from './ColumnsAllCards'
 import { GlobalFilter } from './GlobalFilter'
 import { ColumnFilter } from './ColumnFilter'
 import { Checkbox } from './Checkbox'
-// import MainDecksService from '../services/MainDecks'
-// import MainDeckEdit from '../MainDeckEdit'
-// import MainDecksList from '../MainDecksList'
 
-export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, card, updateCard, deleteCard, tbodyData }) => {
+export const TableAllCards = ({ tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
-    // const columns = useMemo(() => COLUMNS, [])
+    const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
 
     const defaultColumn = useMemo(() => {
         return {
             Filter: ColumnFilter
         }
-    })   
-
-    // Tämä oli alunperin ColumnsDecks.js:ssä
-    const columns = useMemo(
-        () => [
-        {
-            id: 'indexId', // luultavimmin voi poistaa
-            Header: 'indexId',
-            Footer: 'indexId',
-            accessor: 'indexId',
-            // Filter: ColumnFilter,
-            // disableFilters: true
-            maxWidth: 80,
-            minWidth: 40,
-            width: 70,
-        },
-        {
-            Header: 'deckId',
-            Footer: 'deckId',
-            accessor: 'deckId',
-            maxWidth: 60,
-            minWidth: 40,
-            width: 70,      
-        },
-        {
-            Header: 'Deck',
-            Footer: 'Deck',
-            accessor: 'deck',
-            maxWidth: 250,
-            minWidth: 80,
-            width: 200,
-        },
-        {
-            Header: 'Card',
-            Footer: 'Card',
-            accessor: 'name',
-            maxWidth: 250,
-            minWidth: 40,
-            width: 250,
-        },
-        {
-            Header: 'Set',
-            Footer: 'Set',
-            accessor: 'setName',
-            maxWidth: 250,
-            minWidth: 40,
-            width: 250,
-        },
-        {
-            Header: 'id',
-            Footer: 'id',
-            accessor: 'id',
-        },
-        {
-            Header: 'count',
-            Footer: 'count',
-            accessor: 'count',
-            maxWidth: 60,
-            minWidth: 40,
-            width: 60,
-        },
-        {
-            Header: 'loginId',
-            Footer: 'loginId',
-            accessor: 'loginId',
-            maxWidth: 60,
-            minWidth: 40,
-            width: 60,
-        },
-        {            
-            maxWidth: 100,
-            minWidth: 60,
-            width: 80,
-            Header: ('Actions'),
-            // accessor: 'action',
-            Cell: row => (
-            <div>
-               <button onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
-               <button onClick={e=> handleDelete(row.row.original)}>Delete</button>
-            </div>
-            ),
-          },
-    ], [], )
-
-    // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
-    function handleEdit(row) {
-        // console.log(row)
-        updateCard(row)        
+    })
+    
+    function handleShowDetails(row) {
+        console.log(row)
     }
 
     // Käsittelee ko. riviltä painetun Deletee-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
-    function handleDelete(row) {
-        // console.log(row)
-        deleteCard(row)
-    }
+    // function handleDelete(row) {
+    //     deleteDeck(row)
+    // }
 
-    function handleShowCard(row) {
-        console.log(row)
-        // showCard(row)        
-    }
+    // function handleShowDeck(row) {
+    //     setQuery(row.deckId)
+    //     setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
+    // }
 
     const {
         getTableProps,
@@ -149,6 +62,8 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
           defaultColumn,
           initialState: { pageIndex : 0 }          
         },
+        // useBlockLayout,
+        // useAbsoluteLayout,
         useFlexLayout,
         useFilters,
         useGlobalFilter,
@@ -164,7 +79,7 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
                 Header: ({ getToggleAllRowsSelectedProps }) => (
                     <Checkbox {...getToggleAllRowsSelectedProps()} />
                 ),
-                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />
+                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => console.log(row.original)}/>
                 },
                 ...columns
             ])
@@ -178,11 +93,19 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
       // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
       const changeOrder = () => {
         setColumnOrder([
-            'count',            
+            'set',
             'id',
-            'deckId',
-            'indexId',
-            'loginId',
+            'name',
+            'rarity',
+            'setName',
+            'manaCost',
+            'typeLine',          
+            'oracleText',
+            'power',
+            'toughness',
+            'lang',
+            'borderColor',
+            'object',
         ])
       }
 
@@ -225,9 +148,9 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
             <tbody {...getTableBodyProps()}>
                 {page.map((row) => {                                
                     prepareRow(row)
-                    // console.log("row:", row.original.indexId)
+                    // console.log("row:", row.original.id)
                     return (                        
-                        <tr key={row.original.indexId} {...row.getRowProps()} onClick={() => handleShowCard(row.original)}>
+                        <tr key={row.original.id} {...row.getRowProps()} onClick={() => console.log(row.original)}>
                             {row.cells.map((cell) => {
                                 return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                             })}                            

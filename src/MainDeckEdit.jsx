@@ -2,9 +2,9 @@ import './App.css'
 import React, {useState} from 'react'
 import MainDecksService from './services/MainDecks'
 
-const MainDeckEdit = ({setEdit, setIsPositive, setShowMessage, setMessage, editCard }) => {
+const MainDeckEdit = ({ reload, reloadNow, setEdit, setIsPositive, setShowMessage, setMessage, editCard }) => {
 
-const [newIndexId, setNewIndexId] = useState(editCard.deckId) // Tätäkin tarvitaan! Vaikkei sitä päivitetä.
+const [newIndexId, setNewIndexId] = useState(editCard.indexId) // Tätäkin tarvitaan! Vaikkei sitä päivitetä.
 const [newDeckId, setNewDeckId] = useState(editCard.deckId)
 const [newId, setNewId] = useState(editCard.id)
 const [newCount, setNewCount] = useState(editCard.count)
@@ -28,6 +28,7 @@ const handleSubmit = (event) => {
   .then(response => {
     if (response.status === 200) {
       setMessage("Updated the card: " + newCard.id)
+      reloadNow(!reload)
       setIsPositive(true)
       setShowMessage(true)
 
@@ -61,7 +62,7 @@ const handleSubmit = (event) => {
         <div>
             <label>index_id: </label>
               <input type='number'
-                  value={newDeckId} disabled />              
+                  value={newIndexId} disabled />              
           </div>
           <div>
             <label>deck_id: </label>

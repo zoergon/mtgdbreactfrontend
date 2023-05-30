@@ -2,7 +2,7 @@ import './App.css'
 import React, {useState} from 'react'
 import MainDecksService from './services/MainDecks'
 
-const MainDeckAdd = ({setCreate, setIsPositive, setShowMessage, setMessage }) => {
+const MainDeckAdd = ({ reload, reloadNow, setCreate, setIsPositive, setShowMessage, setMessage }) => {
 
 const [newIndexId, setNewIndexId] = useState('') // Luultavasti ei tarvitse
 const [newDeckId, setNewDeckId] = useState('')
@@ -27,6 +27,7 @@ const handleSubmit = (event) => {
   .then(response => {
     if (response.status === 200) {
       setMessage("Added a new Card: " + newCard.id)
+      reloadNow(!reload)
       setIsPositive(true)
       setShowMessage(true)
 
@@ -34,7 +35,7 @@ const handleSubmit = (event) => {
         setShowMessage(false)
       }, 5000)
 
-      setCreate(false)
+      setCreate(false)      
       // Yllä oleva pois, jos setTimeoutin kautta määritellään setCreate falseksi
     }
   })

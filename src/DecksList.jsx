@@ -8,7 +8,7 @@ import MainDecksListDeckId from './MainDecksListDeckId'
 import Table from "./Table"
 import { TableDecks } from "./components/TableDecks"
 
-const DecksList = ({setIsPositive, setShowMessage, setMessage}) => {
+const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
 
 // Komponentin tilan määritys
 const [aDeck, setADeck] = useState([]) // Tätä ei luultavasti tarvitse
@@ -142,7 +142,7 @@ if (decks.length > 0) {
         editDeck={editDeck}
         />}
 
-        {showDecks && <MainDecksListDeckId query={query} />}
+        {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} />}
 
         {/* {
           // Viimeisen && jälkeen se mitä tehdään
