@@ -23,3 +23,27 @@ table {
     color: white;
   }
   
+  .resizer {
+    display: inline-block;
+    background: #cecece;
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateX(50%);
+    z-index: 1;
+  }
+  
+  .resizer.isResizing {
+    background: #cecece;
+  }
+
+  .subTable {
+    width: 100%;
+    display: inline-block;
+    /*float: right;*/
+    margin-left: 3rem;
+    padding: 1rem;
+    background-color: #ffffff;
+  }

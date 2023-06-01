@@ -4,9 +4,10 @@ import DecksService from './services/Decks'
 import Deck from './Deck'
 import DeckAdd from './DeckAdd'
 import DeckEdit from './DeckEdit'
+import MainDecksList from './MainDecksList'
 import MainDecksListDeckId from './MainDecksListDeckId'
 import Table from "./Table"
-import { TableDecksExpandable } from "./components/TableDecksExpandable"
+import { TableDecks } from "./components/TableDecks"
 
 const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
 
@@ -98,24 +99,103 @@ const deleteDeck = (deck) => {
   }
 }
 
+// Nämä Expandable-mallista
+// XXX - tästä saakka
+const details = React.useMemo(
+  () => [
+    {
+      Header: "index_id",
+      accessor: "indexId",
+      width: 50
+    },
+    {
+      Header: "Card",
+      accessor: "name",
+      width: 125
+    },
+    {
+      Header: 'Count',
+      accessor: 'count',
+      width: 80,
+    },
+    {
+      // Header: "Sample Group Details",
+      Header: "deck_id",
+      // accessor: "groupDetails",
+      accessor: "deckId",
+      width: 100
+    },
+  //   {
+  //     // samaa tasoa kuin MainDecks muut rivit, viimeisen kahden rivin tiedot alkuperäisessä yhdistetty tällä tavoin yhteen
+  //     Header: "System",
+  //     accessor: (d) => {
+  //       return d.systemNumber + " " + d.systemName;
+  //     },
+  //     width: 200
+  //   }
+  ],
+  []
+);
+
+// alkuperäisessä row.original.groupDetails = aktuaalinen subRow datassa
+const subTable = React.useCallback(
+  ({ row }) =>
+    // row.original.groupDetails.length > 0 ? (
+    row.original.deckId.length > 0 ? (
+      <MainDecksListDeckId
+        columns={details}
+        // data={row.original.groupDetails}
+        data={row.original.deckId}
+        headerColor="grey"
+      />
+    ) : (
+      "No Data"
+    ),
+  [details]
+);
+
+// Alkuperäisessä: export const data = { data: { getGroupedSamplingStationBySystemId: [{ systemId: 1289, jne....}]}}
+const expandedRows = React.useMemo(() => {
+  // if (data?.data) {
+  if (MainDecksList?.decks) {
+    let arr;
+    let d = decks;
+    if (d.deckId.length > 0) {
+      arr = d.deckId.map((sid, ind) => {
+        return { [ind]: true };
+      });
+    }
+    return arr;
+  }
+}, []);
+// XXX - tänne saakka Expandable-mallista
+
+
 // Tarkistaa onko data haettu backendistä decks-stateen.
 // Jollei ole, antaa sillä välin 'now loading' -paragrafin ilmoitukseksi.
-if (decks.length > 0) {
+// if (decks.length > 0) {
   return (
     <>        
 
-        <div className='table'>            
-            {!create && <button className="button" onClick={() => setCreate(true)}>Create a new deck</button>}{' '}
-            {/* {!edit && <button className="button" onClick={() => setEdit(true)}>Edit the selected deck</button>}{' '} */}
-            <TableDecksExpandable edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} deck={aDeck} reloadNow={reloadNow} reload={reload}
-                    setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-                    updateDeck={updateDeck} deleteDeck={deleteDeck} tbodyData={decks} showDecks={showDecks} setShowDecks={setShowDecks} setQuery={setQuery} setDeckName={setDeckName} />
-            {/* {!create && !edit && showDecks && decks &&
-            <TableDecks deck={deck} reloadNow={reloadNow} reload={reload}
+        {decks.length > 0 ? (
+          <div className='table'>            
+              {!create && <button className="button" onClick={() => setCreate(true)}>Create a new deck</button>}{' '}
+              {/* {!edit && <button className="button" onClick={() => setEdit(true)}>Edit the selected deck</button>}{' '} */}
+              <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} deck={aDeck} reloadNow={reloadNow} reload={reload}
                       setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-                      updateDeck={updateDeck} tbodyData={decks}/>
-            } */}
-        </div>
+                      updateDeck={updateDeck} deleteDeck={deleteDeck} tbodyData={decks} showDecks={showDecks} setShowDecks={setShowDecks} setQuery={setQuery} setDeckName={setDeckName}
+                      renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />
+              {/* {!create && !edit && showDecks && decks &&
+              <TableDecks deck={deck} reloadNow={reloadNow} reload={reload}
+                        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
+                        updateDeck={updateDeck} tbodyData={decks}/>
+              } */}
+          </div>
+        ) : (
+          <span>
+            <em>...searching for the data...</em>
+          </span>
+        )}
 
         {/* <h2 onClick={() => setShowAllCards(!showAllCards)}>All cards</h2> */}
         {/* <h1><nobr style={{ cursor: 'pointer'}}
@@ -143,7 +223,7 @@ if (decks.length > 0) {
         editDeck={editDeck}
         />}
 
-        {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} />}
+        {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
 
         {/* {
           // Viimeisen && jälkeen se mitä tehdään
@@ -169,13 +249,13 @@ if (decks.length > 0) {
     </>
   )
 
-} else {
-  return (
-    <div>      
-      <p>*** now loading ***</p>
-    </div>
-  )
-}
+// } else {
+//   return (
+//     <div>      
+//       <p>*** now loading ***</p>
+//     </div>
+//   )
+// }
 
 }
 

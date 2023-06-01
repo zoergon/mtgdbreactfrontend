@@ -6,7 +6,7 @@ import MainDeckAdd from './MainDeckAdd'
 import MainDeckEdit from './MainDeckEdit'
 import { TableMainDecks } from "./components/TableMainDecks"
 
-const MainDecksListDeckId = ({ deckName, query, setQuery, setIsPositive, setShowMessage, setMessage}) => {
+const MainDecksListDeckId = ({ columns, deckName, query, setQuery, setIsPositive, setShowMessage, setMessage}) => {
 // query = parentilta tuleva, tablesta klikatun deckin antama row.original.deckId = deckId, jolla haetaan backendistä oikean pakan kortit
 
 const [cards, setCards] = useState([])
