@@ -6,7 +6,7 @@ import MainDeckAdd from './MainDeckAdd'
 import MainDeckEdit from './MainDeckEdit'
 import { TableMainDecks } from "./components/TableMainDecks"
 
-const MainDecksListDeckId = ({ query, setQuery, setIsPositive, setShowMessage, setMessage}) => {
+const MainDecksListDeckId = ({ deckName, query, setQuery, setIsPositive, setShowMessage, setMessage}) => {
 // query = parentilta tuleva, tablesta klikatun deckin antama row.original.deckId = deckId, jolla haetaan backendistä oikean pakan kortit
 
 const [cards, setCards] = useState([])
@@ -112,11 +112,11 @@ if (cards.length > 0) {
   return (
     <>        
 
-        <div className='table'>            
-            {!create && <button className="button" onClick={() => setCreate(true)}>Add a new card</button>}{' '}
+        <div className='table'><br/>            
+            {!create && <button className="button" onClick={() => setCreate(true)}>Add a card</button>}{' '}
             <TableMainDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editCard={editCard} reloadNow={reloadNow} reload={reload}
                     setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-                    updateCard={updateCard} deleteCard={deleteCard} tbodyData={cards}/>            
+                    updateCard={updateCard} deleteCard={deleteCard} tbodyData={cards} deckName={deckName} />            
         </div>
 
         {/* <h2 onClick={() => setShowAllCards(!showAllCards)}>All cards</h2> */}

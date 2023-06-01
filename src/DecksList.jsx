@@ -6,7 +6,7 @@ import DeckAdd from './DeckAdd'
 import DeckEdit from './DeckEdit'
 import MainDecksListDeckId from './MainDecksListDeckId'
 import Table from "./Table"
-import { TableDecks } from "./components/TableDecks"
+import { TableDecksExpandable } from "./components/TableDecksExpandable"
 
 const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
 
@@ -21,6 +21,7 @@ const [create, setCreate] = useState(false) // Create-tilan määritys (Add)
 const [edit, setEdit] = useState(false) // Edit-tilan määritys
 const [editDeck, setEditDeck] = useState(false)
 const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId) MainDecksien hakuun
+const [deckName, setDeckName] = useState("") // Deckin nimi child-taulukoille näytettäväksi
 
 // UseEffect ajetaan aina alussa kerran
 useEffect(() => {
@@ -106,9 +107,9 @@ if (decks.length > 0) {
         <div className='table'>            
             {!create && <button className="button" onClick={() => setCreate(true)}>Create a new deck</button>}{' '}
             {/* {!edit && <button className="button" onClick={() => setEdit(true)}>Edit the selected deck</button>}{' '} */}
-            <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} deck={aDeck} reloadNow={reloadNow} reload={reload}
+            <TableDecksExpandable edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} deck={aDeck} reloadNow={reloadNow} reload={reload}
                     setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-                    updateDeck={updateDeck} deleteDeck={deleteDeck} tbodyData={decks} showDecks={showDecks} setShowDecks={setShowDecks} setQuery={setQuery} />
+                    updateDeck={updateDeck} deleteDeck={deleteDeck} tbodyData={decks} showDecks={showDecks} setShowDecks={setShowDecks} setQuery={setQuery} setDeckName={setDeckName} />
             {/* {!create && !edit && showDecks && decks &&
             <TableDecks deck={deck} reloadNow={reloadNow} reload={reload}
                       setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
@@ -142,7 +143,7 @@ if (decks.length > 0) {
         editDeck={editDeck}
         />}
 
-        {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} />}
+        {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} />}
 
         {/* {
           // Viimeisen && jälkeen se mitä tehdään

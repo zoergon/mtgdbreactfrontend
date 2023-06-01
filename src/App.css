@@ -87,6 +87,21 @@
   color: white;
 }
 
+.deckNameStyles {
+  float: "left";
+  font-size: 24px;
+  color: darkcyan;  
+  align-items: left;
+  padding: 10px;
+  /* font-weight: bold; */
+}
+.deckHeadlineStyles {
+  float: "left";
+  font-size: 16px;  
+  align-items: left;
+  padding: 10px;
+}
+
 /* korttien muotoilut */
 
 .deckDetails {

@@ -37,7 +37,7 @@ export const TableAllCards = ({ tbodyData }) => {
         getTableBodyProps,
         headerGroups,
         footerGroups,
-        // rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
+        rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
         page,
         nextPage,
         previousPage,
@@ -132,7 +132,7 @@ export const TableAllCards = ({ tbodyData }) => {
         <table {...getTableProps()}>
             <thead>
                 {headerGroups.map((headerGroup) => (                
-                    <tr {...headerGroup.getHeaderGroupProps()}>
+                    <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (                            
                             <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                                 {column.render('Header')}
@@ -158,7 +158,7 @@ export const TableAllCards = ({ tbodyData }) => {
                     )
                 })}                
             </tbody>
-            <tfoot>
+            {/* <tfoot>
                 {footerGroups.map(footerGroup => (
                     <tr {...footerGroup.getFooterGroupProps()}>
                         {footerGroup.headers.map(column => (
@@ -166,20 +166,11 @@ export const TableAllCards = ({ tbodyData }) => {
                         ))}
                     </tr>
                 ))}
-            </tfoot>
+            </tfoot> */}
         </table>
-
-        <pre>
-            <code>
-            {JSON.stringify(
-                {
-                selectedFlatRows: selectedFlatRows.map(row => row.original)
-                },
-                null,
-                2
-            )}
-            </code>
-        </pre>
+        {/* <br /> */}
+        <div>Showing {pageSize} results of {rows.length} rows total</div>
+        <pre></pre>
 
         <div>
             <span>
@@ -207,13 +198,27 @@ export const TableAllCards = ({ tbodyData }) => {
             <select
                 value={pageSize}
                 onChange={e => setPageSize(Number(e.target.value))}>
-                {[10, 25, 50].map(pageSize => (
+                {[10, 25, 50, 100, 1].map(pageSize => (
                     <option key={pageSize} value={pageSize}>
                     Show {pageSize}
                     </option>
                 ))}
             </select>
         </div>
+
+        {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
+        {/* <pre>
+            <code>
+            {JSON.stringify(
+                {
+                selectedFlatRows: selectedFlatRows.map(row => row.original)
+                },
+                null,
+                2
+            )}
+            </code>
+        </pre> */}
+
         </>
     )
 }

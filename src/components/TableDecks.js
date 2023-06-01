@@ -1,34 +1,46 @@
 import React, { useMemo, useEffect, useState } from 'react'
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useImperativeHandle, useFlexLayout } from 'react-table'
-import { COLUMNS } from './ColumnsDecks'
+// import { COLUMNS } from './ColumnsDecks'
 import './table.css'
 import { GlobalFilter } from './GlobalFilter'
 import { ColumnFilter } from './ColumnFilter'
 import { Checkbox } from './Checkbox'
-import DecksService from '../services/Decks'
-import DeckEdit from '../DeckEdit'
-import DecksList from '../DecksList'
-import MainDecksList from '../MainDecksList'
+// import DecksService from '../services/Decks'
+// import DeckEdit from '../DeckEdit'
+// import DecksList from '../DecksList'
+// import MainDecksList from '../MainDecksList'
 
-export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData }) => {
+export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
 
     const [aDeck, setADeck] = useState([]) // Tämä lisätty, todennäköisesti ei tarvitse.
+    
+    // const [rowData, setRowData] = useState(data) // Rividatan päivitykseen
 
     const defaultColumn = useMemo(() => {
         return {
             Filter: ColumnFilter
         }
-    })    
+    })
 
     // Tätä ei todennäköisesti tarvitse. (Checkboxin tai rivin klikkaamisessa asetetaan ko. rivi stateen.)
     const setRowToADeck = (deck) => {
         setADeck(deck)
         // console.log("setADeck:", aDeck)
       }
+
+    // const onChangeInput = (e, deckId) => {
+    //     const { name, value } = e.target
+
+    //     const editData = rowData.map((item) =>
+    //         item.deckId === deckId && name ? { ...item, [name]: value } : item
+    //     )
+
+    //     setRowData(editData)
+    // }
 
     // Tämä oli alunperin ColumnsDecks.js:ssä
     const columns = useMemo(
@@ -69,9 +81,9 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
             width: 60,
         },
         {
-            maxWidth: 100,
+            maxWidth: 120,
             minWidth: 40,
-            width: 80,
+            width: 115,
             Header: ('Action'),
             // accessor: 'action',
             Cell: row => (
@@ -94,6 +106,7 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
     }
 
     function handleShowDeck(row) {
+        setDeckName(row.name)
         setQuery(row.deckId)
         setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
     }
@@ -102,8 +115,8 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        footerGroups,
-        // rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
+        // footerGroups,
+        rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
         page,
         nextPage,
         previousPage,
@@ -187,7 +200,7 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
         <table {...getTableProps()}>
             <thead>
                 {headerGroups.map((headerGroup) => (                
-                    <tr {...headerGroup.getHeaderGroupProps()}>
+                    <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (                            
                             <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                                 {column.render('Header')}
@@ -204,8 +217,7 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
                 {page.map((row) => {                                
                     prepareRow(row)
                     // console.log("row:", row.original.deckId)
-                    return (
-                        // <tr key={row.original.deckId} {...row.getRowProps()} onClick={() => setRowToADeck(row.original)}>
+                    return (                        
                         <tr key={row.original.deckId} {...row.getRowProps()} onClick={() => handleShowDeck(row.original)}>
                             {row.cells.map((cell) => {
                                 return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
@@ -214,7 +226,7 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
                     )
                 })}                
             </tbody>
-            <tfoot>
+            {/* <tfoot>
                 {footerGroups.map(footerGroup => (
                     <tr {...footerGroup.getFooterGroupProps()}>
                         {footerGroup.headers.map(column => (
@@ -222,20 +234,11 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
                         ))}
                     </tr>
                 ))}
-            </tfoot>
+            </tfoot> */}
         </table>
-
-        <pre>
-            <code>
-            {JSON.stringify(
-                {
-                selectedFlatRows: selectedFlatRows.map(row => row.original)
-                },
-                null,
-                2
-            )}
-            </code>
-        </pre>
+        {/* <br /> */}
+        <div>Showing {pageSize} results of {rows.length} rows total</div>
+        <pre></pre>
 
         <div>
             <span>
@@ -263,13 +266,27 @@ export const TableDecks = ({ setQuery, showDecks, setShowDecks, edit, setEdit, c
             <select
                 value={pageSize}
                 onChange={e => setPageSize(Number(e.target.value))}>
-                {[10, 25, 50].map(pageSize => (
+                {[10, 25, 50, 1].map(pageSize => (
                     <option key={pageSize} value={pageSize}>
                     Show {pageSize}
                     </option>
                 ))}
             </select>
         </div>
+
+        {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
+        {/* <pre>
+            <code>
+            {JSON.stringify(
+                {
+                selectedFlatRows: selectedFlatRows.map(row => row.original)
+                },
+                null,
+                2
+            )}
+            </code>
+        </pre> */}
+
         </>
     )
 }

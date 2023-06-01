@@ -8,7 +8,7 @@ import { Checkbox } from './Checkbox'
 // import MainDeckEdit from '../MainDeckEdit'
 // import MainDecksList from '../MainDecksList'
 
-export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, card, updateCard, deleteCard, tbodyData }) => {
+export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, editCard, card, updateCard, deleteCard, tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -188,8 +188,9 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
 
     return (
         <>
-        <button onClick={changeOrder}>Change column order</button>{' '}
-        <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+        <label className="deckHeadlineStyles">Deck:</label><label className="deckNameStyles">{deckName}</label>{' '}
+        <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />{' '}
+        <button onClick={changeOrder}>Change column order</button>{' '}        
 
         <div className='aligned'>
             <div>
@@ -209,7 +210,7 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
         <table {...getTableProps()}>
             <thead>
                 {headerGroups.map((headerGroup) => (                
-                    <tr {...headerGroup.getHeaderGroupProps()}>
+                    <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (                            
                             <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                                 {column.render('Header')}
@@ -235,7 +236,7 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
                     )
                 })}                
             </tbody>
-            <tfoot>
+            {/* <tfoot>
                 {footerGroups.map(footerGroup => (
                     <tr {...footerGroup.getFooterGroupProps()}>
                         {footerGroup.headers.map(column => (
@@ -243,20 +244,8 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
                         ))}
                     </tr>
                 ))}
-            </tfoot>
+            </tfoot> */}
         </table>
-
-        <pre>
-            <code>
-            {JSON.stringify(
-                {
-                selectedFlatRows: selectedFlatRows.map(row => row.original)
-                },
-                null,
-                2
-            )}
-            </code>
-        </pre>
 
         <div>
             <span>
@@ -291,6 +280,20 @@ export const TableMainDecks = ({ edit, setEdit, create, setCreate, editCard, car
                 ))}
             </select>
         </div>
+
+        {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
+        {/* <pre>
+            <code>
+            {JSON.stringify(
+                {
+                selectedFlatRows: selectedFlatRows.map(row => row.original)
+                },
+                null,
+                2
+            )}
+            </code>
+        </pre> */}
+
         </>
     )
 }
