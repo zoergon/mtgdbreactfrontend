@@ -1,13 +1,11 @@
 import React, { useMemo, useEffect, useState } from 'react'
-import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useImperativeHandle, useFlexLayout, useExpanded, useResizeColumns, } from 'react-table'
-// import { COLUMNS } from './ColumnsDecks'
+import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useFlexLayout, useResizeColumns } from 'react-table'
 import './table.css'
 import { GlobalFilter } from './GlobalFilter'
 import { ColumnFilter } from './ColumnFilter'
 import { Checkbox } from './Checkbox'
-// import DecksService from '../services/Decks'
-// import DeckEdit from '../DeckEdit'
-// import DecksList from '../DecksList'
+// import MainDecksService from '../services/MainDecks'
+// import MainDeckEdit from '../MainDeckEdit'
 // import MainDecksList from '../MainDecksList'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,115 +16,93 @@ import {
   faAngleDoubleRight,
   faAngleLeft,
   faAngleRight,
-  faAngleDown,
-  faAngleUp
+  faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData, renderRowSubComponent, expandRows,
-    expandedRowObj }) => {
+export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, editCard, card, updateCard, deleteCard, tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
 
-    const [aDeck, setADeck] = useState([]) // Tämä lisätty, todennäköisesti ei tarvitse.
-    
-    // const [rowData, setRowData] = useState(data) // Rividatan päivitykseen
-
     const defaultColumn = useMemo(() => {
         return {
             Filter: ColumnFilter
         }
-    })
-
-    // Tätä ei todennäköisesti tarvitse. (Checkboxin tai rivin klikkaamisessa asetetaan ko. rivi stateen.)
-    const setRowToADeck = (deck) => {
-        setADeck(deck)
-        // console.log("setADeck:", aDeck)
-      }
-
-    // const onChangeInput = (e, deckId) => {
-    //     const { name, value } = e.target
-
-    //     const editData = rowData.map((item) =>
-    //         item.deckId === deckId && name ? { ...item, [name]: value } : item
-    //     )
-
-    //     setRowData(editData)
-    // }
+    })   
 
     // Tämä oli alunperin ColumnsDecks.js:ssä
     const columns = useMemo(
         () => [
         {
-            maxWidth: 60,
+            id: 'indexId', // luultavimmin voi poistaa
+            Header: 'indexId',
+            Footer: 'indexId',
+            accessor: 'indexId',
+            // Filter: ColumnFilter,
+            // disableFilters: true
+            maxWidth: 120,
             minWidth: 40,
-            width: 40,
-            // Expander column
-            id: 'expander', // Make sure it has an ID
-            Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
-            <span {...getToggleAllRowsExpandedProps()}>
-                {isAllRowsExpanded ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleRight}/>)}
-            </span>
-            ),
-            Cell: ({ row }) =>
-            // Use the row.canExpand and row.getToggleRowExpandedProps prop getter
-            // to build the toggle for expanding a row
-            row.canExpand ? (
-                <span
-                {...row.getToggleRowExpandedProps({
-                    style: {
-                    // We can even use the row.depth property
-                    // and paddingLeft to indicate the depth
-                    // of the row
-                    paddingLeft: `${row.depth * 3}rem`,
-                    },
-                })}
-                >
-                {row.isExpanded ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleRight}/>)}
-                </span>
-            ) : null,
+            width: 70,
         },
         {
-            id: 'deckId', // luultavimmin voi poistaa
             Header: 'deckId',
             Footer: 'deckId',
             accessor: 'deckId',
-            // Filter: ColumnFilter,
-            // disableFilters: true
-            maxWidth: 100,
+            maxWidth: 120,
             minWidth: 40,
-            width: 80,
+            width: 70,      
         },
         {
             Header: 'Deck',
             Footer: 'Deck',
+            accessor: 'deck',
+            maxWidth: 350,
+            minWidth: 80,
+            width: 200,
+        },
+        {
+            Header: 'Card',
+            Footer: 'Card',
             accessor: 'name',
             maxWidth: 400,
-            minWidth: 80,
+            minWidth: 40,
             width: 250,
         },
         {
-            Header: 'Format',
-            Footer: 'Format',
-            accessor: 'format',
-            maxWidth: 350,
-            minWidth: 80,
-            width: 150,
+            Header: 'Set',
+            Footer: 'Set',
+            accessor: 'setName',
+            maxWidth: 400,
+            minWidth: 40,
+            width: 250,
+        },
+        {
+            Header: 'id',
+            Footer: 'id',
+            accessor: 'id',
+        },
+        {
+            Header: 'count',
+            Footer: 'count',
+            accessor: 'count',
+            maxWidth: 120,
+            minWidth: 40,
+            width: 60,
         },
         {
             Header: 'loginId',
             Footer: 'loginId',
             accessor: 'loginId',
-            maxWidth: 100,
+            maxWidth: 120,
             minWidth: 40,
             width: 60,
         },
-        {
-            maxWidth: 140,
-            minWidth: 40,
-            width: 115,
-            Header: ('Action'),
+        {            
+            maxWidth: 150,
+            minWidth: 60,
+            width: 80,
+            Header: ('Actions'),
             // accessor: 'action',
             Cell: row => (
             <div>
@@ -135,38 +111,37 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
             </div>
             ),
           },
-    ], [], )    
+    ], [], )
 
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
     function handleEdit(row) {
-        updateDeck(row)        
+        // console.log(row)
+        updateCard(row)        
     }
 
     // Käsittelee ko. riviltä painetun Deletee-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
     function handleDelete(row) {
-        deleteDeck(row)
+        // console.log(row)
+        deleteCard(row)
     }
 
-    function handleShowDeck(row) {
-        // console.log("row:", row)
-        setDeckName(row.name)
-        setQuery(row.deckId)
-        setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
+    function handleShowCard(row) {
+        console.log(row)
+        // showCard(row)        
     }
 
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        // footerGroups,
-        rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
+        footerGroups,
+        // rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
         page,
         nextPage,
         previousPage,
         canNextPage,
         canPreviousPage,
         prepareRow,
-        state: { expanded }, // expandable
         selectedFlatRows,
         // state: { selectedRowIds }, // Tämä lisätty
         pageOptions,
@@ -181,7 +156,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
       } = useTable(
         {
           columns,
-          data,          
+          data,
           defaultColumn,
           initialState: { pageIndex : 0 }          
         },
@@ -190,7 +165,6 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
         useGlobalFilter,
         useSortBy,
         useResizeColumns,
-        useExpanded, // useExpanded plugin hook must be placed after the useSortBy plugin hook!
         usePagination,
         useColumnOrder,
         useRowSelect,
@@ -202,7 +176,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                 Header: ({ getToggleAllRowsSelectedProps }) => (
                     <Checkbox {...getToggleAllRowsSelectedProps()} />
                 ),
-                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => setRowToADeck(row.original)}/>
+                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />
                 },
                 ...columns
             ])
@@ -216,9 +190,10 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
       // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
       const changeOrder = () => {
         setColumnOrder([
-            'format',            
-            'name',
-            'deckId',          
+            'count',            
+            'id',
+            'deckId',
+            'indexId',
             'loginId',
         ])
       }
@@ -226,8 +201,9 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
     return (
         <>
         <React.Fragment>
-            <button onClick={changeOrder}>Change column order</button>{' '}
-            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+            <label className="deckHeadlineStyles">Deck:</label><label className="deckNameStyles">{deckName}</label>{' '}
+            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />{' '}
+            <button onClick={changeOrder}>Change column order</button>{' '}        
 
             <div className='aligned'>
                 <div>
@@ -250,12 +226,9 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                         <React.Fragment key={headerGroup.headers.length + "_hfrag"}>
                             <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (                            
-                                    // <th key={column.id} {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                    <th key={column.id} {...column.getHeaderProps()}>
-                                        {/* {column.render('Header')}                                 */}
+                                    <th {...column.getHeaderProps()}>                                
                                         <span {...column.getSortByToggleProps()}>
                                             {column.render('Header')}
-                                            {/* {column.isSorted ? (column.isSortedDesc ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleUp}/>)) : ''} */}
                                             {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
                                         </span>
                                         <div
@@ -280,26 +253,17 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                 <tbody {...getTableBodyProps()}>
                     {page.map((row, i) => {                                
                         prepareRow(row)
-                        // console.log("row:", row.original.deckId)
+                        // console.log("row:", row.original.indexId)
                         return (
                             <React.Fragment key={i + "_frag"}>
-                                <tr key={row.original.deckId} {...row.getRowProps()} onClick={() => handleShowDeck(row.original)}>
+                                <tr key={row.original.indexId} {...row.getRowProps()} onClick={() => handleShowCard(row.original)}>
                                     {row.cells.map((cell) => {
                                         return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                    })}
+                                    })}                            
                                 </tr>
-                                {row.isExpanded ? (
-                                    <tr>
-                                    <td>
-                                        <span className="subTable">
-                                        {renderRowSubComponent({ row })}
-                                        </span>
-                                    </td>
-                                    </tr>
-                                ) : null}
                             </React.Fragment>
                         )
-                    })}
+                    })}                
                 </tbody>
                 {/* <tfoot>
                     {footerGroups.map(footerGroup => (
@@ -311,9 +275,6 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                     ))}
                 </tfoot> */}
             </table>
-            {/* <br /> */}
-            <div>Showing {pageSize} results of {rows.length} rows total</div>
-            <pre></pre>
 
             <div>
                 <span>
@@ -341,16 +302,13 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                 <select
                     value={pageSize}
                     onChange={e => setPageSize(Number(e.target.value))}>
-                    {[10, 25, 50, 1].map(pageSize => (
+                    {[10, 25, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                         Show {pageSize}
                         </option>
                     ))}
                 </select>
             </div>
-            <pre>
-            <code>{JSON.stringify({ expanded: expanded }, null, 2)}</code>
-            </pre>
 
             {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
             {/* <pre>

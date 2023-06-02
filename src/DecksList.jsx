@@ -8,6 +8,7 @@ import MainDecksList from './MainDecksList'
 import MainDecksListDeckId from './MainDecksListDeckId'
 import Table from "./Table"
 import { TableDecks } from "./components/TableDecks"
+import { TableDeckContents } from "./components/TableDeckContents"
 
 const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
 
@@ -141,8 +142,11 @@ const details = React.useMemo(
 const subTable = React.useCallback(
   ({ row }) =>
     // row.original.groupDetails.length > 0 ? (
-    row.original.deckId.length > 0 ? (
+    row.original.mainDecks.length > 0 ? (
+      // <TableDeckContents
       <MainDecksListDeckId
+        query={row.original.deckId}
+        setQuery={setQuery}
         columns={details}
         // data={row.original.groupDetails}
         data={row.original.deckId}
