@@ -1,12 +1,22 @@
 import axios from "axios"
 
 const baseUrl = "https://localhost:7120/api/commanders"
+const nameUrl = "https://localhost:7120/api/commanders/name"
+const deckIdUrl = "https://localhost:7120/api/commanders/deckid"
 
 const getAll = () => {
     const config = {
         headers: {},
     }
     const request = axios.get(baseUrl, config)
+    return request.then(response => response.data)
+}
+
+const getByDeckId = (query) => {
+    const config = {
+        headers: {},        
+    }
+    const request = axios.get(`${deckIdUrl}/${query}`, config)
     return request.then(response => response.data)
 }
 
@@ -31,11 +41,4 @@ const update = object => {
     return axios.put(`${baseUrl}/${object.indexId}`, object, config)
 }
 
-// const update = (id, object) => {
-//     const config = {
-//         headers: { },
-//     }
-//     return axios.put(`${baseUrl}/${id}`, object, config)
-// }
-
-export default { getAll, create, remove, update }
+export default { getAll, getByDeckId, create, remove, update }

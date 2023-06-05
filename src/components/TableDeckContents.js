@@ -19,7 +19,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableDeckContents = ({ deckName, card, tbodyData }) => {
+export const TableDeckContents = ({ deckPart, card, tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -62,12 +62,15 @@ export const TableDeckContents = ({ deckName, card, tbodyData }) => {
             width: 60,
         },
         {
-            Header: 'Card',
+            Header: () => (
+                <div style={{ textAlign: "left" }}>Card</div>
+              ),
             Footer: 'Card',
             accessor: 'name',
             maxWidth: 400,
             minWidth: 40,
-            width: 250,
+            width: 350,
+            Cell: row => <div style={{ textAlign: "left" }}>{row.value}</div>
         },
         // {
         //     Header: 'Set',
@@ -194,7 +197,7 @@ export const TableDeckContents = ({ deckName, card, tbodyData }) => {
         <>
         <React.Fragment>
             {/* <label className="deckHeadlineStyles">Deck:</label> */}
-            <label className="deckPartsStyles">{deckName}</label>
+            <label className="deckPartsStyles">{deckPart}</label>
             {/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />{' '}
             <button onClick={changeOrder}>Change column order</button>{' '}         */}
 
@@ -236,7 +239,7 @@ export const TableDeckContents = ({ deckName, card, tbodyData }) => {
                                             }`}
                                             />
                                         )}
-                                        <div>{column.canFilter ? column.render('Filter') : null}</div>
+                                        {/* <div>{column.canFilter ? column.render('Filter') : null}</div> */}
                                     </th>                      
                                 ))}
                             </tr>

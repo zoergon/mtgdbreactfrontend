@@ -166,8 +166,8 @@ const subTable = React.useCallback(
 // Alkuperäisessä: export const data = { data: { getGroupedSamplingStationBySystemId: [{ systemId: 1289, jne....}]}}
 const expandedRows = React.useMemo(() => {
   // if (data?.data) {
-  if (MainDecksList?.decks) {
-  // if (AllDeckContents?.deckMainDeck) {
+  // if (MainDecksList?.decks) {
+  if (AllDeckContents?.cardsMainDeck) {
     let arr;
     let d = decks;
     if (d.deckId.length > 0) {
