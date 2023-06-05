@@ -101,6 +101,18 @@
   align-items: left;
   padding: 10px;
 }
+.deckPartsStyles {
+  float: "left";
+  font-size: 18px;
+  color: darkcyan;  
+  align-items: left;
+  text-align: center;
+  margin-left: 3rem;
+  padding: 0px;  
+  flex-direction: row;
+  justify-content: left;
+  display: flex;
+}
 
 /* korttien muotoilut */
 

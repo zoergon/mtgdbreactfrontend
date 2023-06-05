@@ -42,8 +42,8 @@ table {
   .subTable {
     width: 100%;
     display: inline-block;
-    /*float: right;*/
+    /* float: left; */    
     margin-left: 3rem;
-    padding: 1rem;
+    padding: 0rem;
     background-color: #ffffff;
   }

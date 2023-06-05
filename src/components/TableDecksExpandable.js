@@ -10,6 +10,15 @@ import { Checkbox } from './Checkbox'
 // import DecksList from '../DecksList'
 // import MainDecksList from '../MainDecksList'
 
+/////////////
+//
+// Tämä on ollut luultavimmin harjoitustiedostona expandablea varten.
+//
+// Tämän voi luultavimmin poistaa.
+// (Vastaavat koodit pitäisi löytyä mm. -> TableDecks.js)
+//
+/////////////
+
 export const TableDecksExpandable = ({ setDeckName, setQuery, showDecks, setShowDecks, edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.

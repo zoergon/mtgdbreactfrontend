@@ -9,6 +9,7 @@ import MainDecksListDeckId from './MainDecksListDeckId'
 import Table from "./Table"
 import { TableDecks } from "./components/TableDecks"
 import { TableDeckContents } from "./components/TableDeckContents"
+import AllDeckContents from './AllDeckContents'
 
 const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
 
@@ -139,18 +140,22 @@ const details = React.useMemo(
 );
 
 // alkuperäisessä row.original.groupDetails = aktuaalinen subRow datassa
+// TableDecksin expandable subRowiin lähetetään tämä = renderRowSubComponent={subTable}
+// TableDecksin mappaaman row-datan mukaisesti = row.original.mainDecks = Entity Frameworkin fk:n mukaisesti mappaama taulu tietokannassa
+// ts. jos kyseisellä rivillä eli deckillä on kortteja = .length > 0
+// -> <AllDeckContents tekee queryn mukaisen haun backendistä ja taulun niistä, details-muuttujassa määritettyjen headereitten ja accessorien mukaisesti
 const subTable = React.useCallback(
   ({ row }) =>
     // row.original.groupDetails.length > 0 ? (
     row.original.mainDecks.length > 0 ? (
       // <TableDeckContents
-      <MainDecksListDeckId
+      <AllDeckContents
         query={row.original.deckId}
         setQuery={setQuery}
         columns={details}
         // data={row.original.groupDetails}
         data={row.original.deckId}
-        headerColor="grey"
+        // headerColor="grey"
       />
     ) : (
       "No Data"
@@ -162,6 +167,7 @@ const subTable = React.useCallback(
 const expandedRows = React.useMemo(() => {
   // if (data?.data) {
   if (MainDecksList?.decks) {
+  // if (AllDeckContents?.deckMainDeck) {
     let arr;
     let d = decks;
     if (d.deckId.length > 0) {
