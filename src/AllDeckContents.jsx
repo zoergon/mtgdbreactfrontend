@@ -12,7 +12,7 @@ import TokensService from './services/Tokens'
 // import { TableMainDecks } from "./components/TableMainDecks"
 import { TableDeckContents } from "./components/TableDeckContents"
 
-const AllDeckContents = ({ query}) => {
+const AllDeckContents = ({ query }) => {
 
 const [cardsCommander, setCardsCommander] = useState([]) // deckId:llä haettu data backendistä - Commander
 const [cardsCompanion, setCardsCompanion] = useState([]) // deckId:llä haettu data backendistä - Company
@@ -80,8 +80,7 @@ useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
   MainDecksService.getByDeckId(query) // parseInt stringille
   .then(data => {
-    // console.log("getByDeckId", data)
-    // setOptionList(data)
+    // console.log("getByDeckId", data)    
     setCardsMainDeck(data)
 })
   .catch(error => console.log(error))
@@ -171,8 +170,6 @@ useEffect(() => {
 //   }
 // }
 
-// Tarkistaa onko data haettu backendistä cards-stateen.
-// Jollei ole, antaa sillä välin 'now loading' -paragrafin ilmoitukseksi.
   return (
     <>
       {cardsCommander.length > 0 ? (
@@ -181,7 +178,7 @@ useEffect(() => {
         </div>
       ) : (
         <span>
-          <em>No commanders in the deck.</em><br/>
+          <em className='subRowDataInfo'>There is no commander for the deck.</em><br/>
         </span>
       )}
 
@@ -191,7 +188,7 @@ useEffect(() => {
         </div>
       ) : (
         <span>
-          <em>No companions in the deck.</em><br/>
+          <em className='subRowDataInfo'>There is no companion for the deck.</em><br/>
         </span>
       )}
 
@@ -201,7 +198,7 @@ useEffect(() => {
         </div>
       ) : (
         <span>
-          <em>No cards in the main deck.</em><br/>
+          <em className='subRowDataInfo'>Main deck is empty.</em><br/>
         </span>
       )}
 
@@ -211,7 +208,7 @@ useEffect(() => {
         </div>
       ) : (
         <span>
-          <em>No sideboard in the deck.</em><br/>
+          <em className='subRowDataInfo'>Sideboard is empty.</em><br/>
         </span>
       )}
 
@@ -221,7 +218,7 @@ useEffect(() => {
         </div>
       ) : (
         <span>
-          <em>No maybeboard in the deck.</em><br/>
+          <em className='subRowDataInfo'>Maybeboard is empty.</em><br/>
         </span>
       )}
 
@@ -231,7 +228,7 @@ useEffect(() => {
         </div>
       ) : (
         <span>
-          <em>No tokens in the deck.</em>
+          <em className='subRowDataInfo'>There are no tokens for the deck.</em>
         </span>
       )}
 

@@ -147,7 +147,8 @@ const details = React.useMemo(
 const subTable = React.useCallback(
   ({ row }) =>
     // row.original.groupDetails.length > 0 ? (
-    row.original.mainDecks.length > 0 ? (
+    // row.original.mainDecks.length > 0 ? (
+      (
       // <TableDeckContents
       <AllDeckContents
         query={row.original.deckId}
@@ -157,9 +158,10 @@ const subTable = React.useCallback(
         data={row.original.deckId}
         // headerColor="grey"
       />
-    ) : (
-      "No Data"
-    ),
+      ),
+    // ) : (
+    //   "No Data"
+    // ),
   [details]
 );
 

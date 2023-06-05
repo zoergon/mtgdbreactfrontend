@@ -101,7 +101,7 @@
 }
 
 /* taulukon expandable subRown deckin osien sisältöjen otsikoinnin muotoilut: */
-.deckPartsStyles {
+.deckParts {
   float: "left";
   font-size: 18px;
   color: darkcyan;  
@@ -113,6 +113,21 @@
   padding: 0px;  
   flex-direction: row;
   justify-content: left;
+  display: flex;
+}
+
+/* taulukon subRow osioiden info, kun tietokannan taulu on tyhjä */
+.subRowDataInfo {
+  float: "left";
+  font-size: 12px;
+  color: black;  
+  align-items: left;
+  /* text-align: center; */
+  margin-left: 3rem;  
+  margin-bottom: 0rem;
+  /* padding-bottom: -1px; */
+  /* flex-direction: row; */
+  /* justify-content: left; */
   display: flex;
 }
 

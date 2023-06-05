@@ -58,35 +58,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
     // Tämä oli alunperin ColumnsDecks.js:ssä
     const columns = useMemo(
         () => [
-        {
-            maxWidth: 60,
-            minWidth: 40,
-            width: 40,
-            // Expander column
-            id: 'expander', // Make sure it has an ID
-            Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
-            <span {...getToggleAllRowsExpandedProps()}>
-                {isAllRowsExpanded ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleRight}/>)}
-            </span>
-            ),
-            Cell: ({ row }) =>
-            // Use the row.canExpand and row.getToggleRowExpandedProps prop getter
-            // to build the toggle for expanding a row
-            row.canExpand ? (
-                <span
-                {...row.getToggleRowExpandedProps({
-                    style: {
-                    // We can even use the row.depth property
-                    // and paddingLeft to indicate the depth
-                    // of the row
-                    paddingLeft: `${row.depth * 3}rem`,
-                    },
-                })}
-                >
-                {row.isExpanded ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleRight}/>)}
-                </span>
-            ) : null,
-        },
+        
         {
             id: 'deckId', // luultavimmin voi poistaa
             Header: 'deckId',
@@ -182,8 +154,8 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
         {
           columns,
           data,          
-          defaultColumn,
-          initialState: { pageIndex : 0 }          
+          defaultColumn,          
+          initialState: { pageIndex : 0 },          
         },
         useFlexLayout,
         useFilters,
@@ -203,6 +175,35 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                     <Checkbox {...getToggleAllRowsSelectedProps()} />
                 ),
                 Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => setRowToADeck(row.original)}/>
+                },
+                {                    
+                    maxWidth: 60,
+                    minWidth: 40,
+                    width: 40,
+                    // Expander column
+                    id: 'expander', // Make sure it has an ID
+                    Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
+                    <span {...getToggleAllRowsExpandedProps()}>
+                        {isAllRowsExpanded ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleRight}/>)}
+                    </span>
+                    ),                    
+                    Cell: ({ row }) =>
+                    // Use the row.canExpand and row.getToggleRowExpandedProps prop getter
+                    // to build the toggle for expanding a row
+                    // row.canExpand ? (
+                        <span
+                        {...row.getToggleRowExpandedProps({
+                            style: {
+                            // We can even use the row.depth property
+                            // and paddingLeft to indicate the depth
+                            // of the row
+                            paddingLeft: `${row.depth * 3}rem`,
+                            },
+                        })}
+                        >
+                        {row.isExpanded ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleRight}/>)}                        
+                        </span>
+                    // ) : null,
                 },
                 ...columns
             ])
@@ -284,15 +285,16 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                         return (
                             <React.Fragment key={i + "_frag"}>
                                 <tr key={row.original.deckId} {...row.getRowProps()} onClick={() => handleShowDeck(row.original)}>
+                                {/* <tr key={row.original.deckId} {...row.getRowProps()}> */}
                                     {row.cells.map((cell) => {
                                         return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                     })}
                                 </tr>
                                 {row.isExpanded ? (
                                     <tr>
-                                    <td>
+                                    <td onClick={() => handleShowDeck(row.original)}>
                                         <span className="subTable">
-                                        {renderRowSubComponent({ row })}
+                                        {renderRowSubComponent({ row })}                                        
                                         </span>
                                     </td>
                                     </tr>

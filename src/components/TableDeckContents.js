@@ -197,7 +197,7 @@ export const TableDeckContents = ({ deckPart, card, tbodyData }) => {
         <>
         <React.Fragment>
             {/* <label className="deckHeadlineStyles">Deck:</label> */}
-            <label className="deckPartsStyles">{deckPart}</label>
+            <label className="deckParts">{deckPart}</label>
             {/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />{' '}
             <button onClick={changeOrder}>Change column order</button>{' '}         */}
 
