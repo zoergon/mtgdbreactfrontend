@@ -102,8 +102,8 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
             // accessor: 'action',
             Cell: row => (
             <div>
-               <button onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
-               <button onClick={e=> handleDelete(row.row.original)}>Delete</button>
+               <button className='button' onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
+               <button className='button' onClick={e=> handleDelete(row.row.original)}>Delete</button>
             </div>
             ),
           },
@@ -197,7 +197,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                             // We can even use the row.depth property
                             // and paddingLeft to indicate the depth
                             // of the row
-                            paddingLeft: `${row.depth * 3}rem`,
+                            paddingLeft: `${row.depth * 2}rem`,
                             },
                         })}
                         >
@@ -227,7 +227,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
     return (
         <>
         <React.Fragment>
-            <button onClick={changeOrder}>Change column order</button>{' '}
+            <button className='button' onClick={changeOrder}>Change column order</button>{' '}
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
             <div className='aligned'>

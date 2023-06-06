@@ -124,7 +124,7 @@ export const TableAllCards = ({ tbodyData }) => {
     return (
         <>
         <React.Fragment>
-            <button onClick={changeOrder}>Change column order</button>{' '}
+            <button className='button' onClick={changeOrder}>Change column order</button>{' '}
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
             <div className='aligned'>

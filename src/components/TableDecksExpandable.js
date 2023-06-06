@@ -75,7 +75,7 @@ export const TableDecksExpandable = ({ setDeckName, setQuery, showDecks, setShow
                     // We can even use the row.depth property
                     // and paddingLeft to indicate the depth
                     // of the row
-                    paddingLeft: `${row.depth * 3}rem`,
+                    paddingLeft: `${row.depth * 1}rem`,
                     },
                 })}
                 >

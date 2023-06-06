@@ -101,13 +101,13 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
         {            
             maxWidth: 150,
             minWidth: 60,
-            width: 80,
+            width: 100,
             Header: ('Actions'),
             // accessor: 'action',
             Cell: row => (
             <div>
-               <button onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
-               <button onClick={e=> handleDelete(row.row.original)}>Delete</button>
+               <button className='button' onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
+               <button className='button' onClick={e=> handleDelete(row.row.original)}>Delete</button>
             </div>
             ),
           },
@@ -203,7 +203,7 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
         <React.Fragment>
             <label className="deckHeadlineStyles">Deck:</label><label className="deckNameStyles">{deckName}</label>{' '}
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />{' '}
-            <button onClick={changeOrder}>Change column order</button>{' '}        
+            <button className='button' onClick={changeOrder}>Change column order</button>{' '}        
 
             <div className='aligned'>
                 <div>

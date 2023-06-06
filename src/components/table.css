@@ -3,29 +3,34 @@ table {
     border-collapse: collapse;
     /* width: 100%; */
     max-width: 80rem;
-    margin: 1rem auto;
+    margin: 1rem auto;    
   }
   
   table td, table th {
     border: 1px solid #ddd;
     padding: 8px;
+    border-color:darkslateblue;
   }
   
-  table tr:nth-child(even){background-color: #f2f2f2;}
+  table tr:nth-child(even){background-color: black;}
+  /* table tr:nth-child(even){background-color: #f2f2f2;} */
   
-  table tr:hover {background-color: #ddd;}
+  /* table tr:hover {background-color: #3a4557;} */
+  table tr:hover {background-color: #17181c;}
   
   table th, tfoot td {
     padding-top: 5px;
     padding-bottom: 5px;
     text-align: center;
-    background-color: #443C68;
-    color: white;
+    /* background-color: #443C68; */
+    background-color: #16002f;
+    color: orange;
+    border-color:darkslateblue;
   }
   
   .resizer {
     display: inline-block;
-    background: #cecece;
+    background: darkblue;    
     width: 2px;
     height: 100%;
     position: absolute;
@@ -41,11 +46,12 @@ table {
 
   .subTable {
     font-size: 12px;
-    width: 100%;
+    width: auto;
     display: inline-block;
     /* float: left; */    
     margin-left: 3rem;
+    margin-right: 1rem;
     padding: 0rem;
-    background-color: #ffffff;
+    background-color: black;
     margin-bottom: 0rem;
   }

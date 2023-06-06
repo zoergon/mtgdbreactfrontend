@@ -7,6 +7,7 @@ export const ColumnFilter = ({ column }) => {
     <span>
       {' '}
       <input
+        className='input'
         size="5"
         value={filterValue || ''}
         onChange={e => setFilter(e.target.value)}
