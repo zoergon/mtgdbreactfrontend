@@ -170,16 +170,16 @@ const expandedRows = React.useMemo(() => {
   // if (data?.data) {
   // if (MainDecksList?.decks) {
   if (AllDeckContents?.cardsMainDeck) {
-    let arr;
-    let d = decks;
+    let arr
+    let d = decks
     if (d.deckId.length > 0) {
       arr = d.deckId.map((sid, ind) => {
-        return { [ind]: true };
-      });
+        return { [ind]: true }
+      })
     }
-    return arr;
+    return arr
   }
-}, []);
+}, [])
 // XXX - tänne saakka Expandable-mallista
 
 

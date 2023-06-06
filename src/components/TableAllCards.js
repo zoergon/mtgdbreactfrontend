@@ -17,7 +17,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
+export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expandRows,
     expandedRowObj }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
@@ -220,7 +220,8 @@ export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
                                     {/* <td onClick={() => handleShowDeck(row.original)}></td> */}
                                     <td >
                                         <span className="subTable">
-                                        {renderRowSubComponent({ row })}                                        
+                                        {/* {setCard(row.original)} */}
+                                        {renderRowSubComponent({ row })}                               
                                         </span>
                                     </td>
                                     </tr>
