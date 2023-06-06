@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from 'react'
-import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useImperativeHandle, useFlexLayout, useBlockLayout, useAbsoluteLayout, useResizeColumns, useExpanded } from 'react-table'
+import React, { useMemo, useEffect, useState } from 'react'
+import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useFlexLayout, useResizeColumns } from 'react-table'
 import './table.css'
-import { COLUMNS } from './ColumnsAllCards'
 import { GlobalFilter } from './GlobalFilter'
 import { ColumnFilter } from './ColumnFilter'
-import { Checkbox } from './Checkbox'
+import { COLUMNS } from './ColumnsAllCardData'
+// import { Checkbox } from './Checkbox'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -17,8 +17,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
-    expandedRowObj }) => {
+export const TableAllCardData = ({ tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     const columns = useMemo(() => COLUMNS, [])
@@ -28,21 +27,101 @@ export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
         return {
             Filter: ColumnFilter
         }
-    })
-    
-    function handleShowDetails(row) {
-        console.log(row)
-    }
+    })   
+
+    // Tämä oli alunperin ColumnsDecks.js:ssä
+    // const columns = useMemo(
+    //     () => [
+        // {
+        //     id: 'indexId', // luultavimmin voi poistaa
+        //     Header: 'indexId',
+        //     Footer: 'indexId',
+        //     accessor: 'indexId',
+        //     // Filter: ColumnFilter,
+        //     // disableFilters: true
+        //     maxWidth: 120,
+        //     minWidth: 40,
+        //     width: 70,
+        // },
+        // {
+        //     Header: 'deckId',
+        //     Footer: 'deckId',
+        //     accessor: 'deckId',
+        //     maxWidth: 120,
+        //     minWidth: 40,
+        //     width: 70,      
+        // },
+        // {
+        //     Header: 'count',
+        //     Footer: 'count',
+        //     accessor: 'count',
+        //     maxWidth: 120,
+        //     minWidth: 40,
+        //     width: 60,
+        // },
+        // {
+        //     Header: () => (
+        //         <div style={{ textAlign: "left" }}>Card</div>
+        //       ),
+        //     Footer: 'Card',
+        //     accessor: 'name',
+        //     maxWidth: 400,
+        //     minWidth: 40,
+        //     width: 350,
+        //     Cell: row => <div style={{ textAlign: "left" }}>{row.value}</div>
+        // },
+        // {
+        //     Header: 'Set',
+        //     Footer: 'Set',
+        //     accessor: 'setName',
+        //     maxWidth: 400,
+        //     minWidth: 40,
+        //     width: 250,
+        // },
+        // {
+        //     Header: 'id',
+        //     Footer: 'id',
+        //     accessor: 'id',
+        // },
+        // {
+        //     Header: 'loginId',
+        //     Footer: 'loginId',
+        //     accessor: 'loginId',
+        //     maxWidth: 120,
+        //     minWidth: 40,
+        //     width: 60,
+        // },
+        // {            
+        //     maxWidth: 150,
+        //     minWidth: 60,
+        //     width: 80,
+        //     Header: ('Actions'),
+        //     // accessor: 'action',
+        //     Cell: row => (
+        //     <div>
+        //        <button onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
+        //        <button onClick={e=> handleDelete(row.row.original)}>Delete</button>
+        //     </div>
+        //     ),
+        //   },
+    // ], [], )
+
+    // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
+    // function handleEdit(row) {
+    //     // console.log(row)
+    //     updateCard(row)        
+    // }
 
     // Käsittelee ko. riviltä painetun Deletee-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
     // function handleDelete(row) {
-    //     deleteDeck(row)
+    //     // console.log(row)
+    //     deleteCard(row)
     // }
 
-    // function handleShowDeck(row) {
-    //     setQuery(row.deckId)
-    //     setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
-    // }
+    function handleShowCard(row) {
+        console.log(row)
+        // showCard(row)        
+    }
 
     const {
         getTableProps,
@@ -50,19 +129,18 @@ export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
         headerGroups,
         footerGroups,
         rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
-        page,
-        nextPage,
-        previousPage,
-        canNextPage,
-        canPreviousPage,
+        // page,
+        // nextPage,
+        // previousPage,
+        // canNextPage,
+        // canPreviousPage,
         prepareRow,
-        state: { expanded },
         selectedFlatRows,
         // state: { selectedRowIds }, // Tämä lisätty
-        pageOptions,
-        gotoPage,
-        pageCount,
-        setPageSize,
+        // pageOptions,
+        // gotoPage,
+        // pageCount,
+        // setPageSize,
         state,
         setGlobalFilter,
         setColumnOrder,
@@ -73,93 +151,55 @@ export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
           columns,
           data,
           defaultColumn,
-          initialState: { pageIndex : 0 }          
+        //   initialState: { pageIndex : 0 }
         },
-        // useBlockLayout,
-        // useAbsoluteLayout,
         useFlexLayout,
         useFilters,
         useGlobalFilter,
         useSortBy,
         useResizeColumns,
-        useExpanded,
-        usePagination,
+        // usePagination,
         useColumnOrder,
         useRowSelect,
-        hooks => {
-            hooks.visibleColumns.push(columns => [
-                {
-                id: 'selection',
-                width: 40,
-                Header: ({ getToggleAllRowsSelectedProps }) => (
-                    <Checkbox {...getToggleAllRowsSelectedProps()} />
-                ),
-                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => console.log(row.original)}/>
-                },
-                {                    
-                    maxWidth: 60,
-                    minWidth: 40,
-                    width: 40,
-                    // Expander column
-                    id: 'expander', // Make sure it has an ID
-                    Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
-                    <span {...getToggleAllRowsExpandedProps()}>
-                        {isAllRowsExpanded ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleRight}/>)}
-                    </span>
-                    ),                    
-                    Cell: ({ row }) =>
-                    // Use the row.canExpand and row.getToggleRowExpandedProps prop getter
-                    // to build the toggle for expanding a row
-                    // row.canExpand ? (
-                        <span
-                        {...row.getToggleRowExpandedProps({
-                            style: {
-                            // We can even use the row.depth property
-                            // and paddingLeft to indicate the depth
-                            // of the row
-                            paddingLeft: `${row.depth * 2}rem`,
-                            },
-                        })}
-                        >
-                        {row.isExpanded ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleRight}/>)}                        
-                        </span>
-                    // ) : null,
-                },
-                ...columns
-            ])
-        }
+        // hooks => {
+        //     hooks.visibleColumns.push(columns => [
+        //         {
+        //         id: 'selection',
+        //         width: 40,
+        //         Header: ({ getToggleAllRowsSelectedProps }) => (
+        //             <Checkbox {...getToggleAllRowsSelectedProps()} />
+        //         ),
+        //         Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />
+        //         },
+        //         ...columns
+        //     ])
+        // }
       )
 
       const { globalFilter } = state
-      const { pageIndex, pageSize } = state
+    //   const { pageIndex, pageSize } = state
 
       // Jos haluaa muuttaa kolumnien järjestystä.
       // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
-      const changeOrder = () => {
-        setColumnOrder([
-            'set',
-            'id',
-            'name',
-            'rarity',
-            'setName',
-            'manaCost',
-            'typeLine',          
-            'oracleText',
-            'power',
-            'toughness',
-            'lang',
-            'borderColor',
-            'object',
-        ])
-      }
+    //   const changeOrder = () => {
+    //     setColumnOrder([
+    //         'count',            
+    //         'id',
+    //         'deckId',
+    //         'indexId',
+    //         'loginId',
+    //     ])
+    //   }
 
     return (
         <>
         <React.Fragment>
-            <button className='button' onClick={changeOrder}>Change column order</button>{' '}
-            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+            {/* <label className="deckHeadlineStyles">Deck:</label> */}
+            {/* <label className="deckParts">{deckPart}</label> */}
+            {/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />{' '}
+            <button onClick={changeOrder}>Change column order</button>{' '}         */}
 
-            <div className='aligned'>
+            {/* <div className='aligned'>
                 <div>
                     <Checkbox {...getToggleHideAllColumnsProps()} /> Toggle All
                 </div>
@@ -172,11 +212,11 @@ export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
                     </div>
                 ))}
                 <br />
-            </div>
+            </div> */}
 
-            <table {...getTableProps()}>
+            <table className="subTable" {...getTableProps()}>
                 <thead>
-                    {headerGroups.map((headerGroup, i) => (                
+                    {headerGroups.map((headerGroup, i) => (
                         <React.Fragment key={headerGroup.headers.length + "_hfrag"}>
                             <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (                            
@@ -197,7 +237,7 @@ export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
                                             }`}
                                             />
                                         )}
-                                        <div>{column.canFilter ? column.render('Filter') : null}</div>
+                                        {/* <div>{column.canFilter ? column.render('Filter') : null}</div> */}
                                     </th>                      
                                 ))}
                             </tr>
@@ -205,27 +245,17 @@ export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
                         ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {page.map((row, i) => {                                
+                    {rows.map((row, i) => {                                
                         prepareRow(row)
-                        // console.log("row:", row.original.id)
-                        return (                  
+                        // console.log("row:", row.original.indexId)
+                        return (
                             <React.Fragment key={i + "_frag"}>
-                                <tr key={row.original.id} {...row.getRowProps()} onClick={() => console.log(row.original)}>
+                                <tr key={row.original.id} {...row.getRowProps()} onClick={() => handleShowCard(row.original)}>
                                     {row.cells.map((cell) => {
                                         return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                     })}                            
                                 </tr>
-                                {row.isExpanded ? (
-                                    <tr>
-                                    {/* <td onClick={() => handleShowDeck(row.original)}></td> */}
-                                    <td >
-                                        <span className="subTable">
-                                        {renderRowSubComponent({ row })}                                        
-                                        </span>
-                                    </td>
-                                    </tr>
-                                ) : null}
-                            </React.Fragment>      
+                            </React.Fragment>
                         )
                     })}                
                 </tbody>
@@ -239,11 +269,8 @@ export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
                     ))}
                 </tfoot> */}
             </table>
-            {/* <br /> */}
-            <div>Showing {pageSize} results of {rows.length} rows total</div>
-            <pre></pre>
 
-            <div>
+            {/* <div>
                 <span>
                     Page {''}
                     <strong>
@@ -269,16 +296,13 @@ export const TableAllCards = ({ tbodyData, renderRowSubComponent, expandRows,
                 <select
                     value={pageSize}
                     onChange={e => setPageSize(Number(e.target.value))}>
-                    {[10, 25, 50, 100, 1].map(pageSize => (
+                    {[10, 25, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                         Show {pageSize}
                         </option>
                     ))}
                 </select>
-            </div>
-            <pre>
-            <code>{JSON.stringify({ expanded: expanded }, null, 2)}</code>
-            </pre>
+            </div> */}
 
             {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
             {/* <pre>
