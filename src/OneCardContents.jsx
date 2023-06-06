@@ -46,6 +46,7 @@ useEffect(() => {
   .then(data => {
     console.log("getOneCardById", data)    
     setCard(data)
+    console.log("AFTER", card)
 })
   .catch(error => console.log(error))
 },[reload]

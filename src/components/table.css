@@ -44,11 +44,23 @@ table {
     background: #cecece;
   }
 
-  .subTable {
+  .subTableAllCards {
     font-size: 12px;
     width: auto;
     display: inline-block;
-    /* float: left; */    
+    /* float: left; */
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 0rem;
+    background-color: black;
+    margin-bottom: 0rem;
+  }
+
+  .subTableDecks {
+    font-size: 12px;
+    width: auto;
+    /* display: inline-block; */
+    float: left;
     margin-left: 3rem;
     margin-right: 1rem;
     padding: 0rem;

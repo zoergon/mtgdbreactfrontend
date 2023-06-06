@@ -293,7 +293,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                                 {row.isExpanded ? (
                                     <tr>
                                     <td onClick={() => handleShowDeck(row.original)}>
-                                        <span className="subTable">
+                                        <span className="subTableDecks">
                                         {renderRowSubComponent({ row })}                                        
                                         </span>
                                     </td>

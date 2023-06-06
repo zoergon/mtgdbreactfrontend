@@ -155,7 +155,7 @@ const subTable = React.useCallback(
         setQuery={setQuery}
         columns={details}
         // data={row.original.groupDetails}
-        data={row.original.deckId}
+        // data={row.original.deckId}
         // headerColor="grey"
       />
       ),

@@ -98,7 +98,8 @@ const subTable = React.useCallback(
         // setQuery={setQuery}
         // columns={details}
         // data={row.original.groupDetails}
-        query={row.original.id}        
+        query={row.original.id}
+        // setQuery={setQuery}
       />
       ),
     // ) : (
@@ -129,16 +130,15 @@ const expandedRows = React.useMemo(() => {
     <>
         {allCards.length > 0 ? (
           <div>
-            <h1><nobr style={{ cursor: 'pointer'}}
+            <h3><nobr style={{ cursor: 'pointer'}}
             onClick={() => setShowAllCards(!showAllCards)}>Show all cards</nobr>        
-            </h1>
+            </h3>
           
             {showAllCards &&
             <div className='table'>
                 <TableAllCards tbodyData={allCards} setCard={setCard} setQuery={setQuery} renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />
             </div>}
           </div>
-
         ) : (
           <span>
             <em>...searching for the data...</em>

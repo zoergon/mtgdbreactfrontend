@@ -44,7 +44,7 @@ return (
           </Nav>
         </Navbar>
 
-        <h2>MtGdb</h2>
+        <h1>MtGdb</h1>
 
         {showMessage && <Message message={message} isPositive={isPositive} /> }
 

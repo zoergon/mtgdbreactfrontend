@@ -219,7 +219,7 @@ export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expan
                                     <tr>
                                     {/* <td onClick={() => handleShowDeck(row.original)}></td> */}
                                     <td >
-                                        <span className="subTable">
+                                        <span className="subTableAllCards">
                                         {/* {setCard(row.original)} */}
                                         {renderRowSubComponent({ row })}                               
                                         </span>
