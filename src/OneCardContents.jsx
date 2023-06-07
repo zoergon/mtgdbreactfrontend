@@ -1,7 +1,7 @@
 import './App.css'
 import React, { useState, useEffect } from 'react'
 import AllCardsService from './services/AllCards'
-import { TableAllCardData } from "./components/TableAllCardData"
+import { TableAllCardDataHC } from "./components/TableAllCardDataHC"
 
 const OneCardContents = ({ query }) => {
 
@@ -56,7 +56,7 @@ useEffect(() => {
     <>
       {card.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllCardData tbodyData={card} />
+            <TableAllCardDataHC tbodyData={card} />
         </div>
       ) : (
         <span>

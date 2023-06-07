@@ -55,19 +55,51 @@ table {
 
   .subTableAllCards {
     font-size: 12px;
-    width: auto;
-    display: inline-block;
-    /* float: left; */
-    margin-left: 1rem;
-    margin-right: 1rem;
+    max-width: 500px;
+    /* display: inline-block; */
+    float: left;
+    display: flex;
+    /* max-width: auto;    */
+    /* flex-direction: column; */
+    /* flex-flow: column; */
+    margin-left: 5rem;
+    /* margin-right: 1rem; */
     padding: 0rem;
     background-color: black;
-    margin-bottom: 0rem;
+    margin-bottom: 0rem;    
   }
+
+   .rotateTable {
+    /* transform: translate(25px, 51px)
+    rotate(90deg); */
+    float: left;
+    display: inline-flex;    
+    align-content: left;
+    max-width: auto;
+    flex-direction: column;
+  }
+  /*th.rotate {
+    transform: translate(25px, 51px)
+    rotate(270deg);
+    display: inline-block;
+    flex-direction: column;
+    max-height: auto;
+    max-width: auto;
+    margin-top: -5rem;
+  }
+  
+  .rotate {
+    transform: translate(25px, 51px)
+    rotate(270deg);
+    max-height: auto;
+    max-width: auto;    
+    display: inline-block;
+    flex-direction: column;
+  } */
 
   .subTableDecks {
     font-size: 12px;
-    width: auto;
+    width: 100%;
     /* display: inline-block; */
     float: left;
     margin-left: 3rem;

@@ -17,7 +17,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCardData = ({ tbodyData }) => {
+export const TableAllCardDataHC = ({ tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     const columns = useMemo(() => COLUMNS, [])
@@ -191,9 +191,35 @@ export const TableAllCardData = ({ tbodyData }) => {
     //     ])
     //   }
 
+    const cols = Object.keys(data[0])
+
+    // const header = () => {
+    //     return cols.map(e => <th key={e} align="right">{e}</th>)
+    // }
+
     return (
-        <>
-        <React.Fragment>
+        <table className="subTableAllCards">
+            <tbody>
+                {cols.map(e =>
+                    <tr>
+                        <th key={e} align="left">{e}</th>
+                        
+                {data.map(row =>            
+                    // {cols.map(col =>
+                        <td key={e} align="left" style={{ maxWidth: 'auto' }} >{row[e]}</td>
+                     )}
+                     </tr>)}
+                {/* {data.map(row =>  */}
+                    {/* {cols.map(col => 
+                        <tr>
+                            <td key={col} align="right">{row[col]}</td>
+                        </tr>)} */}
+                {/* )} */}
+            </tbody>
+        </table>
+    )
+
+        {/* <React.Fragment> */}
             {/* <label className="deckHeadlineStyles">Deck:</label> */}
             {/* <label className="deckParts">{deckPart}</label> */}
             {/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />{' '}
@@ -212,15 +238,15 @@ export const TableAllCardData = ({ tbodyData }) => {
                     </div>
                 ))}
                 <br />
-            </div> */}            
+            </div> */}
 
-            <table className="subTableAllCards" {...getTableProps()}>                
+            {/* <table className="subTable" {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup, i) => (
                         <React.Fragment key={headerGroup.headers.length + "_hfrag"}>
                             <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (                            
-                                    <th className='rotate' {...column.getHeaderProps()}>                                
+                                    <th {...column.getHeaderProps()}>                                
                                         <span {...column.getSortByToggleProps()}>
                                             {column.render('Header')}
                                             {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
@@ -236,15 +262,31 @@ export const TableAllCardData = ({ tbodyData }) => {
                                                 column.isResizing ? "isResizing" : ""
                                             }`}
                                             />
-                                        )}
+                                        )} */}
                                         {/* <div>{column.canFilter ? column.render('Filter') : null}</div> */}
-                                    </th>
+                                    {/* </th>
                                 ))}
+
+                                <td {...getTableBodyProps()}>
+                                    {rows.map((row, i) => {
+                                        prepareRow(row) */}                                        
+                                        {/* return (
+                                            <React.Fragment key={i + "_frag"}>
+                                                <td key={row.original.id} {...row.getRowProps()} onClick={() => handleShowCard(row.original)}>
+                                                    {row.cells.map((cell) => {
+                                                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                                    })}
+                                                </td>
+                                            </React.Fragment>
+                                        )
+                                    })}           
+                                </td>
+
                             </tr>
                         </React.Fragment>
                         ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
+                </thead> */}
+                {/* <tbody {...getTableBodyProps()}>
                     {rows.map((row, i) => {                                
                         prepareRow(row)
                         // console.log("row:", row.original.indexId)
@@ -252,13 +294,13 @@ export const TableAllCardData = ({ tbodyData }) => {
                             <React.Fragment key={i + "_frag"}>
                                 <tr key={row.original.id} {...row.getRowProps()} onClick={() => handleShowCard(row.original)}>
                                     {row.cells.map((cell) => {
-                                        return <td className='rotate' {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                     })}                            
                                 </tr>
                             </React.Fragment>
                         )
                     })}                
-                </tbody>
+                </tbody> */}
                 {/* <tfoot>
                     {footerGroups.map(footerGroup => (
                         <tr {...footerGroup.getFooterGroupProps()}>
@@ -268,7 +310,7 @@ export const TableAllCardData = ({ tbodyData }) => {
                         </tr>
                     ))}
                 </tfoot> */}
-            </table>
+            {/* </table> */}
 
             {/* <div>
                 <span>
@@ -316,7 +358,7 @@ export const TableAllCardData = ({ tbodyData }) => {
                 )}
                 </code>
             </pre> */}
-        </React.Fragment>
-        </>
-    )
+        {/* </React.Fragment> */}
+        // </>
+    // )
 }
