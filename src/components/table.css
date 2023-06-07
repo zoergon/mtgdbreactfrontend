@@ -3,7 +3,8 @@ table {
     border-collapse: collapse;
     /* width: 100%; */
     max-width: 80rem;
-    margin: 1rem auto;    
+    margin: 1rem auto;
+    color: whitesmoke !important;
   }
   
   table td, table th {
@@ -12,7 +13,15 @@ table {
     border-color:darkslateblue;
   }
   
-  table tr:nth-child(even){background-color: black;}
+  table tr:nth-child(odd){
+    background-color: black;
+    color: orange;
+  }
+  table tr:nth-child(even){
+    /* background-color: #242121; */
+    background-color: black;
+    color: orange;
+  }
   /* table tr:nth-child(even){background-color: #f2f2f2;} */
   
   /* table tr:hover {background-color: #3a4557;} */

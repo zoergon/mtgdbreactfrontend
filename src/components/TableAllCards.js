@@ -17,8 +17,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expandRows,
-    expandedRowObj }) => {
+export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expandRows, expandedRowObj }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     const columns = useMemo(() => COLUMNS, [])
@@ -250,11 +249,20 @@ export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expan
                     <strong>
                         {pageIndex + 1} of {pageOptions.length}
                     </strong>{' '}
+                    | Navigate : {' '}
                 </span>
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}><FontAwesomeIcon icon={faAngleDoubleLeft} /></button>{' '}
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}><FontAwesomeIcon icon={faAngleLeft} /></button>{' '}
-                <button onClick={() => nextPage()} disabled={!canNextPage}><FontAwesomeIcon icon={faAngleRight} /></button>{' '}
-                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}><FontAwesomeIcon icon={faAngleDoubleRight} /></button>{' '}
+                <button className='button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleDoubleLeft} />
+                </button>{' '}
+                <button className='button' onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleLeft} />
+                </button>{' '}
+                <button className='button' onClick={() => nextPage()} disabled={!canNextPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleRight} />
+                </button>{' '}
+                <button className='button' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleDoubleRight} />
+                </button>{' '}
                 <span>
                     | Go to page:{' '}
                     <input
@@ -266,6 +274,7 @@ export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expan
                         }}
                         style={{ width: '50px' }}
                     />
+                    {' '} | Rows on page: {' '}
                 </span>{' '}
                 <select
                     value={pageSize}

@@ -204,11 +204,20 @@ export const TableAllCards = ({ tbodyData }) => {
                     <strong>
                         {pageIndex + 1} of {pageOptions.length}
                     </strong>{' '}
+                    | Navigate : {' '}
                 </span>
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}><FontAwesomeIcon icon={faAngleDoubleLeft} /></button>{' '}
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}><FontAwesomeIcon icon={faAngleLeft} /></button>{' '}
-                <button onClick={() => nextPage()} disabled={!canNextPage}><FontAwesomeIcon icon={faAngleRight} /></button>{' '}
-                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}><FontAwesomeIcon icon={faAngleDoubleRight} /></button>{' '}
+                <button className='button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleDoubleLeft} />
+                </button>{' '}
+                <button className='button' onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleLeft} />
+                </button>{' '}
+                <button className='button' onClick={() => nextPage()} disabled={!canNextPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleRight} />
+                </button>{' '}
+                <button className='button' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleDoubleRight} />
+                </button>{' '}
                 <span>
                     | Go to page:{' '}
                     <input
@@ -220,6 +229,7 @@ export const TableAllCards = ({ tbodyData }) => {
                         }}
                         style={{ width: '50px' }}
                     />
+                    {' '} | Rows on page: {' '}
                 </span>{' '}
                 <select
                     value={pageSize}

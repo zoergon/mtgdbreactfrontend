@@ -227,7 +227,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
     return (
         <>
         <React.Fragment>
-            <button className='button' onClick={changeOrder}>Change column order</button>{' '}
+            <button className='button' onClick={changeOrder}>Change the column order</button>{' '}
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
             <div className='aligned'>
@@ -236,8 +236,8 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                 </div>
                 {allColumns.map(column => (
                     <div key={column.id}>
-                        <label>
-                            <input type='checkbox' {...column.getToggleHiddenProps()} />{' '}
+                        <label className='label'>
+                            <input className='checkbox' type='checkbox' {...column.getToggleHiddenProps()} />{' '}
                             {column.Header}
                         </label>
                     </div>
@@ -323,14 +323,23 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                     <strong>
                         {pageIndex + 1} of {pageOptions.length}
                     </strong>{' '}
+                    | Navigate : {' '}
                 </span>
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}><FontAwesomeIcon icon={faAngleDoubleLeft} /></button>{' '}
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}><FontAwesomeIcon icon={faAngleLeft} /></button>{' '}
-                <button onClick={() => nextPage()} disabled={!canNextPage}><FontAwesomeIcon icon={faAngleRight} /></button>{' '}
-                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}><FontAwesomeIcon icon={faAngleDoubleRight} /></button>{' '}
+                <button className='button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleDoubleLeft} />
+                </button>{' '}
+                <button className='button' onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleLeft}/>
+                </button>{' '}
+                <button className='button' onClick={() => nextPage()} disabled={!canNextPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleRight} />
+                </button>{' '}
+                <button className='button' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleDoubleRight} />
+                </button>{' '}
                 <span>
                     | Go to page:{' '}
-                    <input
+                    <input                        
                         type='number'
                         defaultValue={pageIndex + 1}
                         onChange={e => {
@@ -339,6 +348,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                         }}
                         style={{ width: '50px' }}
                     />
+                    {' '} | Rows on page: {' '}
                 </span>{' '}
                 <select
                     value={pageSize}

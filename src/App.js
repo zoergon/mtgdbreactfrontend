@@ -9,7 +9,7 @@ import Message from './Message'
 
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-// import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 // BrowserRouter aliasoitu Routeriksi
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
@@ -27,7 +27,7 @@ return (
       <Router>
 
         {/* nämä linkit vaihtelevat osoiterivin tekstiä selaimessa */}
-        <Navbar bg="dark" variant="dark">
+        <Navbar className="navbar" bg="dark" variant="dark">
           <Nav className="mr-auto">
             <Nav.Link href={'/'} className='nav-link'>Home</Nav.Link>
             <Nav.Link href={'/AllCards'} className='nav-link'>All cards</Nav.Link>
@@ -44,7 +44,7 @@ return (
           </Nav>
         </Navbar>
 
-        <h1>MtGdb</h1>
+        <h1>MtG:db</h1>
 
         {showMessage && <Message message={message} isPositive={isPositive} /> }
 
