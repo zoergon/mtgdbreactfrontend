@@ -118,19 +118,28 @@ a:active {
 }
 
 .checkbox {
-  background-color: black;
+  /* background-color: black; */
+  fill: black;
+  background-color: transparent;
+  accent-color: black;
+  color: black;
 }
 
 .input {
   background-color: rgb(56, 55, 55);
   border-color:darkorange;
   color: whitesmoke;
+  /* accent-color: black; */
 }
 
 .label {
   /* background-color:#282c34; */
   background-color: black;
+  /* background-color: transparent; */
   color: black;
+  accent-color: black;  
+  fill: black;
+  margin-top: -10px;
 }
 
 .navbar {

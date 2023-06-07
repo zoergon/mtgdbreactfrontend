@@ -236,7 +236,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                 </div>
                 {allColumns.map(column => (
                     <div key={column.id}>
-                        <label className='label'>
+                        <label style={{background: 'transparent', color: 'orange'}} className='label'>
                             <input className='checkbox' type='checkbox' {...column.getToggleHiddenProps()} />{' '}
                             {column.Header}
                         </label>

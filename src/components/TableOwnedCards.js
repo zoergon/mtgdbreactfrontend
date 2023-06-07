@@ -133,7 +133,7 @@ export const TableAllCards = ({ tbodyData }) => {
                 </div>
                 {allColumns.map(column => (
                     <div key={column.id}>
-                        <label>
+                        <label style={{background: 'transparent', color: 'orange'}} className='label'>
                             <input type='checkbox' {...column.getToggleHiddenProps()} />{' '}
                             {column.Header}
                         </label>
