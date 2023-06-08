@@ -23,8 +23,12 @@ export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expan
     const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
 
-    const defaultColumn = useMemo(() => {
-        return {
+    const defaultColumn = useMemo(() => {        
+        // () => ({
+        //     width: columnWidth > 0 ? columnWidth : 150,
+        //   }),
+        //   [columnWidth]
+        return {            
             Filter: ColumnFilter
         }
     })

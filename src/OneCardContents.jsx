@@ -44,9 +44,9 @@ useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
   AllCardsService.getOneCardById(query)
   .then(data => {
-    console.log("getOneCardById", data)    
+    // console.log("getOneCardById", data)
     setCard(data)
-    console.log("AFTER", card)
+    // console.log("AFTER", card)
 })
   .catch(error => console.log(error))
 },[reload]
@@ -56,7 +56,7 @@ useEffect(() => {
     <>
       {card.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllCardDataHC tbodyData={card} />
+            <TableAllCardDataHC tbodyData={card} imgId={query} />
         </div>
       ) : (
         <span>

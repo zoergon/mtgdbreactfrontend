@@ -17,11 +17,13 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCardDataHC = ({ tbodyData }) => {
+export const TableAllCardDataHC = ({ tbodyData, imgId }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
+    const [img, setImg] = useState() // kortista kuva
+    // const [imgId, setImgId] = useState("")
 
     const defaultColumn = useMemo(() => {
         return {
@@ -191,6 +193,24 @@ export const TableAllCardDataHC = ({ tbodyData }) => {
     //     ])
     //   }
 
+    // const imageUrl = "https://cards.scryfall.io/normal/front/5/3/5355873e-39f6-4833-9c67-418f3a67895e.jpg?"
+    const imageUrl = `https://cards.scryfall.io/normal/front/5/3/${imgId}.jpg?`
+
+    // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
+    const fetchImage = async () => {
+        console.log("imageUrl", imageUrl)
+        const res = await fetch(imageUrl)
+        const imageBlob = await res.blob()
+        const imageObjectURL = URL.createObjectURL(imageBlob)
+        setImg(imageObjectURL)
+    }
+
+    useEffect(() => {        
+        fetchImage()
+    }, [])
+
+    // Alkuperäisen tbodyDatan eli kortin datarivienn key-avaimet.
+    // subRow:ssa esitettävään taulukkoon mapataan tämän mukaisesti rivit
     const cols = Object.keys(data[0])
 
     // const header = () => {
@@ -198,25 +218,31 @@ export const TableAllCardDataHC = ({ tbodyData }) => {
     // }
 
     return (
-        <table className="subTableAllCards">
-            <tbody>
-                {cols.map(e =>
-                    <tr>
-                        <th key={e} align="left">{e}</th>
-                        
-                {data.map(row =>            
-                    // {cols.map(col =>
-                        <td key={e} align="left" style={{ maxWidth: 'auto' }} >{row[e]}</td>
-                     )}
-                     </tr>)}
-                {/* {data.map(row =>  */}
-                    {/* {cols.map(col => 
+        <div className='subAligned'>
+
+            <table className="subTableAllCards">
+                <tbody>
+                    {cols.map(e =>
                         <tr>
-                            <td key={col} align="right">{row[col]}</td>
-                        </tr>)} */}
-                {/* )} */}
-            </tbody>
-        </table>
+                            <th key={e} align="left">{e}</th>
+                            
+                    {data.map(row =>            
+                        // {cols.map(col =>
+                            <td key={e} align="left" style={{ maxWidth: 'auto' }} >{JSON.stringify(row[e])}</td>
+                        )}
+                        </tr>)}
+                    {/* {data.map(row =>  */}
+                        {/* {cols.map(col => 
+                            <tr>
+                                <td key={col} align="right">{row[col]}</td>
+                            </tr>)} */}
+                    {/* )} */}
+                </tbody>
+            </table>            
+            
+            <img style={{ height: '100%', width: '100%', paddingLeft: '8rem', paddingTop: '3rem' }} src={img}></img>
+
+        </div>
     )
 
         {/* <React.Fragment> */}
