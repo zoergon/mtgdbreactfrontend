@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import "@popperjs/core"
+
 const Icon = () => {
   return (
     <svg height="20" width="20" viewBox="0 0 20 20">

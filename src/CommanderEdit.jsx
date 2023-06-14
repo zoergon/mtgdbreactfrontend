@@ -81,7 +81,7 @@ useEffect(() => {
     setOptionList(data)
 })
   .catch(error => console.log(error))
-},[query]
+},[query, reload]
 )
 
 // function SearchBar(props) {

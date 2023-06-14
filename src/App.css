@@ -251,10 +251,12 @@ td {
 
 /* dropdown-muotoilut */
 .dropdown-container {
+  /* display: inline-block !important; */
+  overflow: visible;
   color: whitesmoke;
   background-color: black;
   margin: auto;
-  width: 30%;
+  width: 30%;  
   text-align: left;
   /* border: 1px solid #ccc; */
   border: 1px solid black;
@@ -263,73 +265,98 @@ td {
 }
 
 .dropdown-input {
+  /* display: inline-block !important; */
+  overflow: visible;
   color: whitesmoke;
   background-color: black;
   padding: 10px;
-  height: auto;
-  display: flex;
+  height: 100%;
+  /* display: flex; */
   align-items: center;
   justify-content: space-between;
-  user-select: none;  
+  user-select: none;
 }
 
 .dropdown-menu {
+  /* display: inline-block !important; */
+  display:inline !important;
+  overflow: visible;
   color: whitesmoke;
-  position: absolute;
-  transform: translateY(40px);
+  /* position: absolute;   */
+  /* transform: translateY(40px); */
   width: 70%;
   border: 1px solid #ccc;
   border-radius: 5px;
-  overflow: auto;
+  /* overflow: auto; */
   max-height: 400px;
   background-color: black;
 }
 
 .dropdown-item {
+  /* display: inline-block !important; */
+  overflow: visible;
   padding: 5px;
   cursor: pointer;
 }
 
 .dropdown-item:hover {
+  /* display: inline-block !important; */
+  overflow: visible;
   background-color: #9fc3f870;
 }
 
 .dropdown-item.selected {
+  /* display: inline-block !important; */
+  overflow: visible;
   background-color: #0d6efd;
   color: #fff;
 }
 
 .dropdown-tags {
-  display: flex;
+  /* display: inline-block !important; */
+  overflow: visible;
+  /* display: flex; */
   flex-wrap: wrap;
   gap: 5px;
 }
 .dropdown-tag-item {
+  /* display: inline-block !important; */
+  overflow: visible;
   /* background-color: #ddd; */
   background-color: black;
   color: whitesmoke;
   padding: 2px 4px;
   border-radius: 2px;
-  display: flex;
+  /* display: flex; */
   align-items: center;
 }
 .dropdown-tag-close {
-  display: flex;
+  /* display: inline-block !important; */
+  overflow: visible;
+  /* display: flex; */
   align-items: center;
 }
 
 .search-box {
+  /* display: inline-block !important; */
+  overflow: visible;
   padding: 5px;
   /* background-color: #eee; */
-  background-color: black;
-  color: whitesmoke;
+  /* background-color: black; */
+  /* color: whitesmoke; */
+  background-color: orange;
+  color: red;
 }
 .search-box input {
+  /* display: inline-block !important; */
+  overflow: visible;
   width: 100%;
   box-sizing: border-box;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: black;
-  color: whitesmoke;
+  /* background-color: black; */
+  /* color: whitesmoke; */
+  background-color: orange;
+  color: red;
 }
