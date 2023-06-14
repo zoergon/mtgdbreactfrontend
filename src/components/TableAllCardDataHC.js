@@ -17,7 +17,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCardDataHC = ({ tbodyData, imgId }) => {
+export const TableAllCardDataHC = ({ tbodyData, imgId, imgUri }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     const columns = useMemo(() => COLUMNS, [])
@@ -195,11 +195,13 @@ export const TableAllCardDataHC = ({ tbodyData, imgId }) => {
 
     // const imageUrl = "https://cards.scryfall.io/normal/front/5/3/5355873e-39f6-4833-9c67-418f3a67895e.jpg?"
     const imageUrl = `https://cards.scryfall.io/normal/front/5/3/${imgId}.jpg?`
+    const imageUri = imgUri.normal
 
     // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
     const fetchImage = async () => {
-        console.log("imageUrl", imageUrl)
-        const res = await fetch(imageUrl)
+        // console.log("imageUrl", imageUrl)
+        console.log("imageUri", imageUri)
+        const res = await fetch(imageUri)
         const imageBlob = await res.blob()
         const imageObjectURL = URL.createObjectURL(imageBlob)
         setImg(imageObjectURL)
@@ -240,7 +242,7 @@ export const TableAllCardDataHC = ({ tbodyData, imgId }) => {
                 </tbody>
             </table>            
             
-            <img style={{ height: '100%', width: '100%', paddingLeft: '8rem', paddingTop: '3rem' }} src={img}></img>
+            <img style={{ height: '100%', width: '100%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
 
         </div>
     )

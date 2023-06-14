@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react'
 import AllCardsService from './services/AllCards'
 import { TableAllCardDataHC } from "./components/TableAllCardDataHC"
 
-const OneCardContents = ({ query }) => {
+const OneCardContents = ({ query, imgUri }) => {
 
 const [card, setCard] = useState([]) // id:ll채 haettu yksi kortti
+// const [imgUri, setImgUri] = useState([]) // id:ll채 haettu yksi kortti
 // const [showCards, setShowCards] = useState(false)
 const [reload, reloadNow] = useState(false) // Komponentin uudelleen p채ivityst채 varten oleva state
 // const [searchName, setSearchName] = useState("")
@@ -42,10 +43,10 @@ const [reload, reloadNow] = useState(false) // Komponentin uudelleen p채ivityst�
 
 useEffect(() => {
   if (query !== "") // Ei hae tyhj채ll채 stringill채
-  AllCardsService.getOneCardById(query)
+  AllCardsService.getOneCardById(query) //query = id
   .then(data => {
     // console.log("getOneCardById", data)
-    setCard(data)
+    setCard(data)    
     // console.log("AFTER", card)
 })
   .catch(error => console.log(error))
@@ -56,7 +57,7 @@ useEffect(() => {
     <>
       {card.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllCardDataHC tbodyData={card} imgId={query} />
+            <TableAllCardDataHC tbodyData={card} imgId={query} imgUri={imgUri} />
         </div>
       ) : (
         <span>

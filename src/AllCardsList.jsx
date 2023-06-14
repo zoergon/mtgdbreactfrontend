@@ -99,6 +99,7 @@ const subTable = React.useCallback(
         // columns={details}
         // data={row.original.groupDetails}
         query={row.original.id}
+        imgUri={(JSON.parse(row.original.imageUris))}
         // setQuery={setQuery}
       />
       ),
