@@ -226,7 +226,7 @@ export const TableAllCardDataHC = ({ tbodyData, imgId, imgUri }) => {
                 <tbody>
                     {cols.map(e =>
                         <tr>
-                            <th key={e} align="left">{e}</th>
+                            <th key={e} align="left" style={{ maxWidth: 'auto' }} >{e}</th>
                             
                     {data.map(row =>            
                         // {cols.map(col =>
@@ -242,7 +242,7 @@ export const TableAllCardDataHC = ({ tbodyData, imgId, imgUri }) => {
                 </tbody>
             </table>            
             
-            <img style={{ height: '100%', width: '100%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
+            <img style={{ height: '40%', width: '40%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
 
         </div>
     )

@@ -81,7 +81,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
         {
             Header: 'Format',
             Footer: 'Format',
-            accessor: 'format',
+            accessor: 'format.formatName',
             maxWidth: 350,
             minWidth: 80,
             width: 150,

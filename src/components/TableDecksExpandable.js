@@ -12,7 +12,7 @@ import { Checkbox } from './Checkbox'
 
 /////////////
 //
-// Tämä on ollut luultavimmin harjoitustiedostona expandablea varten.
+// Tämä on ollut luultavimmin HARJOITUSTIEDOSTO expandablea varten.
 //
 // Tämän voi luultavimmin poistaa.
 // (Vastaavat koodit pitäisi löytyä mm. -> TableDecks.js)

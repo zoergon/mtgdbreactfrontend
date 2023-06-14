@@ -68,7 +68,7 @@ table {
   .subTableAllCards {
     font-size: 12px;
     /* max-height: 50%; */
-    max-width: auto;    
+    max-width: 600px;
     /* display: inline-block; */
     /* table-layout: fixed; */
     /* float: left; */
@@ -80,12 +80,11 @@ table {
     flex-grow: 1;
     word-wrap: break-word;
     @media (min-width: 600px) {
-      flex: 100%;
+      flex: 80%;
     }
     @media (max-width: 300px) {
         flex: 50%;
     }
-    /* max-width: auto;    */
     /* flex-direction: column; */    
     margin-left: 2rem;
     /* margin-right: 1rem; */
@@ -135,15 +134,16 @@ table {
   }
 
   .subAligned {
-    align-content: space-around;
+    /* align-content: space-around; */
+    /* align-content: space-between; */
     /* float: right; */
     /* justify-content: center; */
     background-color: black;    
-    width:fit-content;
+    /* width:fit-content; */
     /* width: 50%; */
     /* display: inline-block; */
     /* table-layout: auto; */
-    /* float: left; */
+    float: left;
     display: flex;
     flex-direction: row;
     /* flex-wrap: wrap; */

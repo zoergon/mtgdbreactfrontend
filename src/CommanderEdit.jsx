@@ -141,7 +141,7 @@ const onQuery = (e) => {
       {/* <SearchBar handleChange={handleChange} /> */}
       {/* <ResultList searchResults={searchResults} /> */}
       <div>
-        <label>Commanderin haku: </label>
+        <label>Commanderin haku: </label>{' '}
           <input type='text' value={query} onChange={onQuery} />
           <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={query} options={optionList} onChange={(value) => console.log("X onChange: ", value)} />
           <label>Asetettu commander: </label>

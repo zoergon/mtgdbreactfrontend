@@ -6,7 +6,7 @@ const DeckEdit = ({setEdit, setIsPositive, setShowMessage, setMessage, editDeck 
 
 const [newDeckId, setNewDeckId] = useState(editDeck.deckId)
 const [newName, setNewName] = useState(editDeck.name)
-const [newFormat, setNewFormat] = useState(editDeck.format)
+const [newFormat, setNewFormat] = useState(editDeck.formatId)
 const [newLoginId, setNewLoginId] = useState(editDeck.loginId)
 
 // onSubmit tapahtumankäsittelijä-funktio
@@ -17,7 +17,7 @@ const handleSubmit = (event) => {
   var newDeck = {
     deckId: parseInt(newDeckId),
     name: newName,
-    format: newFormat,
+    formatId: parseInt(newFormat),
     loginId: parseInt(newLoginId)
   }
 
@@ -67,7 +67,7 @@ const handleSubmit = (event) => {
           </div>
           <div>
               <label>Format: </label>
-              <input type='text' placeholder='Format'
+              <input type='number' placeholder='Format'
                   value={newFormat} onChange={({target}) => setNewFormat(target.value)} />
           </div>
           <div>
