@@ -1,6 +1,7 @@
 import './App.css'
 import React, {useState} from 'react'
 import DecksService from './services/Decks'
+import Dropdown from './components/Dropdown.js'
 
 const DeckEdit = ({setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
 
@@ -47,8 +48,22 @@ const handleSubmit = (event) => {
       setShowMessage(false)
     }, 6000)
   })
-
 }
+
+const [optionList, setOptionList] = useState([]) // Backendiltä saadut kategoriat
+const [query, setQuery] = useState("") // Backendille lähtevä hakusana
+// Dropdown-valikkoon data .getAll
+useEffect(() => {
+  if (query !== "") // Ei hae tyhjällä stringillä
+    FormatsService.getFormat(query)
+  .then(data => {
+    console.log("getFormat", data)
+    setOptionList(data)
+})
+  .catch(error => console.log(error))
+},[query, reload]
+)
+
 
 
   return (
@@ -64,6 +79,15 @@ const handleSubmit = (event) => {
               <label>Deck's name: </label>
               <input type='text' placeholder='Deck Name'
                   value={newName} onChange={({target}) => setNewName(target.value)} required />
+          </div>
+          <div>
+            <Dropdown
+              newId={newId} setNewId={setNewId}
+              newName={newName} setNewName={setNewName}
+              selected={selected} setSelected={setSelected}
+              isSearchable isMulti
+              placeHolder={query} options={optionList}
+              onChange={(value) => console.log("X onChange: ", value)} />
           </div>
           <div>
               <label>Format: </label>
