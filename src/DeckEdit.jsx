@@ -1,7 +1,8 @@
 import './App.css'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import DecksService from './services/Decks'
-import Dropdown from './components/Dropdown.js'
+import FormatsService from './services/Formats'
+import DropdownFormats from './components/DropdownFormats.js'
 
 const DeckEdit = ({setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
 
@@ -9,6 +10,13 @@ const [newDeckId, setNewDeckId] = useState(editDeck.deckId)
 const [newName, setNewName] = useState(editDeck.name)
 const [newFormat, setNewFormat] = useState(editDeck.formatId)
 const [newLoginId, setNewLoginId] = useState(editDeck.loginId)
+
+const [optionList, setOptionList] = useState([]) // Backendiltä saadut kategoriat
+const [selected, setSelected] = useState([])
+const [query, setQuery] = useState(editDeck.formatId) // query useEffectille = olemassa oleva formatId
+const [newFormatName, setNewFormatName] = useState(editDeck.format.formatName)
+const [newId, setNewId] = useState("") // tarvitseeko tätä?
+const [reload, reloadNow] = useState(false)
 
 // onSubmit tapahtumankäsittelijä-funktio
 const handleSubmit = (event) => {
@@ -50,15 +58,14 @@ const handleSubmit = (event) => {
   })
 }
 
-const [optionList, setOptionList] = useState([]) // Backendiltä saadut kategoriat
-const [query, setQuery] = useState("") // Backendille lähtevä hakusana
-// Dropdown-valikkoon data .getAll
+// const [query, setQuery] = useState("") // Backendille lähtevä hakusana
+// // Dropdown-valikkoon data .getAll
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
     FormatsService.getFormat(query)
   .then(data => {
     console.log("getFormat", data)
-    setOptionList(data)
+    setOptionList(data) // saatu data sijoitetaan optionListiin
 })
   .catch(error => console.log(error))
 },[query, reload]
@@ -81,17 +88,17 @@ useEffect(() => {
                   value={newName} onChange={({target}) => setNewName(target.value)} required />
           </div>
           <div>
-            <Dropdown
+            <DropdownFormats
               newId={newId} setNewId={setNewId}
-              newName={newName} setNewName={setNewName}
+              newFormatName={newFormatName} setNewFormatName={setNewFormatName}
               selected={selected} setSelected={setSelected}
               isSearchable isMulti
-              placeHolder={query} options={optionList}
+              placeHolder={newFormatName} options={optionList}
               onChange={(value) => console.log("X onChange: ", value)} />
           </div>
           <div>
               <label>Format: </label>
-              <input type='number' placeholder='Format'
+              <input type='text' placeholder='Format'
                   value={newFormat} onChange={({target}) => setNewFormat(target.value)} />
           </div>
           <div>

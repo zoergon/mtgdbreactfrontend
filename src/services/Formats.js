@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const baseUrl = "https://localhost:7120/api/formats"
-const nameUrl = "https://localhost:7120/api/formats/formatname"
+const nameUrl = "https://localhost:7120/api/formats/id"
 
 const getAll = () => {
     const config = {
@@ -23,7 +23,7 @@ const create = newFormat => {
     const config = {
         headers: {},
     }
-    return axios.post(baseUrl, newDeck, config)
+    return axios.post(baseUrl, newFormat, config)
 }
 
 const remove = id => {

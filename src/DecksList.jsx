@@ -15,6 +15,7 @@ const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
 
 // Komponentin tilan määritys
 const [aDeck, setADeck] = useState([]) // Tätä ei luultavasti tarvitse
+
 const [decks, setDecks] = useState([]) // Backendiltä tuleva data
 const [showDecks, setShowDecks] = useState(false) // MainDeckien näyttämistä varten. (Nimeä paremmin muiden osioiden myötä.)
 const [reload, reloadNow] = useState(false) // State reloadia varten
@@ -22,7 +23,7 @@ const [searchName, setSearchName] = useState("") // Vanha hakukenttä
 const [searchFormat, setSearchFormat] = useState("") // Vanha hakukenttä
 const [create, setCreate] = useState(false) // Create-tilan määritys (Add)
 const [edit, setEdit] = useState(false) // Edit-tilan määritys
-const [editDeck, setEditDeck] = useState(false)
+const [editDeck, setEditDeck] = useState("")
 const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId) MainDecksien hakuun
 const [deckName, setDeckName] = useState("") // Deckin nimi child-taulukoille näytettäväksi
 
@@ -153,7 +154,7 @@ const subTable = React.useCallback(
       <AllDeckContents
         query={row.original.deckId}
         setQuery={setQuery}
-        columns={details}
+        // columns={details}
         // data={row.original.groupDetails}
         // data={row.original.deckId}
         // headerColor="grey"
