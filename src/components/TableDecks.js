@@ -22,6 +22,9 @@ import {
   faAngleUp
 } from '@fortawesome/free-solid-svg-icons'
 
+// import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import { Modal, Button } from 'react-bootstrap'
+
 export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData, renderRowSubComponent, expandRows,
     expandedRowObj }) => {
     
@@ -101,8 +104,9 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
             Header: ('Action'),
             // accessor: 'action',
             Cell: row => (
-            <div>
-               <button className='button' onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
+            <div>                
+                
+               <button className='container mt-3' onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
                <button className='button' onClick={e=> handleDelete(row.row.original)}>Delete</button>
             </div>
             ),

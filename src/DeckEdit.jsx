@@ -4,7 +4,9 @@ import DecksService from './services/Decks'
 import FormatsService from './services/Formats'
 import DropdownFormats from './components/DropdownFormats.js'
 
-const DeckEdit = ({setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
+import { Modal, Button, Form } from 'react-bootstrap'
+
+const DeckEdit = ({isShow, invokeModal, setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
 
 const [newDeckId, setNewDeckId] = useState(editDeck.deckId)
 const [newName, setNewName] = useState(editDeck.name)
@@ -17,6 +19,13 @@ const [query, setQuery] = useState(editDeck.formatId) // query useEffectille = o
 const [newFormatName, setNewFormatName] = useState(editDeck.format.formatName)
 const [newId, setNewId] = useState("") // tarvitseeko tätä? voiko käyttää olemassa olevaa editDeck.formatId:tä alunperin -> vaihdot?
 const [reload, reloadNow] = useState(false)
+
+// modalin aukaisu ja sulkeminen
+// const [isShow, invokeModal] = useState(false)
+  const initModal = () => {
+    // return invokeModal(!false)
+    return invokeModal(!isShow)
+  }
 
 // onSubmit tapahtumankäsittelijä-funktio
 const handleSubmit = (event) => {
@@ -73,50 +82,61 @@ useEffect(() => {
 },[query, reload]
 )
 
-
-
   return (
-    <div id="edit">        
-        <h2>Update the deck</h2>        
+    // <div id="edit" className='container'>
+    <div id="edit">
+      <Modal show={isShow}>
+        <Modal.Header closeButton onClick={initModal}>
+          <Modal.Title>Deck's settings</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Label>deck_id: </Form.Label>
+                <Form.Control type='number' value={newDeckId} disabled />
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Deck's name: </Form.Label>
+                <Form.Control type='text' placeholder='Deck Name'
+                    value={newName} onChange={({target}) => setNewName(target.value)} required />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Format: </Form.Label>
+              <DropdownFormats
+                newId={newId} setNewId={setNewId}
+                newFormatName={newFormatName} setNewFormatName={setNewFormatName}
+                selected={selected} setSelected={setSelected}
+                isSearchable isMulti
+                placeHolder={newFormatName} options={optionList}
+                // onChange={(value) => console.log("X onChange: ", value)} 
+                onChange={(value) => value.map((option) => (setNewFormatId(option.formatId)))} />
+            </Form.Group>
+            {/* <div>
+                <label>Format: </label>
+                <input type='text' placeholder='Format'
+                    value={newFormatId} onChange={({target}) => setNewFormatId(target.value)} />
+            </div> */}
+            <Form.Group>
+                <Form.Label>login_id: </Form.Label>
+                <Form.Control type='number' placeholder='login_id'
+                    value={newLoginId} onChange={({target}) => setNewLoginId(target.value)} />
+            </Form.Group>
+            <Form.Group>
+            <Button variant='primary' type='submit' value='Save'>Save</Button>
 
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>deck_id: </label>
-              <input type='number' value={newDeckId} disabled />
-          </div>
-          <div>
-              <label>Deck's name: </label>
-              <input type='text' placeholder='Deck Name'
-                  value={newName} onChange={({target}) => setNewName(target.value)} required />
-          </div>
-          <div>
-            <label>Format: </label>
-            <DropdownFormats
-              newId={newId} setNewId={setNewId}
-              newFormatName={newFormatName} setNewFormatName={setNewFormatName}
-              selected={selected} setSelected={setSelected}
-              isSearchable isMulti
-              placeHolder={newFormatName} options={optionList}
-              // onChange={(value) => console.log("X onChange: ", value)} 
-              onChange={(value) => value.map((option) => (setNewFormatId(option.formatId)))} />
-          </div>
-          {/* <div>
-              <label>Format: </label>
-              <input type='text' placeholder='Format'
-                  value={newFormatId} onChange={({target}) => setNewFormatId(target.value)} />
-          </div> */}
-          <div>
-              <label>login_id: </label>
-              <input type='number' placeholder='login_id'
-                  value={newLoginId} onChange={({target}) => setNewLoginId(target.value)} />
-          </div>
-          
-          <input type='submit' value='Save' />
-
-          <input type='button' value='Cancel' onClick={() => setEdit(false)} />
-
-        </form>
-
+            {/* <input type='button' value='Cancel' onClick={() => setEdit(false)} /> */}
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={initModal => setEdit(false)}>
+            Close
+          </Button>
+          <Button variant="dark" onClick={initModal}>
+            Store
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }

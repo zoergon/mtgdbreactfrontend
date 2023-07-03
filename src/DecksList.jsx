@@ -11,6 +11,10 @@ import { TableDecks } from "./components/TableDecks"
 import { TableDeckContents } from "./components/TableDeckContents"
 import AllDeckContents from './AllDeckContents'
 
+import ModalFormDeckEdit from './components/ModalFormDeckEdit.js'
+// import styles from "./components/modal.css"
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+
 const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
 
 // Komponentin tilan määritys
@@ -26,6 +30,14 @@ const [edit, setEdit] = useState(false) // Edit-tilan määritys
 const [editDeck, setEditDeck] = useState("")
 const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId) MainDecksien hakuun
 const [deckName, setDeckName] = useState("") // Deckin nimi child-taulukoille näytettäväksi
+
+// modalin aukaisu ja sulkeminen
+const [isShow, invokeModal] = useState(false)
+const initModal = () => {
+  // return invokeModal(!false)
+  return invokeModal(!isShow)
+}
+// const [isOpen, setIsOpen] = useState(false) // modalformin state
 
 // UseEffect ajetaan aina alussa kerran
 useEffect(() => {
@@ -54,7 +66,8 @@ useEffect(() => {
 //edit-funktio
 const updateDeck = (deck) =>  {
   setEditDeck(deck)
-  setEdit(true)
+  setEdit(true) // edit == true, avaa editointi formin
+  invokeModal(!isShow)
 }
 
 // Tämä on ollut alunperin vain Deck.jsx:ssä. En tiedä tarvitaanko sitä vastaisuudessa, joten käytännöllisempi se olisi tässä.
@@ -188,8 +201,7 @@ const expandedRows = React.useMemo(() => {
 // Jollei ole, antaa sillä välin 'now loading' -paragrafin ilmoitukseksi.
 // if (decks.length > 0) {
   return (
-    <>        
-
+    <>
         {decks.length > 0 ? (
           <div className='table'>            
               {!create && <button className="button" onClick={() => setCreate(true)}>Create a new deck</button>}{' '}
@@ -231,10 +243,15 @@ const expandedRows = React.useMemo(() => {
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
         />}
 
-        {edit && <DeckEdit setEdit={setEdit}
+        {edit && <DeckEdit isShow={isShow} invokeModal={invokeModal} setEdit={setEdit}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
         editDeck={editDeck}
         />}
+
+        {/* {edit && <ModalFormDeckEdit setEdit={setEdit}
+        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
+        editDeck={editDeck}
+        />} */}
 
         {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
 
