@@ -3,7 +3,7 @@ import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRow
 import './table.css'
 import { GlobalFilter } from './GlobalFilter'
 import { ColumnFilter } from './ColumnFilter'
-import { Checkbox } from './Checkbox'
+// import { Checkbox } from './Checkbox'
 // import MainDecksService from '../services/MainDecks'
 // import MainDeckEdit from '../MainDeckEdit'
 // import MainDecksList from '../MainDecksList'
@@ -19,7 +19,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, editCard, card, updateCard, deleteCard, tbodyData }) => {
+export const TableAllDeckContents = ({ deckPart, card, tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -34,17 +34,17 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
     // Tämä oli alunperin ColumnsDecks.js:ssä
     const columns = useMemo(
         () => [
-        {
-            id: 'indexId', // luultavimmin voi poistaa
-            Header: 'indexId',
-            Footer: 'indexId',
-            accessor: 'indexId',
-            // Filter: ColumnFilter,
-            // disableFilters: true
-            maxWidth: 120,
-            minWidth: 40,
-            width: 70,
-        },
+        // {
+        //     id: 'indexId', // luultavimmin voi poistaa
+        //     Header: 'indexId',
+        //     Footer: 'indexId',
+        //     accessor: 'indexId',
+        //     // Filter: ColumnFilter,
+        //     // disableFilters: true
+        //     maxWidth: 120,
+        //     minWidth: 40,
+        //     width: 70,
+        // },
         {
             Header: 'deckId',
             Footer: 'deckId',
@@ -52,35 +52,6 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
             maxWidth: 120,
             minWidth: 40,
             width: 70,      
-        },
-        {
-            Header: 'Deck',
-            Footer: 'Deck',
-            accessor: 'deck',
-            maxWidth: 350,
-            minWidth: 80,
-            width: 200,
-        },
-        {
-            Header: 'Card',
-            Footer: 'Card',
-            accessor: 'name',
-            maxWidth: 400,
-            minWidth: 40,
-            width: 250,
-        },
-        {
-            Header: 'Set',
-            Footer: 'Set',
-            accessor: 'setName',
-            maxWidth: 400,
-            minWidth: 40,
-            width: 250,
-        },
-        {
-            Header: 'id',
-            Footer: 'id',
-            accessor: 'id',
         },
         {
             Header: 'count',
@@ -91,39 +62,63 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
             width: 60,
         },
         {
-            Header: 'loginId',
-            Footer: 'loginId',
-            accessor: 'loginId',
-            maxWidth: 120,
+            Header: () => (
+                <div style={{ textAlign: "left" }}>Card</div>
+              ),
+            Footer: 'Card',
+            accessor: 'name',
+            maxWidth: 400,
             minWidth: 40,
-            width: 60,
+            width: 350,
+            Cell: row => <div style={{ textAlign: "left" }}>{row.value}</div>
         },
-        {            
-            maxWidth: 150,
-            minWidth: 60,
-            width: 100,
-            Header: ('Actions'),
-            // accessor: 'action',
-            Cell: row => (
-            <div>
-               <button className='button' onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
-               <button className='button' onClick={e=> handleDelete(row.row.original)}>Delete</button>
-            </div>
-            ),
-          },
+        // {
+        //     Header: 'Set',
+        //     Footer: 'Set',
+        //     accessor: 'setName',
+        //     maxWidth: 400,
+        //     minWidth: 40,
+        //     width: 250,
+        // },
+        // {
+        //     Header: 'id',
+        //     Footer: 'id',
+        //     accessor: 'id',
+        // },
+        // {
+        //     Header: 'loginId',
+        //     Footer: 'loginId',
+        //     accessor: 'loginId',
+        //     maxWidth: 120,
+        //     minWidth: 40,
+        //     width: 60,
+        // },
+        // {            
+        //     maxWidth: 150,
+        //     minWidth: 60,
+        //     width: 80,
+        //     Header: ('Actions'),
+        //     // accessor: 'action',
+        //     Cell: row => (
+        //     <div>
+        //        <button onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
+        //        <button onClick={e=> handleDelete(row.row.original)}>Delete</button>
+        //     </div>
+        //     ),
+        //   },
     ], [], )
 
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
-    function handleEdit(row) {
-        // console.log(row)
-        updateCard(row)        
-    }
+    // function handleEdit(row) {
+    //     // console.log(row)
+    //     updateCard(row)        
+    // }
 
     // Käsittelee ko. riviltä painetun Deletee-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
-    function handleDelete(row) {
-        // console.log(row)
-        deleteCard(row)
-    }
+    // function handleDelete(row) {
+    //     // console.log(row)
+    //     deleteCard(row)
+    // }
 
     function handleShowCard(row) {
         console.log(row)
@@ -135,19 +130,19 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
         getTableBodyProps,
         headerGroups,
         footerGroups,
-        // rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
-        page,
-        nextPage,
-        previousPage,
-        canNextPage,
-        canPreviousPage,
+        rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
+        // page,
+        // nextPage,
+        // previousPage,
+        // canNextPage,
+        // canPreviousPage,
         prepareRow,
         selectedFlatRows,
         // state: { selectedRowIds }, // Tämä lisätty
-        pageOptions,
-        gotoPage,
-        pageCount,
-        setPageSize,
+        // pageOptions,
+        // gotoPage,
+        // pageCount,
+        // setPageSize,
         state,
         setGlobalFilter,
         setColumnOrder,
@@ -158,69 +153,70 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
           columns,
           data,
           defaultColumn,
-          initialState: { pageIndex : 0 }          
+        //   initialState: { pageIndex : 0 }
         },
         useFlexLayout,
         useFilters,
         useGlobalFilter,
         useSortBy,
         useResizeColumns,
-        usePagination,
+        // usePagination,
         useColumnOrder,
         useRowSelect,
-        hooks => {
-            hooks.visibleColumns.push(columns => [
-                {
-                id: 'selection',
-                width: 40,
-                Header: ({ getToggleAllRowsSelectedProps }) => (
-                    <Checkbox {...getToggleAllRowsSelectedProps()} />
-                ),
-                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />
-                },
-                ...columns
-            ])
-        }
+        // hooks => {
+        //     hooks.visibleColumns.push(columns => [
+        //         {
+        //         id: 'selection',
+        //         width: 40,
+        //         Header: ({ getToggleAllRowsSelectedProps }) => (
+        //             <Checkbox {...getToggleAllRowsSelectedProps()} />
+        //         ),
+        //         Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />
+        //         },
+        //         ...columns
+        //     ])
+        // }
       )
 
       const { globalFilter } = state
-      const { pageIndex, pageSize } = state
+    //   const { pageIndex, pageSize } = state
 
       // Jos haluaa muuttaa kolumnien järjestystä.
       // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
-      const changeOrder = () => {
-        setColumnOrder([
-            'count',            
-            'id',
-            'deckId',
-            'indexId',
-            'loginId',
-        ])
-      }
+    //   const changeOrder = () => {
+    //     setColumnOrder([
+    //         'count',            
+    //         'id',
+    //         'deckId',
+    //         'indexId',
+    //         'loginId',
+    //     ])
+    //   }
 
     return (
         <>
         <React.Fragment>
-            <label className="deckHeadlineStyles">Deck:</label><label className="deckNameStyles">{deckName}</label>{' '}
-            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />{' '}
-            <button className='button' onClick={changeOrder}>Change column order</button>{' '}        
+            {/* <label className="deckHeadlineStyles">Deck:</label> */}
+            <label className="deckParts">{deckPart}</label>
+            {/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />{' '}
+            <button onClick={changeOrder}>Change column order</button>{' '}         */}
 
-            <div className='aligned'>
+            {/* <div className='aligned'>
                 <div>
                     <Checkbox {...getToggleHideAllColumnsProps()} /> Toggle All
                 </div>
                 {allColumns.map(column => (
                     <div key={column.id}>
-                        <label style={{background: 'transparent', color: 'orange'}} className='label'>
+                        <label>
                             <input type='checkbox' {...column.getToggleHiddenProps()} />{' '}
                             {column.Header}
                         </label>
                     </div>
                 ))}
                 <br />
-            </div>
+            </div> */}
 
-            <table {...getTableProps()}>
+            <table className="subTable" {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup, i) => (
                         <React.Fragment key={headerGroup.headers.length + "_hfrag"}>
@@ -243,7 +239,7 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
                                             }`}
                                             />
                                         )}
-                                        <div>{column.canFilter ? column.render('Filter') : null}</div>
+                                        {/* <div>{column.canFilter ? column.render('Filter') : null}</div> */}
                                     </th>                      
                                 ))}
                             </tr>
@@ -251,7 +247,7 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
                         ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {page.map((row, i) => {                                
+                    {rows.map((row, i) => {                                
                         prepareRow(row)
                         // console.log("row:", row.original.indexId)
                         return (
@@ -276,26 +272,17 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
                 </tfoot> */}
             </table>
 
-            <div>
+            {/* <div>
                 <span>
                     Page {''}
                     <strong>
                         {pageIndex + 1} of {pageOptions.length}
                     </strong>{' '}
-                    | Navigate : {' '}
                 </span>
-                <button className='button' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleDoubleLeft} />
-                </button>{' '}
-                <button className='button' onClick={() => previousPage()} disabled={!canPreviousPage}>
-                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleLeft} />
-                </button>{' '}
-                <button className='button' onClick={() => nextPage()} disabled={!canNextPage}>
-                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleRight} />
-                </button>{' '}
-                <button className='button' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                    <FontAwesomeIcon style={{backgroundColor: "#242121", color: "orange"}} icon={faAngleDoubleRight} />
-                </button>{' '}
+                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}><FontAwesomeIcon icon={faAngleDoubleLeft} /></button>{' '}
+                <button onClick={() => previousPage()} disabled={!canPreviousPage}><FontAwesomeIcon icon={faAngleLeft} /></button>{' '}
+                <button onClick={() => nextPage()} disabled={!canNextPage}><FontAwesomeIcon icon={faAngleRight} /></button>{' '}
+                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}><FontAwesomeIcon icon={faAngleDoubleRight} /></button>{' '}
                 <span>
                     | Go to page:{' '}
                     <input
@@ -307,7 +294,6 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
                         }}
                         style={{ width: '50px' }}
                     />
-                    {' '} | Rows on page: {' '}
                 </span>{' '}
                 <select
                     value={pageSize}
@@ -318,7 +304,7 @@ export const TableMainDecks = ({ deckName, edit, setEdit, create, setCreate, edi
                         </option>
                     ))}
                 </select>
-            </div>
+            </div> */}
 
             {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
             {/* <pre>

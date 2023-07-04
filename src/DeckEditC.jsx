@@ -4,6 +4,9 @@ import DecksService from './services/Decks'
 import FormatsService from './services/Formats'
 import DropdownFormats from './components/DropdownFormats.js'
 
+// kopio alkuperäisestä DeckEdit.jsx:stä
+// ilman modalformia
+
 const DeckEdit = ({setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
 
 const [newDeckId, setNewDeckId] = useState(editDeck.deckId)

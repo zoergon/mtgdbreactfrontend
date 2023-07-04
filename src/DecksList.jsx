@@ -8,12 +8,16 @@ import MainDecksList from './MainDecksList'
 import MainDecksListDeckId from './MainDecksListDeckId'
 import Table from "./Table"
 import { TableDecks } from "./components/TableDecks"
-import { TableDeckContents } from "./components/TableDeckContents"
+import { TableAllDeckContents } from "./components/TableAllDeckContents"
 import AllDeckContents from './AllDeckContents'
+import DeckContents from './DeckContents.jsx'
 
-import ModalFormDeckEdit from './components/ModalFormDeckEdit.js'
 // import styles from "./components/modal.css"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+
+// Parent kaikkeen deckeihin liittyvään
+// DecksList.jsx -> TableDecks.js | deckien listaus taulukkona
+// subRow -> AllDeckContents.jsx -> TableAllDeckContents.js | deckin koko sisältö subRow:na taulukossa
 
 const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
 
@@ -21,7 +25,8 @@ const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
 const [aDeck, setADeck] = useState([]) // Tätä ei luultavasti tarvitse
 
 const [decks, setDecks] = useState([]) // Backendiltä tuleva data
-const [showDecks, setShowDecks] = useState(false) // MainDeckien näyttämistä varten. (Nimeä paremmin muiden osioiden myötä.)
+const [showDeck, setShowDeck] = useState(false) // Deckin sisällön näyttämistä varten
+const [showDecks, setShowDecks] = useState(false) // MainDeckien näyttämistä varten. (Nimeä paremmin muiden osioiden myötä.) Tämä näyttää siis vain MainDeckin tablena alla nyt.
 const [reload, reloadNow] = useState(false) // State reloadia varten
 const [searchName, setSearchName] = useState("") // Vanha hakukenttä
 const [searchFormat, setSearchFormat] = useState("") // Vanha hakukenttä
@@ -31,12 +36,13 @@ const [editDeck, setEditDeck] = useState("")
 const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId) MainDecksien hakuun
 const [deckName, setDeckName] = useState("") // Deckin nimi child-taulukoille näytettäväksi
 
-// modalin aukaisu ja sulkeminen
-const [isShow, invokeModal] = useState(false)
-const initModal = () => {
-  // return invokeModal(!false)
-  return invokeModal(!isShow)
-}
+
+const [isShowDeckSettings, invokeModalDeckSettings] = useState(false) // DeckEdit-modalin (deck's settings) aukaiseminen ja sulkeminen
+const [isShowEditDeck, invokeModalEditDeck] = useState(false) // DeckContents-modalin (edit deck) aukaiseminen ja sulkeminen
+// const initModal = () => {
+//   // return invokeModal(!false)
+//   return invokeModalDeckSettings(!isShowDeckSettings)
+// }
 // const [isOpen, setIsOpen] = useState(false) // modalformin state
 
 // UseEffect ajetaan aina alussa kerran
@@ -63,11 +69,20 @@ useEffect(() => {
 //   setSearchFormat(event.target.value.toLowerCase())
 // }
 
-//edit-funktio
+// TableDecks.js (child) Edit-buttonin kautta tuleva käskytys
+const editDeckContents = (deck) =>  {
+  setEditDeck(deck) // käsiteltävän deckin data
+  console.log("editDeck:", editDeck)
+  setShowDeck(true) // == true, jotta voi avata DeckContents.jsx modal-ikkunan 
+  invokeModalEditDeck(!isShowEditDeck) // avaa/sulkee ko. modal-ikkunan
+}
+
+// TableDecks.js (child) Settings-buttonin kautta tuleva käskytys
 const updateDeck = (deck) =>  {
-  setEditDeck(deck)
-  setEdit(true) // edit == true, avaa editointi formin
-  invokeModal(!isShow)
+  setEditDeck(deck) // päivitettävän deckin data (editDeck)
+  console.log("updateDeck:", editDeck)
+  setEdit(true) // edit == true, vaaditaan, jotta voi avata editointi-formin | tarvitaanko tämä varmasti vielä?
+  invokeModalDeckSettings(!isShowDeckSettings) // avaa/sulkee ko. modal-ikkunan
 }
 
 // Tämä on ollut alunperin vain Deck.jsx:ssä. En tiedä tarvitaanko sitä vastaisuudessa, joten käytännöllisempi se olisi tässä.
@@ -208,7 +223,8 @@ const expandedRows = React.useMemo(() => {
               {/* {!edit && <button className="button" onClick={() => setEdit(true)}>Edit the selected deck</button>}{' '} */}
               <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} deck={aDeck} reloadNow={reloadNow} reload={reload}
                       setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-                      updateDeck={updateDeck} deleteDeck={deleteDeck} tbodyData={decks} showDecks={showDecks} setShowDecks={setShowDecks} setQuery={setQuery} setDeckName={setDeckName}
+                      updateDeck={updateDeck} deleteDeck={deleteDeck} tbodyData={decks} showDeck={showDeck} setShowDeck={setShowDeck} editDeckContents={editDeckContents}
+                      showDecks={showDecks} setShowDecks={setShowDecks} setQuery={setQuery} setDeckName={setDeckName}
                       renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />
               {/* {!create && !edit && showDecks && decks &&
               <TableDecks deck={deck} reloadNow={reloadNow} reload={reload}
@@ -243,17 +259,14 @@ const expandedRows = React.useMemo(() => {
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
         />}
 
-        {edit && <DeckEdit isShow={isShow} invokeModal={invokeModal} setEdit={setEdit}
+        {edit && <DeckEdit isShowDeckSettings={isShowDeckSettings} invokeModalDeckSettings={invokeModalDeckSettings} setEdit={setEdit}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
         editDeck={editDeck}
-        />}
-
-        {/* {edit && <ModalFormDeckEdit setEdit={setEdit}
-        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-        editDeck={editDeck}
-        />} */}
+        />}        
 
         {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
+
+        {showDeck && <DeckContents isShowEditDeck={isShowEditDeck} invokeModalEditDeck={invokeModalEditDeck} query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
 
         {/* {
           // Viimeisen && jälkeen se mitä tehdään
@@ -278,15 +291,6 @@ const expandedRows = React.useMemo(() => {
 
     </>
   )
-
-// } else {
-//   return (
-//     <div>      
-//       <p>*** now loading ***</p>
-//     </div>
-//   )
-// }
-
 }
 
 export default DecksList

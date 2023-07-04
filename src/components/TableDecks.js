@@ -22,10 +22,7 @@ import {
   faAngleUp
 } from '@fortawesome/free-solid-svg-icons'
 
-// import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import { Modal, Button } from 'react-bootstrap'
-
-export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData, renderRowSubComponent, expandRows,
+export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, setShowDeck, showDecks, setShowDecks, edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData, renderRowSubComponent, expandRows,
     expandedRowObj }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
@@ -104,10 +101,10 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
             Header: ('Action'),
             // accessor: 'action',
             Cell: row => (
-            <div>                
-                
-               <button className='container mt-3' onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
-               <button className='button' onClick={e=> handleDelete(row.row.original)}>Delete</button>
+            <div>
+                <button className='button' onClick={e=> handleEditDeckContents(row.row.original)}>Edit</button>{' '}
+                <button className='button' onClick={e=> handleEdit(row.row.original)}>Settings</button>{' '}
+                <button className='button' onClick={e=> handleDelete(row.row.original)}>Delete</button>
             </div>
             ),
           },
@@ -115,18 +112,28 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
 
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
     function handleEdit(row) {
-        updateDeck(row)        
+        updateDeck(row) // DecksList.jsx (parent)       
     }
 
-    // Käsittelee ko. riviltä painetun Deletee-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
+    // Käsittelee ko. riviltä painetun Delete-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
     function handleDelete(row) {
-        deleteDeck(row)
+        deleteDeck(row) // DecksList.jsx (parent)
     }
 
-    function handleShowDeck(row) {
+    // Aukaisee modal-ikkunana deckin sisällön
+    function handleEditDeckContents(row) {
+        console.log("row:", row)
+        setDeckName(row.name) // Deckin nimen näyttäminen
+        setQuery(row.deckId) // query backendille deckId:llä
+        // setShowDeck(showDeck => !showDeck) // Vaihtaa boolean-arvoa & näyttää/ei näytä deckin sisältöä
+        editDeckContents(row)
+    }
+
+    // rivin painalluksesta aukaisee deckin sisällön tablena alle
+    function handleShowDecks(row) {
         // console.log("row:", row)
-        setDeckName(row.name)
-        setQuery(row.deckId)
+        setDeckName(row.name) // Deckin nimen näyttäminen tablessa
+        setQuery(row.deckId) // query backendille deckId:llä
         setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
     }
 
@@ -135,8 +142,8 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
         getTableBodyProps,
         headerGroups,
         // footerGroups,
-        rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
-        page,
+        rows, // Rivien laskemiseen taulukossa. Muu toiminta korvattu page:lla.
+        page, // Mahdollistaa sivuttamisen. Esimerkissä rows korvattiin tällä.
         nextPage,
         previousPage,
         canNextPage,
@@ -288,7 +295,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                         // console.log("row:", row.original.deckId)
                         return (
                             <React.Fragment key={i + "_frag"}>
-                                <tr key={row.original.deckId} {...row.getRowProps()} onClick={() => handleShowDeck(row.original)}>
+                                <tr key={row.original.deckId} {...row.getRowProps()} onClick={() => handleShowDecks(row.original)}>
                                 {/* <tr key={row.original.deckId} {...row.getRowProps()}> */}
                                     {row.cells.map((cell) => {
                                         return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
@@ -296,7 +303,7 @@ export const TableDecks = ({ setDeckName, setQuery, showDecks, setShowDecks, edi
                                 </tr>
                                 {row.isExpanded ? (
                                     <tr>
-                                    <td onClick={() => handleShowDeck(row.original)}>
+                                    <td onClick={() => handleShowDecks(row.original)}>
                                         <span className="subTableDecks">
                                         {renderRowSubComponent({ row })}                                        
                                         </span>

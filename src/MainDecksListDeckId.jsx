@@ -4,7 +4,7 @@ import MainDecksService from './services/MainDecks'
 // import MainDeck from './MainDeck'
 import MainDeckAdd from './MainDeckAdd'
 import MainDeckEdit from './MainDeckEdit'
-import { TableMainDecks } from "./components/TableMainDecks"
+import { TableDeckContents } from "./components/TableDeckContents"
 
 const MainDecksListDeckId = ({ columns, deckName, query, setQuery, setIsPositive, setShowMessage, setMessage}) => {
 // query = parentilta tuleva, tablesta klikatun deckin antama row.original.deckId = deckId, jolla haetaan backendistä oikean pakan kortit
@@ -114,27 +114,10 @@ if (cards.length > 0) {
 
         <div className='table'><br/>            
             {!create && <button className="button" onClick={() => setCreate(true)}>Add a card</button>}{' '}
-            <TableMainDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editCard={editCard} reloadNow={reloadNow} reload={reload}
+            <TableDeckContents edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editCard={editCard} reloadNow={reloadNow} reload={reload}
                     setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
                     updateCard={updateCard} deleteCard={deleteCard} tbodyData={cards} deckName={deckName} />            
         </div>
-
-        {/* <h2 onClick={() => setShowAllCards(!showAllCards)}>All cards</h2> */}
-        {/* <h1><nobr style={{ cursor: 'pointer'}}
-        onClick={() => setShowDecks(!showDecks)}>Decks</nobr>         */}
-        
-        {/* jos create = false */}
-        {/* {!create && <button className="button" onClick={() => setCreate(true)}>Add new</button>}
-        </h1> */}
-
-        {/* hakukenttä */}
-        {/* onChange viittaus omaan hakukentän funktioon yllä */}        
-        {/* {!create && !edit &&
-          <input placeholder="Search decks by name" value={searchName} onChange={handleSearchNameInputChange} />
-        }     
-        {!create && !edit &&
-          <input placeholder="Search decks by format" value={searchFormat} onChange={handleSearchFormatInputChange} />
-        } */}
 
         {create && <MainDeckAdd setCreate={setCreate}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setQuery={setQuery} reloadNow={reloadNow}
@@ -144,27 +127,6 @@ if (cards.length > 0) {
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} reload={reload} reloadNow={reloadNow}
         editCard={editCard} setQuery={setQuery}
         />}
-
-        {/* {
-          // Viimeisen && jälkeen se mitä tehdään
-          // Kaikki sitä edeltävät ovat ehtoja -ja -ja -ja
-          // Ensimmäiset !create && !edit && - poistavat listauksen näkyvistä alta lisäystilassa(?)
-          // {}-jälkeen hakutoimintoihin liittyvät asiat
-          !create && !edit && showDecks && decks && decks.map(d => 
-            {
-              const lowerCaseName = d.name.toLowerCase()
-              const lowerCaseFormat = d.format.toLowerCase()
-              if ((lowerCaseName.indexOf(searchName) > -1) && (lowerCaseFormat.indexOf(searchFormat) > -1) ) {
-                return(
-                <Deck key={d.deckId} deck={d} reloadNow={reloadNow} reload={reload}
-                setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-                updateDeck={updateDeck}
-                />
-            )
-              }
-            }
-            )
-        } */}
 
     </>
   )

@@ -4,9 +4,13 @@ import MainDecksService from './services/MainDecks'
 // import MainDeck from './MainDeck'
 import MainDeckAdd from './MainDeckAdd'
 import MainDeckEdit from './MainDeckEdit'
-import { TableDeckContents } from "./components/TableDeckContents"
+import { TableMainDecks } from "./components/TableMainDecks"
 
-const MainDecksList = ({setIsPositive, setShowMessage, setMessage}) => {
+// kopio alkuperäisestä MainDecksListDeckId.jsx:stä
+// mukana kaikki aivan alkuperäiset kommentoidut osiotkin
+
+const MainDecksListDeckId = ({ columns, deckName, query, setQuery, setIsPositive, setShowMessage, setMessage}) => {
+// query = parentilta tuleva, tablesta klikatun deckin antama row.original.deckId = deckId, jolla haetaan backendistä oikean pakan kortit
 
 const [cards, setCards] = useState([])
 const [showCards, setShowCards] = useState(false)
@@ -16,16 +20,43 @@ const [searchFormat, setSearchFormat] = useState("")
 const [create, setCreate] = useState(false)
 const [edit, setEdit] = useState(false)
 const [editCard, setEditCard] = useState(false)
+// const [loading, setLoading] = useState(true)
 
-// UseEffect ajetaan aina alussa kerran
+// useEffect(() => {
+//     MainDecksService.getAll()
+//   .then(data => {
+//     console.log(data)
+//     setCards(data)
+//   })
+//   .catch(error => console.log(error))
+// },[create, edit, reload]
+// )
+
+// const [optionList, setOptionList] = useState([]) // Backendistä saatu data sijoitetaan tänne
+// const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId)
+
+// const handleFetch = (query) => {
+//   MainDecksService.getByDeckId(query).then((res) => {
+//     setCards(res.data)
+//     // setLoading(false)
+//   }).catch(error => console.log(error))}
+  
+
+// useEffect(() => {
+//   if (query !== "")
+//   handleFetch(query)
+// })
+
 useEffect(() => {
-    MainDecksService.getAll()
+  if (query !== "") // Ei hae tyhjällä stringillä
+  MainDecksService.getByDeckId(query) // parseInt stringille
   .then(data => {
-    console.log(data)
+    // console.log("getByDeckId", data)
+    // setOptionList(data)
     setCards(data)
-  })
+})
   .catch(error => console.log(error))
-},[create, edit, reload]
+},[reload]
 )
 
 // Edit-funktio
@@ -84,11 +115,11 @@ if (cards.length > 0) {
   return (
     <>        
 
-        <div className='table'>            
-            {!create && <button className="button" onClick={() => setCreate(true)}>Create a new card</button>}{' '}
+        <div className='table'><br/>            
+            {!create && <button className="button" onClick={() => setCreate(true)}>Add a card</button>}{' '}
             <TableDeckContents edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editCard={editCard} reloadNow={reloadNow} reload={reload}
                     setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-                    updateCard={updateCard} deleteCard={deleteCard} tbodyData={cards}/>            
+                    updateCard={updateCard} deleteCard={deleteCard} tbodyData={cards} deckName={deckName} />            
         </div>
 
         {/* <h2 onClick={() => setShowAllCards(!showAllCards)}>All cards</h2> */}
@@ -109,12 +140,12 @@ if (cards.length > 0) {
         } */}
 
         {create && <MainDeckAdd setCreate={setCreate}
-        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
+        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setQuery={setQuery} reloadNow={reloadNow}
         />}
 
         {edit && <MainDeckEdit setEdit={setEdit}
-        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-        editCard={editCard}
+        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} reload={reload} reloadNow={reloadNow}
+        editCard={editCard} setQuery={setQuery}
         />}
 
         {/* {
@@ -151,4 +182,4 @@ if (cards.length > 0) {
 
 }
 
-export default MainDecksList
+export default MainDecksListDeckId

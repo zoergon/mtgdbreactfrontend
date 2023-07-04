@@ -6,7 +6,7 @@ import DropdownFormats from './components/DropdownFormats.js'
 
 import { Modal, Button, Form } from 'react-bootstrap'
 
-const DeckEdit = ({isShow, invokeModal, setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
+const DeckEdit = ({ isShowDeckSettings, invokeModalDeckSettings, setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
 
 const [newDeckId, setNewDeckId] = useState(editDeck.deckId)
 const [newName, setNewName] = useState(editDeck.name)
@@ -20,12 +20,11 @@ const [newFormatName, setNewFormatName] = useState(editDeck.format.formatName)
 const [newId, setNewId] = useState("") // tarvitseeko tätä? voiko käyttää olemassa olevaa editDeck.formatId:tä alunperin -> vaihdot?
 const [reload, reloadNow] = useState(false)
 
-// modalin aukaisu ja sulkeminen
-// const [isShow, invokeModal] = useState(false)
-  const initModal = () => {
-    // return invokeModal(!false)
-    return invokeModal(!isShow)
-  }
+// DeckEdit.jsx modalin (deck's settings) aukaiseminen ja sulkeminen
+const initModal = () => {
+  // return invokeModal(!false)
+  return invokeModalDeckSettings(!isShowDeckSettings)
+}
 
 // onSubmit tapahtumankäsittelijä-funktio
 const handleSubmit = (event) => {
@@ -85,7 +84,7 @@ useEffect(() => {
   return (
     // <div id="edit" className='container'>
     <div id="edit">
-      <Modal show={isShow}>
+      <Modal show={isShowDeckSettings}>
         <Modal.Header closeButton onClick={initModal}>
           <Modal.Title>Deck's settings</Modal.Title>
         </Modal.Header>

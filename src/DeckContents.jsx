@@ -10,12 +10,20 @@ import TokensService from './services/Tokens'
 // import MainDeckAdd from './MainDeckAdd'
 // import MainDeckEdit from './MainDeckEdit'
 // import { TableMainDecks } from "./components/TableMainDecks"
-import { TableAllDeckContents } from "./components/TableAllDeckContents"
+import { TableDeckContents } from "./components/TableDeckContents"
+import './components/modal.css'
 
-// subRow:na näytettävä deckin koko sisältö (kaikki deckit omilla riveillään)
-// kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> subRow
+import { Modal, Button, Form } from 'react-bootstrap'
 
-const AllDeckContents = ({ query }) => {
+// modal-ikkunana näytettävä yhden deckin koko sisältö
+// deckin kaikkien osioiden muokkaus: add, edit, delete cards
+// formin kautta submit
+// add kaikissa osioissa erikseen
+// edit jokaisen kortin kohdalla - kortin vaihto eri versioon tai korttiin
+// delete jokaisen kortin kohdalla
+// kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> edit-button rivillä
+
+const AllDeckContents = ({ isShowEditDeck, invokeModalEditDeck, query }) => {
 
 const [cardsCommander, setCardsCommander] = useState([]) // deckId:llä haettu data backendistä - Commander
 const [cardsCompanion, setCardsCompanion] = useState([]) // deckId:llä haettu data backendistä - Company
@@ -23,7 +31,7 @@ const [cardsMainDeck, setCardsMainDeck] = useState([]) // deckId:llä haettu dat
 const [cardsMaybeboard, setCardsMaybeboard] = useState([]) // deckId:llä haettu data backendistä - Maybeboard
 const [cardsSideboard, setCardsSideboard] = useState([]) // deckId:llä haettu data backendistä - Sideboard
 const [cardsTokens, setCardsTokens] = useState([]) // deckId:llä haettu data backendistä - Tokens
-// const [showCards, setShowCards] = useState(false)
+
 const [reload, reloadNow] = useState(false) // Komponentin uudelleen päivitystä varten oleva state
 // const [searchName, setSearchName] = useState("")
 // const [searchFormat, setSearchFormat] = useState("")
@@ -32,31 +40,17 @@ const [reload, reloadNow] = useState(false) // Komponentin uudelleen päivityst�
 // const [editCard, setEditCard] = useState(false)
 // const [loading, setLoading] = useState(true) // Mahdollinen loading-tekstin näyttö statella
 
-// useEffect(() => {
-//     MainDecksService.getAll()
-//   .then(data => {
-//     console.log(data)
-//     setCards(data)
-//   })
-//   .catch(error => console.log(error))
-// },[create, edit, reload]
-// )
+const [optionList, setOptionList] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+// const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (dropdowneja varten)
 
-// const [optionList, setOptionList] = useState([]) // Backendistä saatu data sijoitetaan tänne
-// const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId)
+// modalin aukaisu ja sulkeminen
+// const [isShow, invokeModal] = useState(false)
+const initModal = () => {
+    // return invokeModal(!false)
+    return invokeModalEditDeck(!isShowEditDeck)
+  }
 
-// const handleFetch = (query) => {
-//   MainDecksService.getByDeckId(query).then((res) => {
-//     setCards(res.data)
-//     // setLoading(false)
-//   }).catch(error => console.log(error))}
-  
-
-// useEffect(() => {
-//   if (query !== "")
-//   handleFetch(query)
-// })
-
+// hakee kaikki commanderit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
   CommandersService.getByDeckId(query) // parseInt stringille
@@ -68,6 +62,7 @@ useEffect(() => {
 },[reload]
 )
 
+// hakee kaikki companionit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
   CompanionsService.getByDeckId(query) // parseInt stringille
@@ -79,6 +74,7 @@ useEffect(() => {
 },[reload]
 )
 
+// hakee kaikki main deckin kortit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
   MainDecksService.getByDeckId(query) // parseInt stringille
@@ -90,6 +86,7 @@ useEffect(() => {
 },[reload]
 )
 
+// hakee kaikki maybe boardin kortit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
   MaybeboardsService.getByDeckId(query) // parseInt stringille
@@ -101,6 +98,7 @@ useEffect(() => {
 },[reload]
 )
 
+// hakee kaikki side boardin kortit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
   SideboardsService.getByDeckId(query) // parseInt stringille
@@ -112,6 +110,7 @@ useEffect(() => {
 },[reload]
 )
 
+// hakee kaikki tokenit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
   TokensService.getByDeckId(query) // parseInt stringille
@@ -174,70 +173,84 @@ useEffect(() => {
 // }
 
   return (
-    <>
-      {cardsCommander.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"} />
-        </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>There is no commander for the deck.</em><br/>
-        </span>
-      )}
+    <div id="edit" className='container'>
+      <Modal
+      size='xl'
+      show={isShowEditDeck}>
+        <Modal.Header className='modalHeader' closeButton onClick={initModal}>
+          <Modal.Title>Deck edit</Modal.Title>
+        </Modal.Header >
+        <Modal.Body className='modalContent'>
+            {cardsCommander.length > 0 ? (
+            <div className='table'><br/>              
+                <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"} />
+            </div>
+            ) : (
+                <span>
+                <em className='subRowDataInfo'>There is no commander for the deck.</em><br/>
+                </span>
+            )}
 
-      {cardsCompanion.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Companion"} />
-        </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>There is no companion for the deck.</em><br/>
-        </span>
-      )}
+            {cardsCompanion.length > 0 ? (
+                <div className='table'><br/>              
+                    <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Companion"} />
+                </div>
+            ) : (
+                <span>
+                <em className='subRowDataInfo'>There is no companion for the deck.</em><br/>
+                </span>
+            )}
 
-      {cardsMainDeck.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"} />            
-        </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>Main deck is empty.</em><br/>
-        </span>
-      )}
+            {cardsMainDeck.length > 0 ? (
+                <div className='table'><br/>              
+                    <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"} />            
+                </div>
+            ) : (
+                <span>
+                <em className='subRowDataInfo'>Main deck is empty.</em><br/>
+                </span>
+            )}
 
-      {cardsSideboard.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Sideboard"} />
-        </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>Sideboard is empty.</em><br/>
-        </span>
-      )}
+            {cardsSideboard.length > 0 ? (
+                <div className='table'><br/>              
+                    <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Sideboard"} />
+                </div>
+            ) : (
+                <span>
+                <em className='subRowDataInfo'>Sideboard is empty.</em><br/>
+                </span>
+            )}
 
-      {cardsMaybeboard.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Maybeboard"} />
-        </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>Maybeboard is empty.</em><br/>
-        </span>
-      )}
+            {cardsMaybeboard.length > 0 ? (
+                <div className='table'><br/>              
+                    <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Maybeboard"} />
+                </div>
+            ) : (
+                <span>
+                <em className='subRowDataInfo'>Maybeboard is empty.</em><br/>
+                </span>
+            )}
 
-      {cardsTokens.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Tokens"} />
-        </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>There are no tokens for the deck.</em>
-        </span>
-      )}
-
-        
-
-    </>
+            {cardsTokens.length > 0 ? (
+                <div className='table'><br/>              
+                    <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Tokens"} />
+                </div>
+            ) : (
+                <span>
+                <em className='subRowDataInfo'>There are no tokens for the deck.</em>
+                </span>
+            )}
+        </Modal.Body>
+        <Modal.Footer className='modalFooter'>
+          <Button variant="danger" onClick={initModal}>
+            Close
+          </Button>
+          <Button variant="dark" onClick={initModal}>
+            Store
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   )
 }
 
