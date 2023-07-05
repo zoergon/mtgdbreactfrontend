@@ -54,12 +54,12 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
             width: 70,      
         },
         {
-            Header: 'Deck',
-            Footer: 'Deck',
-            accessor: 'deck',
-            maxWidth: 350,
-            minWidth: 80,
-            width: 200,
+            Header: 'count',
+            Footer: 'count',
+            accessor: 'count',
+            maxWidth: 120,
+            minWidth: 40,
+            width: 60,
         },
         {
             Header: 'Card',
@@ -83,14 +83,6 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
             accessor: 'id',
         },
         {
-            Header: 'count',
-            Footer: 'count',
-            accessor: 'count',
-            maxWidth: 120,
-            minWidth: 40,
-            width: 60,
-        },
-        {
             Header: 'loginId',
             Footer: 'loginId',
             accessor: 'loginId',
@@ -101,7 +93,7 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
         {            
             maxWidth: 150,
             minWidth: 60,
-            width: 100,
+            width: 150,
             Header: ('Actions'),
             // accessor: 'action',
             Cell: row => (
@@ -135,19 +127,19 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
         getTableBodyProps,
         headerGroups,
         footerGroups,
-        // rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
-        page,
-        nextPage,
-        previousPage,
-        canNextPage,
-        canPreviousPage,
+        rows,
+        // page,
+        // nextPage,
+        // previousPage,
+        // canNextPage,
+        // canPreviousPage,
         prepareRow,
         selectedFlatRows,
         // state: { selectedRowIds }, // Tämä lisätty
-        pageOptions,
-        gotoPage,
-        pageCount,
-        setPageSize,
+        // pageOptions,
+        // gotoPage,
+        // pageCount,
+        // setPageSize,
         state,
         setGlobalFilter,
         setColumnOrder,
@@ -158,14 +150,14 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
           columns,
           data,
           defaultColumn,
-          initialState: { pageIndex : 0 }          
+        //   initialState: { pageIndex : 0 }          
         },
         useFlexLayout,
         useFilters,
         useGlobalFilter,
         useSortBy,
         useResizeColumns,
-        usePagination,
+        // usePagination,
         useColumnOrder,
         useRowSelect,
         hooks => {
@@ -184,7 +176,7 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
       )
 
       const { globalFilter } = state
-      const { pageIndex, pageSize } = state
+    //   const { pageIndex, pageSize } = state
 
       // Jos haluaa muuttaa kolumnien järjestystä.
       // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
@@ -201,11 +193,15 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
     return (
         <>
         <React.Fragment>
-            <label className="deckHeadlineStyles">Deck:</label><label className="deckNameStyles">{deckName}</label>{' '}
-            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />{' '}
-            <button className='button' onClick={changeOrder}>Change column order</button>{' '}        
+            {/* <label className="deckHeadlineStyles">Deck:</label><label className="deckNameStyles">{deckName}</label>{' '} */}
+            <br/>
+            <div style={{ display: "flex" }}>
+                <button className='button' style={{ marginRight: "auto" }}>Add a card</button>{' '}
+                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} style={{ marginRight: "auto" }}/>{' '}
+            </div>
+            {/* <button className='button' onClick={changeOrder}>Change column order</button>{' '}         */}
 
-            <div className='aligned'>
+            {/* <div className='aligned'>
                 <div>
                     <Checkbox {...getToggleHideAllColumnsProps()} /> Toggle All
                 </div>
@@ -218,7 +214,7 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
                     </div>
                 ))}
                 <br />
-            </div>
+            </div> */}
 
             <table {...getTableProps()}>
                 <thead>
@@ -243,7 +239,7 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
                                             }`}
                                             />
                                         )}
-                                        <div>{column.canFilter ? column.render('Filter') : null}</div>
+                                        {/* <div>{column.canFilter ? column.render('Filter') : null}</div> */}
                                     </th>                      
                                 ))}
                             </tr>
@@ -251,7 +247,7 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
                         ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {page.map((row, i) => {                                
+                    {rows.map((row, i) => {                                
                         prepareRow(row)
                         // console.log("row:", row.original.indexId)
                         return (
@@ -276,7 +272,7 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
                 </tfoot> */}
             </table>
 
-            <div>
+            {/* <div>
                 <span>
                     Page {''}
                     <strong>
@@ -318,7 +314,7 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
                         </option>
                     ))}
                 </select>
-            </div>
+            </div> */}
 
             {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
             {/* <pre>

@@ -180,14 +180,14 @@ useEffect(() => {
             <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"} />
         </div>
       ) : (
-        <span>
+        <span>          
           <em className='subRowDataInfo'>There is no commander for the deck.</em><br/>
         </span>
       )}
 
       {cardsCompanion.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Companion"} />
+            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"} />
         </div>
       ) : (
         <span>
@@ -207,7 +207,7 @@ useEffect(() => {
 
       {cardsSideboard.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Sideboard"} />
+            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"} />
         </div>
       ) : (
         <span>
@@ -217,7 +217,7 @@ useEffect(() => {
 
       {cardsMaybeboard.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Maybeboard"} />
+            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"} />
         </div>
       ) : (
         <span>
@@ -227,7 +227,7 @@ useEffect(() => {
 
       {cardsTokens.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Tokens"} />
+            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"} />
         </div>
       ) : (
         <span>
