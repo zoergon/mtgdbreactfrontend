@@ -19,7 +19,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, editCard, card, updateCard, deleteCard, tbodyData }) => {
+export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, editCard, card, handleAdd, servicerChild, servicerX, updateCard, deleteCard, tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -105,16 +105,23 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
           },
     ], [], )
 
+    // Käsittelee ko. riviltä painetun Add-nappulan pyynnön & asettaa ko. rivin originaali datan parentin handleAddX-funktiolle
+    function handleAddCard(e) {        
+    servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
+    console.log("servicerChild:", servicerChild)        
+    handleAdd(e, servicerChild) // Palautetaan oieka XService servicerChildina varsinaisen datan kera
+}
+
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
     function handleEdit(row) {
-        // console.log(row)
         updateCard(row)        
     }
 
-    // Käsittelee ko. riviltä painetun Deletee-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
-    function handleDelete(row) {
-        // console.log(row)
-        deleteCard(row)
+    // Käsittelee ko. riviltä painetun Delete-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
+    function handleDelete(row) {        
+        servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
+        console.log("servicerChild:", servicerChild)        
+        deleteCard(row, servicerChild) // Palautetaan oieka XService servicerChildina varsinaisen datan kera
     }
 
     function handleShowCard(row) {
@@ -196,7 +203,7 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
             {/* <label className="deckHeadlineStyles">Deck:</label><label className="deckNameStyles">{deckName}</label>{' '} */}
             <br/>
             <div style={{ display: "flex" }}>
-                <button className='button' style={{ marginRight: "auto" }}>Add a card</button>{' '}
+                <button className='button' style={{ marginRight: "auto" }} onClick={(e) => {handleAddCard(e)}}>Add a card</button>{' '}
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} style={{ marginRight: "auto" }}/>{' '}
             </div>
             {/* <button className='button' onClick={changeOrder}>Change column order</button>{' '}         */}

@@ -42,15 +42,23 @@ const [create, setCreate] = useState(false)
 // const [loading, setLoading] = useState(true) // Mahdollinen loading-tekstin näyttö statella
 const [reload, reloadNow] = useState(false) // Komponentin uudelleen päivitystä varten oleva state
 
+// const [newId, setNewId] = useState("") // dropdownin selected id, mitä dropdownissa valitaan ja näytetään
+
 const [newDeckId, setNewDeckId] = useState(editDeck.deckId) // haetun kortin id
 const [newId, setNewId] = useState("") // haetun kortin id
 const [newName, setNewName] = useState("") // haetun kortin nimi
-const [newCount, setNewCount] = useState("") // vaihdettava lukumäärä
-const [newLoginId, setNewLoginId] = useState("") // käyttäjätunnuksen id
+const [newCount, setNewCount] = useState(1) // vaihdettava lukumäärä
+const [newLoginId, setNewLoginId] = useState(1) // käyttäjätunnuksen id
 
-const [optionList, setOptionList] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+const [optionListCommander, setOptionListCommander] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+const [optionListCompanion, setOptionListCompanion] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+const [optionListMainDeck, setOptionListMainDeck] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+const [optionListSideboard, setOptionListSideboard] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+const [optionListMaybeboard, setOptionListMaybeboard] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+const [optionListTokens, setOptionListTokens] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
 const [selected, setSelected] = useState([]) // Tämän mahdollisesti voi poistaa - huomioi Dropdown.js:ssä myös poistot
 
+const [queryDropdown, setQueryDropdown] = useState("") // Backendille lähtevä hakusana - dropdowniin
 const [queryCommander, setQueryCommander] = useState("") // Backendille lähtevä hakusana - commander
 const [queryCompanion, setQueryCompanion] = useState("") // Backendille lähtevä hakusana - companion
 const [queryMainDeck, setQueryMainDeck] = useState("") // Backendille lähtevä hakusana - main deck
@@ -60,78 +68,81 @@ const [queryTokens, setQueryTokens] = useState("") // Backendille lähtevä haku
 
 const [service, setService] = useState("") // Oikean servicen valintaan - add-buttonin kautta sijoitus
 
-// modalin aukaisu ja sulkeminen
-// const [isShow, invokeModal] = useState(false)
+var servicer = "" // Oikean servicen valintaan - add-buttonin kautta sijoitus handleAddX-functioiden kautta
+var servicerChild = ""
+var servicerParent = ""
+var servicerCommander = CommandersService
+var servicerCompanion = CompanionsService
+var servicerMainDeck = MainDecksService
+var servicerSideboard = SideboardsService
+var servicerMaybeboard = MaybeboardsService
+var servicerTokens = TokensService
+
+// Modal-ikkunan aukaiseminen ja sulkeminen
 const initModal = () => {
     return invokeModalEditDeck(!isShowEditDeck)
   }
 
-// hakee kaikki commanderit deckId:n mukaisesti
+// Hakee kaikki commanderit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
-  CommandersService.getByDeckId(query) // parseInt stringille
-  .then(data => {
-    // console.log("getByDeckId", data)    
+  CommandersService.getByDeckId(query)
+  .then(data => { 
     setCardsCommander(data)
 })
   .catch(error => console.log(error))
 },[query, reload]
 )
 
-// hakee kaikki companionit deckId:n mukaisesti
+// Hakee kaikki companionit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
-  CompanionsService.getByDeckId(query) // parseInt stringille
-  .then(data => {
-    // console.log("getByDeckId", data)    
+  CompanionsService.getByDeckId(query)
+  .then(data => {   
     setCardsCompanion(data)
 })
   .catch(error => console.log(error))
 },[query, reload]
 )
 
-// hakee kaikki main deckin kortit deckId:n mukaisesti
+// Hakee kaikki main deckin kortit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
-  MainDecksService.getByDeckId(query) // parseInt stringille
-  .then(data => {
-    // console.log("getByDeckId", data)    
+  MainDecksService.getByDeckId(query)
+  .then(data => {    
     setCardsMainDeck(data)
 })
   .catch(error => console.log(error))
 },[query, reload]
 )
 
-// hakee kaikki maybe boardin kortit deckId:n mukaisesti
+// Hakee kaikki maybe boardin kortit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
-  MaybeboardsService.getByDeckId(query) // parseInt stringille
-  .then(data => {
-    // console.log("getByDeckId", data)    
+  MaybeboardsService.getByDeckId(query)
+  .then(data => {    
     setCardsMaybeboard(data)
 })
   .catch(error => console.log(error))
 },[query, reload]
 )
 
-// hakee kaikki side boardin kortit deckId:n mukaisesti
+// Hakee kaikki side boardin kortit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
-  SideboardsService.getByDeckId(query) // parseInt stringille
-  .then(data => {
-    // console.log("getByDeckId", data)    
+  SideboardsService.getByDeckId(query)
+  .then(data => {    
     setCardsSideboard(data)
 })
   .catch(error => console.log(error))
 },[query, reload]
 )
 
-// hakee kaikki tokenit deckId:n mukaisesti
+// Hakee kaikki tokenit deckId:n mukaisesti
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
-  TokensService.getByDeckId(query) // parseInt stringille
-  .then(data => {
-    // console.log("getByDeckId", data)    
+  TokensService.getByDeckId(query)
+  .then(data => {    
     setCardsTokens(data)
 })
   .catch(error => console.log(error))
@@ -139,8 +150,8 @@ useEffect(() => {
 )
 
 // Kortin lisäämiseen luodaan kortti-olio, johon sijoitetaan stateista oikeat tiedot
-const handleSubmit = (event) => {  
-  event.preventDefault()
+const handleSubmit = (event, servicer) => {  
+  event.preventDefault()  
     var newCard = {
     deckId: parseInt(newDeckId),
     id: newId,
@@ -149,7 +160,10 @@ const handleSubmit = (event) => {
   }
 
 // Kortin lisääminen. Tämän olisi tarkoitus toimia muuttuvalla service-statella, riippuen mitä add-buttonia painetaan
-  CompanionsService.create(newCard)
+  if (newId !== "") {
+    console.log("POST:", newId);
+    console.log("SERVICE:", servicer);
+  servicer.create(newCard)
   .then(response => {
     if (response.status === 200) {
       setMessage("Added a new Card: " + newCard.id)
@@ -175,6 +189,7 @@ const handleSubmit = (event) => {
     }, 6000)
   })
 }
+}
 
 // Edit-funktio
 // const updateCard = (card) =>  {
@@ -182,67 +197,164 @@ const handleSubmit = (event) => {
 //   setEdit(true)
 // }
 
-// const deleteCard = (card) => {
-//   let answer = window.confirm(`Are you sure you want to permanently delete the card: ${card.id}?`)
+const deleteCard = (card, servicer) => {
+  let answer = window.confirm(`Are you sure you want to permanently delete the card: ${card.id}?`)
 
-//   if(answer === true) {
-      
-//   MainDecksService.remove(card.indexId)
-//   .then(res => {
-//       if (res.status === 200) {
-//           setMessage(`Succesfully removed the deck: ${card.id}.`)
-//           setIsPositive(true)
-//           setShowMessage(true)
-//           window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+  if(answer === true) {        
+  
+  console.log("DELETE CARD:", servicer)
+  servicer.remove(card.indexId)
+  .then(res => {
+      if (res.status === 200) {
+          setMessage(`Succesfully removed the deck: ${card.id}.`)
+          setIsPositive(true)
+          setShowMessage(true)
+          window.scrollBy(0, -10000) // Scrollaa ylös ruudun
 
-//           // Ilmoituksen piilotus
-//           setTimeout(() => {
-//               setShowMessage(false)
-//             }, 5000)
-//             reloadNow(!reload)
-//       }
-//   })
-//   .catch(error => {
-//       setMessage(error)
-//       setIsPositive(false)
-//       setShowMessage(true)
-//       window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+          // Ilmoituksen piilotus
+          setTimeout(() => {
+              setShowMessage(false)
+            }, 5000)
+            reloadNow(!reload)
+      }
+  })
+  .catch(error => {
+      setMessage(error)
+      setIsPositive(false)
+      setShowMessage(true)
+      window.scrollBy(0, -10000) // Scrollaa ylös ruudun
 
-//       setTimeout(() => {
-//         setShowMessage(false)
-//       }, 6000)
-//     })
+      setTimeout(() => {
+        setShowMessage(false)
+      }, 6000)
+    })
 
-//   } // Jos poisto perutaan, annetaan ilmoitus onnistuneesta perumisesta.
-//   else {
-//       setMessage('Canceled the deletion of the card.')
-//           setIsPositive(true)
-//           setShowMessage(true)
-//           window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+  } // Jos poisto perutaan, annetaan ilmoitus onnistuneesta perumisesta.
+  else {
+      setMessage('Canceled the deletion of the card.')
+          setIsPositive(true)
+          setShowMessage(true)
+          window.scrollBy(0, -10000) // Scrollaa ylös ruudun
 
-//           setTimeout(() => {
-//               setShowMessage(false)
-//             }, 5000)
-//   }
-// }
+          setTimeout(() => {
+              setShowMessage(false)
+            }, 5000)
+  }
+}
 
 // Companionin haku <input> asettaa queryn, jota käytetään useEffectillä backendille pyyntöihin
-const onQueryCompanion = (e) => {
-  setQueryCompanion(e.target.value)
-  // console.log("query: ", query)
-}
+// const onQueryCompanion = (e) => {
+//   setQueryCompanion(e.target.value)
+//   // console.log("query: ", query)
+// }
+
+// hoitaa millä queryllä dropdowneihin haetaan data
+// const handleQuery = (e) => {
+//   setQueryDropdown(e.target.value)
+//   console.log("Query Dropdown:". queryDropdown)
+// }
+
+// Dropdown-valikkoon data .getName - commander
+useEffect(() => {
+  if (queryCommander !== "" && queryCommander.length >= 3) // Ei hae tyhjällä stringillä    
+    AllCardsService.getPartialName(queryCommander)
+  .then(data => {
+    console.log("getName", data)
+    setOptionListCommander(data)    
+  },)
+  .catch(error => console.log(error))  
+},[queryCommander, reload]
+)
 
 // Dropdown-valikkoon data .getName - companion
 useEffect(() => {
   if (queryCompanion !== "" && queryCompanion.length >= 3) // Ei hae tyhjällä stringillä    
-    AllCardsService.getPartialName(queryCompanion)    
+    AllCardsService.getPartialName(queryCompanion)
   .then(data => {
     console.log("getName", data)
-    setOptionList(data)    
+    setOptionListCompanion(data)    
   },)
   .catch(error => console.log(error))  
 },[queryCompanion, reload]
 )
+
+// Dropdown-valikkoon data .getName - mainDeck
+useEffect(() => {
+  if (queryMainDeck !== "" && queryMainDeck.length >= 3) // Ei hae tyhjällä stringillä    
+    AllCardsService.getPartialName(queryMainDeck)
+  .then(data => {
+    console.log("getName", data)
+    setOptionListMainDeck(data)    
+  },)
+  .catch(error => console.log(error))  
+},[queryMainDeck, reload]
+)
+
+// Dropdown-valikkoon data .getName - sideboard
+useEffect(() => {
+  if (querySideboard !== "" && querySideboard.length >= 3) // Ei hae tyhjällä stringillä    
+    AllCardsService.getPartialName(querySideboard)
+  .then(data => {
+    console.log("getName", data)
+    setOptionListSideboard(data)    
+  },)
+  .catch(error => console.log(error))  
+},[querySideboard, reload]
+)
+
+// Dropdown-valikkoon data .getName - maybeboard
+useEffect(() => {
+  if (queryMaybeboard !== "" && queryMaybeboard.length >= 3) // Ei hae tyhjällä stringillä    
+    AllCardsService.getPartialName(queryMaybeboard)
+  .then(data => {
+    console.log("getName", data)
+    setOptionListMaybeboard(data)    
+  },)
+  .catch(error => console.log(error))  
+},[queryMaybeboard, reload]
+)
+
+// Dropdown-valikkoon data .getName - tokens
+useEffect(() => {
+  if (queryTokens !== "" && queryTokens.length >= 3) // Ei hae tyhjällä stringillä    
+    AllCardsService.getPartialName(queryTokens)
+  .then(data => {
+    console.log("getName", data)
+    setOptionListTokens(data)    
+  },)
+  .catch(error => console.log(error))  
+},[queryTokens, reload]
+)
+
+const handleAddCommander = (e, servicer) => {
+  servicer = CommandersService  
+  handleSubmit(e, servicer)
+}
+
+const handleAddCompanion = (e, servicer) => {
+  servicer = CompanionsService  
+  handleSubmit(e, servicer)
+}
+
+const handleAddMainDeck = (e, servicer) => {
+  servicer = MainDecksService  
+  handleSubmit(e, servicer)
+}
+
+const handleAddSideboard = (e, servicer) => {
+  servicer = SideboardsService  
+  handleSubmit(e, servicer)
+}
+
+const handleAddMaybeboard = (e, servicer) => {
+  servicer = MaybeboardsService  
+  handleSubmit(e, servicer)
+}
+
+const handleAddTokens = (e, servicer) => {
+  servicer = TokensService  
+  handleSubmit(e, servicer)
+}
 
   return (
     <div id="edit" className='container'>
@@ -255,69 +367,91 @@ useEffect(() => {
         <Modal.Body className='modalContent'>
             {cardsCommander.length > 0 ? (
             <div className='table'>
-                <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"} />
+                <TableDeckContents handleAdd={handleAddCommander} servicerChild={servicerChild} servicerX={servicerCommander} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"} />
             </div>
             ) : (
                 <span style={{ display: "flex" }}>
-                  <button className='button'>Add a card</button>
+                  <button className='button'
+                    onClick={(e) => {                      
+                      handleAddCommander(e)}} >Add a card</button>
                   <em className='subRowDataInfo'>There is no commander for the deck.</em><br/>
+                  <input type='text' value={queryCommander} onChange={(e) => {setQueryCommander(e.target.value)}} style={{ marginLeft: "1rem" }}/>
+                  <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryCommander} options={optionListCommander} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
                 </span>
             )}
 
             {cardsCompanion.length > 0 ? (
                 <div className='table'>
-                    <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"} />
+                    <TableDeckContents handleAdd={handleAddCompanion} servicerChild={servicerChild} servicerX={servicerCompanion} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"} />
                 </div>
             ) : (
                 <span style={{ display: "flex" }}>                  
-                  <button className='button'>Add a card</button>
+                  <button className='button'
+                    onClick={(e) => {                      
+                      handleAddCompanion(e)}} >Add a card</button>
                   <em className='subRowDataInfo'>There is no companion for the deck.</em>
-                  <input type='text' value={queryCompanion} onChange={onQueryCompanion} style={{ marginLeft: "1rem" }}/>
-                  <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryCompanion} options={optionList} onChange={(value) => console.log("X onChange: ", value)} />                  
+                  <input type='text' value={queryCompanion} onChange={(e) => {setQueryCompanion(e.target.value)}} style={{ marginLeft: "1rem" }}/>
+                  <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryCompanion} options={optionListCompanion} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
                 </span>
             )}
 
             {cardsMainDeck.length > 0 ? (
                 <div className='table'>
-                    <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"} />            
+                    <TableDeckContents handleAdd={handleAddMainDeck} servicerChild={servicerChild} servicerX={servicerMainDeck} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"} />            
                 </div>
             ) : (
                 <span style={{ display: "flex" }}>
-                  <button className='button'>Add a card</button>
+                  <button className='button'
+                    onClick={(e) => {                      
+                      handleAddMainDeck(e)}} >Add a card</button>
                   <em className='subRowDataInfo'>Main deck is empty.</em><br/>
+                  <input type='text' value={queryMainDeck} onChange={(e) => {setQueryMainDeck(e.target.value)}} style={{ marginLeft: "1rem" }}/>
+                  <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryMainDeck} options={optionListMainDeck} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
                 </span>
             )}
 
             {cardsSideboard.length > 0 ? (
                 <div className='table'>
-                    <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"} />
+                    <TableDeckContents handleAdd={handleAddSideboard} servicerChild={servicerChild} servicerX={servicerSideboard} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"} />
                 </div>
             ) : (
                 <span style={{ display: "flex" }}>
-                  <button className='button'>Add a card</button>
+                  <button className='button'
+                    onClick={(e) => {                      
+                      handleAddSideboard(e)}} >Add a card</button>
                   <em className='subRowDataInfo'>Sideboard is empty.</em><br/>
+                  <input type='text' value={querySideboard} onChange={(e) => {setQuerySideboard(e.target.value)}} style={{ marginLeft: "1rem" }}/>
+                  <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={querySideboard} options={optionListSideboard} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
                 </span>
             )}
 
             {cardsMaybeboard.length > 0 ? (
                 <div className='table'>
-                    <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"} />
+                    <TableDeckContents handleAdd={handleAddMaybeboard} servicerChild={servicerChild} servicerX={servicerMaybeboard} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"} />
                 </div>
             ) : (
                 <span style={{ display: "flex" }}>
-                  <button className='button'>Add a card</button>
+                  <button className='button'
+                    onClick={(e) => {                      
+                      handleAddMaybeboard(e)}} >Add a card</button>
                   <em className='subRowDataInfo'>Maybeboard is empty.</em><br/>
+                  <input type='text' value={queryMaybeboard} onChange={(e) => {setQueryMaybeboard(e.target.value)}} style={{ marginLeft: "1rem" }}/>
+                  <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryMaybeboard} options={optionListMaybeboard} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
                 </span>
             )}
 
             {cardsTokens.length > 0 ? (
                 <div className='table'>
-                    <TableDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"} />
+                    <TableDeckContents handleAdd={handleAddTokens} servicerChild={servicerChild} servicerX={servicerTokens} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"} />
                 </div>
             ) : (
                 <span style={{ display: "flex" }}>
-                  <button className='button'>Add a card</button>
+                  <button className='button'
+                    onClick={(e) => {                      
+                      handleAddTokens(e)}} >Add a card</button>
                   <em className='subRowDataInfo'>There are no tokens for the deck.</em>
+                  <input type='text' value={queryTokens} onChange={(e) => {setQueryTokens(e.target.value)}} style={{ marginLeft: "1rem" }}/>
+                  <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryTokens} options={optionListTokens} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
                 </span>
             )}
         </Modal.Body>
