@@ -72,7 +72,7 @@ useEffect(() => {
 // TableDecks.js (child) Edit-buttonin kautta tuleva käskytys
 const editDeckContents = (deck) =>  {
   setEditDeck(deck) // käsiteltävän deckin data
-  console.log("editDeck:", editDeck)
+  // console.log("editDeck:", editDeck)
   setShowDeck(true) // == true, jotta voi avata DeckContents.jsx modal-ikkunan 
   invokeModalEditDeck(!isShowEditDeck) // avaa/sulkee ko. modal-ikkunan
 }
@@ -80,7 +80,7 @@ const editDeckContents = (deck) =>  {
 // TableDecks.js (child) Settings-buttonin kautta tuleva käskytys
 const updateDeck = (deck) =>  {
   setEditDeck(deck) // päivitettävän deckin data (editDeck)
-  console.log("updateDeck:", editDeck)
+  // console.log("updateDeck:", editDeck)
   setEdit(true) // edit == true, vaaditaan, jotta voi avata editointi-formin | tarvitaanko tämä varmasti vielä?
   invokeModalDeckSettings(!isShowDeckSettings) // avaa/sulkee ko. modal-ikkunan
 }

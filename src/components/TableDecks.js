@@ -122,7 +122,7 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
 
     // Aukaisee modal-ikkunana deckin sisällön
     function handleEditDeckContents(row) {
-        console.log("row:", row)
+        // console.log("row:", row)
         setDeckName(row.name) // Deckin nimen näyttäminen
         setQuery(row.deckId) // query backendille deckId:llä
         // setShowDeck(showDeck => !showDeck) // Vaihtaa boolean-arvoa & näyttää/ei näytä deckin sisältöä

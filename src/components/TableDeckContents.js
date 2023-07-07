@@ -7,6 +7,7 @@ import { Checkbox } from './Checkbox'
 // import MainDecksService from '../services/MainDecks'
 // import MainDeckEdit from '../MainDeckEdit'
 // import MainDecksList from '../MainDecksList'
+import Dropdown from "./Dropdown.js"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -19,7 +20,10 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, editCard, card, handleAdd, servicerChild, servicerX, updateCard, deleteCard, tbodyData }) => {
+export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, editCard, card, 
+    // queryCompanion, setQueryCompanion,
+    // newId, setNewId, newName, setNewName, selected, setSelected, optionListCompanion, setOptionListCompanion, options, handleAdd, 
+    servicerChild, servicerX, updateCard, deleteCard, tbodyData }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -91,14 +95,16 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
             width: 60,
         },
         {            
-            maxWidth: 150,
+            maxWidth: 300,
             minWidth: 60,
-            width: 150,
+            width: 290,
             Header: ('Actions'),
             // accessor: 'action',
             Cell: row => (
             <div>
-               <button className='button' onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
+               <button className='button' onClick={e=> handlePlus(row.row.original)}>+</button>
+               <button className='button' onClick={e=> handleMinus(row.row.original)}> - </button>
+               <button className='button' onClick={e=> handleEdit(row.row.original)}>Edit</button>
                <button className='button' onClick={e=> handleDelete(row.row.original)}>Delete</button>
             </div>
             ),
@@ -106,11 +112,19 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
     ], [], )
 
     // Käsittelee ko. riviltä painetun Add-nappulan pyynnön & asettaa ko. rivin originaali datan parentin handleAddX-funktiolle
-    function handleAddCard(e) {        
-    servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
-    console.log("servicerChild:", servicerChild)        
-    handleAdd(e, servicerChild) // Palautetaan oieka XService servicerChildina varsinaisen datan kera
-}
+    // function handleAddCard(e) {        
+    //     servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
+    //     console.log("servicerChild:", servicerChild)        
+    //     handleAdd(e, servicerChild) // Palautetaan oieka XService servicerChildina varsinaisen datan kera
+    // }
+
+    function handlePlus(row) {
+        // updateCard(row)
+    }
+
+    function handleMinus(row) {
+        // updateCard(row)
+    }
 
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
     function handleEdit(row) {
@@ -120,12 +134,12 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
     // Käsittelee ko. riviltä painetun Delete-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
     function handleDelete(row) {        
         servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
-        console.log("servicerChild:", servicerChild)        
+        // console.log("servicerChild:", servicerChild)        
         deleteCard(row, servicerChild) // Palautetaan oieka XService servicerChildina varsinaisen datan kera
     }
 
     function handleShowCard(row) {
-        console.log(row)
+        // console.log(row)
         // showCard(row)        
     }
 
@@ -201,11 +215,13 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
         <>
         <React.Fragment>
             {/* <label className="deckHeadlineStyles">Deck:</label><label className="deckNameStyles">{deckName}</label>{' '} */}
-            <br/>
-            <div style={{ display: "flex" }}>
-                <button className='button' style={{ marginRight: "auto" }} onClick={(e) => {handleAddCard(e)}}>Add a card</button>{' '}
-                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} style={{ marginRight: "auto" }}/>{' '}
-            </div>
+            {/* <br/> */}
+            {/* <div> */}
+                {/* <button className='button' style={{ marginRight: "auto" }} onClick={(e) => {handleAddCard(e)}}>Add a card</button>{' '}
+                <input type='text' value={queryCompanion} onChange={(e) => {setQueryCompanion(e.target.value)}} style={{ marginLeft: "1rem" }}/>
+                <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryCompanion} options={optionListCompanion} onChange={(value) => value.map((option) => (setNewId(option.id)))} /> */}
+                {/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} style={{ marginLeft: "auto" }}/>{' '} */}
+            {/* </div> */}
             {/* <button className='button' onClick={changeOrder}>Change column order</button>{' '}         */}
 
             {/* <div className='aligned'>
