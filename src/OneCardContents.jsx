@@ -3,7 +3,11 @@ import React, { useState, useEffect } from 'react'
 import AllCardsService from './services/AllCards'
 import { TableAllCardDataHC } from "./components/TableAllCardDataHC"
 
-const OneCardContents = ({ query, imgUri }) => {
+// Hakee yhden kortin id:n perusteella kaiken datan taulukkoon näytettäväksi -> TableAllCardDataHC
+// Kortin kuvan fetchiin saatava id tulee tätä kautta
+// Parent: AllCardsList.jsx
+
+const OneCardContents = ({ query, imgUris }) => {
 
 const [card, setCard] = useState([]) // id:llä haettu yksi kortti
 // const [imgUri, setImgUri] = useState([]) // id:llä haettu yksi kortti
@@ -57,7 +61,7 @@ useEffect(() => {
     <>
       {card.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllCardDataHC tbodyData={card} imgId={query} imgUri={imgUri} />
+            <TableAllCardDataHC tbodyData={card} imgId={query} imgUris={imgUris} />
         </div>
       ) : (
         <span>

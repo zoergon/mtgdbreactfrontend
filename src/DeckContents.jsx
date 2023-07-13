@@ -404,6 +404,9 @@ const handleAdd = (e, servicer) => {
 //   handleSubmit(e, servicer)
 // }
 
+const imgUris = ""
+var imageUri = ""
+
   return (
     <div id="edit" className='container'>
       <Modal
@@ -424,7 +427,8 @@ const handleAdd = (e, servicer) => {
             {cardsCommander.length > 0 ? (
             <div className='table'>
                 <TableDeckContents servicerChild={servicerChild} servicerX={servicerCommander} deleteCard={deleteCard}
-                reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"} />
+                reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"} imgUris={imgUris} imageUri={imageUri} />
+                {/* imgUri={(JSON.parse(row.original.imageUris))} */}
             </div>
             ) : (
                 <span style={{ display: "flex" }}>
@@ -439,7 +443,8 @@ const handleAdd = (e, servicer) => {
 
             {cardsCompanion.length > 0 ? (
                 <div className='table'>
-                    <TableDeckContents servicerChild={servicerChild} servicerX={servicerCompanion} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"} />
+                    <TableDeckContents servicerChild={servicerChild} servicerX={servicerCompanion} deleteCard={deleteCard}
+                    reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"} imgUris={imgUris} imageUri={imageUri} />
                 </div>
             ) : (
                 <span style={{ display: "flex" }}>
@@ -454,7 +459,8 @@ const handleAdd = (e, servicer) => {
 
             {cardsMainDeck.length > 0 ? (
                 <div className='table'>
-                    <TableDeckContents servicerChild={servicerChild} servicerX={servicerMainDeck} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"} />
+                    <TableDeckContents servicerChild={servicerChild} servicerX={servicerMainDeck} deleteCard={deleteCard}
+                    reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"} imgUris={imgUris} imageUri={imageUri} />
                 </div>
             ) : (
                 <span style={{ display: "flex" }}>
@@ -469,7 +475,8 @@ const handleAdd = (e, servicer) => {
 
             {cardsSideboard.length > 0 ? (
                 <div className='table'>
-                    <TableDeckContents servicerChild={servicerChild} servicerX={servicerSideboard} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"} />
+                    <TableDeckContents servicerChild={servicerChild} servicerX={servicerSideboard} deleteCard={deleteCard}
+                    reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"} imgUris={imgUris} imageUri={imageUri} />
                 </div>
             ) : (
                 <span style={{ display: "flex" }}>
@@ -484,7 +491,8 @@ const handleAdd = (e, servicer) => {
 
             {cardsMaybeboard.length > 0 ? (
                 <div className='table'>
-                    <TableDeckContents servicerChild={servicerChild} servicerX={servicerMaybeboard} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"} />
+                    <TableDeckContents servicerChild={servicerChild} servicerX={servicerMaybeboard} deleteCard={deleteCard}
+                    reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"} imgUris={imgUris} imageUri={imageUri} />
                 </div>
             ) : (
                 <span style={{ display: "flex" }}>
@@ -499,7 +507,8 @@ const handleAdd = (e, servicer) => {
 
             {cardsTokens.length > 0 ? (
                 <div className='table'>
-                    <TableDeckContents servicerChild={servicerChild} servicerX={servicerTokens} deleteCard={deleteCard} reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"} />
+                    <TableDeckContents servicerChild={servicerChild} servicerX={servicerTokens} deleteCard={deleteCard}
+                    reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"} imgUris={imgUris} imageUri={imageUri} />
                 </div>
             ) : (
                 <span style={{ display: "flex" }}>

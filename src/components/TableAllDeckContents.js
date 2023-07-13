@@ -19,11 +19,13 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllDeckContents = ({ deckPart, card, tbodyData }) => {
+export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, imageUri }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
+    const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.    
+
+    const [img, setImg] = useState() // kortista kuva
 
     const defaultColumn = useMemo(() => {
         return {
@@ -122,7 +124,10 @@ export const TableAllDeckContents = ({ deckPart, card, tbodyData }) => {
 
     function handleShowCard(row) {
         console.log(row)
-        // showCard(row)        
+        imgUris = JSON.parse(row.imageUris)
+        console.log("imgUris", imgUris.normal)
+        imageUri = imgUris.normal
+        fetchImage()
     }
 
     const {
@@ -192,6 +197,20 @@ export const TableAllDeckContents = ({ deckPart, card, tbodyData }) => {
     //         'loginId',
     //     ])
     //   }
+
+    // // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
+    const fetchImage = async () => {
+        // console.log("imageUrl", imageUrl)
+        console.log("imageUri", imageUri)
+        const res = await fetch(imageUri)
+        const imageBlob = await res.blob()
+        const imageObjectURL = URL.createObjectURL(imageBlob)
+        setImg(imageObjectURL)
+    }
+
+    // useEffect(() => {        
+    //     fetchImage()
+    // }, [])
 
     return (
         <>
@@ -271,6 +290,7 @@ export const TableAllDeckContents = ({ deckPart, card, tbodyData }) => {
                     ))}
                 </tfoot> */}
             </table>
+            <img style={{ height: '40%', width: '40%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
 
             {/* <div>
                 <span>

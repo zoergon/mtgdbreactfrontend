@@ -6,6 +6,8 @@ import OneCardContents from './OneCardContents'
 import { TableAllCards } from "./components/TableAllCards"
 import { TableAllCardData } from "./components/TableAllCardData"
 
+// 
+
 const AllCardsList = ({setIsPositive, setShowMessage, setMessage}) => {
 
 // Komponentin tilan määritys
@@ -99,7 +101,7 @@ const subTable = React.useCallback(
         // columns={details}
         // data={row.original.groupDetails}
         query={row.original.id}
-        imgUri={(JSON.parse(row.original.imageUris))}
+        imgUris={(JSON.parse(row.original.imageUris))}
         // setQuery={setQuery}
       />
       ),

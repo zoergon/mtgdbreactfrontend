@@ -20,20 +20,25 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
+// Taulu eckin osioiden sisällön näyttämiseen
+// Parent DeckContents.jsx
+
 export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, editCard, card, 
     // queryCompanion, setQueryCompanion,
     // newId, setNewId, newName, setNewName, selected, setSelected, optionListCompanion, setOptionListCompanion, options, handleAdd, 
-    servicerChild, servicerX, updateCard, deleteCard, tbodyData }) => {
+    servicerChild, servicerX, updateCard, deleteCard, deckPart, tbodyData, imgUris, imageUri }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
+    const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.    
 
     const defaultColumn = useMemo(() => {
         return {
             Filter: ColumnFilter
         }
-    })   
+    })
+
+    const [img, setImg] = useState() // kortista kuva
 
     // Tämä oli alunperin ColumnsDecks.js:ssä
     const columns = useMemo(
@@ -139,8 +144,11 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
     }
 
     function handleShowCard(row) {
-        // console.log(row)
-        // showCard(row)        
+        console.log(row)
+        imgUris = JSON.parse(row.imageUris)
+        console.log("imgUris", imgUris.normal)
+        imageUri = imgUris.normal
+        fetchImage()   
     }
 
     const {
@@ -196,26 +204,45 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
         }
       )
 
-      const { globalFilter } = state
+    const { globalFilter } = state
     //   const { pageIndex, pageSize } = state
 
-      // Jos haluaa muuttaa kolumnien järjestystä.
-      // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
-      const changeOrder = () => {
-        setColumnOrder([
-            'count',            
-            'id',
-            'deckId',
-            'indexId',
-            'loginId',
-        ])
-      }
+    // Jos haluaa muuttaa kolumnien järjestystä.
+    // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
+    const changeOrder = () => {
+    setColumnOrder([
+        'count',            
+        'id',
+        'deckId',
+        'indexId',
+        'loginId',
+    ])
+    }
+
+    
+
+    // // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
+    const fetchImage = async () => {
+        // console.log("imageUrl", imageUrl)
+        console.log("imageUri", imageUri)
+        const res = await fetch(imageUri)
+        const imageBlob = await res.blob()
+        const imageObjectURL = URL.createObjectURL(imageBlob)
+        setImg(imageObjectURL)
+    }
+
+    // useEffect(() => {        
+    //     fetchImage()
+    // }, [])
+
+
 
     return (
         <>
         <React.Fragment>
-            {/* <label className="deckHeadlineStyles">Deck:</label><label className="deckNameStyles">{deckName}</label>{' '} */}
-            {/* <br/> */}
+            <br/>
+            <label className="deckParts">{deckPart}</label>
+            {/* <label className="deckHeadlineStyles">Deck:</label><label className="deckNameStyles">{deckName}</label>{' '} */}            
             {/* <div> */}
                 {/* <button className='button' style={{ marginRight: "auto" }} onClick={(e) => {handleAddCard(e)}}>Add a card</button>{' '}
                 <input type='text' value={queryCompanion} onChange={(e) => {setQueryCompanion(e.target.value)}} style={{ marginLeft: "1rem" }}/>
@@ -351,6 +378,9 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
                 )}
                 </code>
             </pre> */}
+
+            
+            <img style={{ height: '40%', width: '40%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
         </React.Fragment>
         </>
     )

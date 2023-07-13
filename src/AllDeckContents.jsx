@@ -173,11 +173,14 @@ useEffect(() => {
 //   }
 // }
 
+const imgUris = ""
+var imageUri = ""
+
   return (
     <>
       {cardsCommander.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"} />
+            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"} imgUris={imgUris} imageUri={imageUri} />
         </div>
       ) : (
         <span>          
@@ -187,7 +190,7 @@ useEffect(() => {
 
       {cardsCompanion.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"} />
+            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"} imgUris={imgUris} imageUri={imageUri} />
         </div>
       ) : (
         <span>
@@ -197,7 +200,7 @@ useEffect(() => {
 
       {cardsMainDeck.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"} />            
+            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"} imgUris={imgUris} imageUri={imageUri} />            
         </div>
       ) : (
         <span>
@@ -207,7 +210,7 @@ useEffect(() => {
 
       {cardsSideboard.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"} />
+            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"} imgUris={imgUris} imageUri={imageUri} />
         </div>
       ) : (
         <span>
@@ -217,7 +220,7 @@ useEffect(() => {
 
       {cardsMaybeboard.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"} />
+            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"} imgUris={imgUris} imageUri={imageUri} />
         </div>
       ) : (
         <span>
@@ -227,7 +230,7 @@ useEffect(() => {
 
       {cardsTokens.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"} />
+            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"} imgUris={imgUris} imageUri={imageUri} />
         </div>
       ) : (
         <span>

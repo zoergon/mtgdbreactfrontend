@@ -17,7 +17,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCardDataHC = ({ tbodyData, imgId, imgUri }) => {
+export const TableAllCardDataHC = ({ tbodyData, imgId, imgUris }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     const columns = useMemo(() => COLUMNS, [])
@@ -194,8 +194,8 @@ export const TableAllCardDataHC = ({ tbodyData, imgId, imgUri }) => {
     //   }
 
     // const imageUrl = "https://cards.scryfall.io/normal/front/5/3/5355873e-39f6-4833-9c67-418f3a67895e.jpg?"
-    const imageUrl = `https://cards.scryfall.io/normal/front/5/3/${imgId}.jpg?`
-    const imageUri = imgUri.normal
+    // const imageUrl = `https://cards.scryfall.io/normal/front/5/3/${imgId}.jpg?`
+    const imageUri = imgUris.normal
 
     // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
     const fetchImage = async () => {
