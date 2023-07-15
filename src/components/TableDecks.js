@@ -129,12 +129,12 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
         editDeckContents(row)
     }
 
-    // rivin painalluksesta aukaisee deckin sisällön tablena alle
+    // rivin painalluksesta aukaisee deckin sisällön tablena alle <MainDecksListDeckId
     function handleShowDecks(row) {
         // console.log("row:", row)
-        setDeckName(row.name) // Deckin nimen näyttäminen tablessa
-        setQuery(row.deckId) // query backendille deckId:llä
-        setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
+        // setDeckName(row.name) // Deckin nimen näyttäminen tablessa
+        // setQuery(row.deckId) // query backendille deckId:llä
+        // setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
     }
 
     const {

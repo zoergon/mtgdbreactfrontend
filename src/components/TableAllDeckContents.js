@@ -19,13 +19,11 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, imageUri }) => {
+export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, imageUri, setImg }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.    
-
-    const [img, setImg] = useState() // kortista kuva
+    const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.        
 
     const defaultColumn = useMemo(() => {
         return {
@@ -123,9 +121,9 @@ export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, image
     // }
 
     function handleShowCard(row) {
-        console.log(row)
+        // console.log(row)
         imgUris = JSON.parse(row.imageUris)
-        console.log("imgUris", imgUris.normal)
+        // console.log("imgUris", imgUris.normal)
         imageUri = imgUris.normal
         fetchImage()
     }
@@ -233,9 +231,8 @@ export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, image
                     </div>
                 ))}
                 <br />
-            </div> */}
-
-            <table className="subTable" {...getTableProps()}>
+            </div> */}            
+            <table className="subTableDeck" {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup, i) => (
                         <React.Fragment key={headerGroup.headers.length + "_hfrag"}>
@@ -290,7 +287,6 @@ export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, image
                     ))}
                 </tfoot> */}
             </table>
-            <img style={{ height: '40%', width: '40%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
 
             {/* <div>
                 <span>

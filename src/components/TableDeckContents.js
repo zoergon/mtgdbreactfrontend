@@ -26,7 +26,7 @@ import {
 export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, editCard, card, 
     // queryCompanion, setQueryCompanion,
     // newId, setNewId, newName, setNewName, selected, setSelected, optionListCompanion, setOptionListCompanion, options, handleAdd, 
-    servicerChild, servicerX, updateCard, deleteCard, deckPart, tbodyData, imgUris, imageUri }) => {
+    servicerChild, servicerX, updateCard, deleteCard, deckPart, tbodyData, imgUris, imageUri, setImg }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -38,30 +38,28 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
         }
     })
 
-    const [img, setImg] = useState() // kortista kuva
-
     // Tämä oli alunperin ColumnsDecks.js:ssä
     const columns = useMemo(
         () => [
-        {
-            id: 'indexId', // luultavimmin voi poistaa
-            Header: 'indexId',
-            Footer: 'indexId',
-            accessor: 'indexId',
-            // Filter: ColumnFilter,
-            // disableFilters: true
-            maxWidth: 120,
-            minWidth: 40,
-            width: 70,
-        },
-        {
-            Header: 'deckId',
-            Footer: 'deckId',
-            accessor: 'deckId',
-            maxWidth: 120,
-            minWidth: 40,
-            width: 70,      
-        },
+        // {
+        //     id: 'indexId', // luultavimmin voi poistaa
+        //     Header: 'indexId',
+        //     Footer: 'indexId',
+        //     accessor: 'indexId',
+        //     // Filter: ColumnFilter,
+        //     // disableFilters: true
+        //     maxWidth: 120,
+        //     minWidth: 40,
+        //     width: 70,
+        // },
+        // {
+        //     Header: 'deckId',
+        //     Footer: 'deckId',
+        //     accessor: 'deckId',
+        //     maxWidth: 120,
+        //     minWidth: 40,
+        //     width: 70,      
+        // },
         {
             Header: 'count',
             Footer: 'count',
@@ -86,19 +84,19 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
             minWidth: 40,
             width: 250,
         },
-        {
-            Header: 'id',
-            Footer: 'id',
-            accessor: 'id',
-        },
-        {
-            Header: 'loginId',
-            Footer: 'loginId',
-            accessor: 'loginId',
-            maxWidth: 120,
-            minWidth: 40,
-            width: 60,
-        },
+        // {
+        //     Header: 'id',
+        //     Footer: 'id',
+        //     accessor: 'id',
+        // },
+        // {
+        //     Header: 'loginId',
+        //     Footer: 'loginId',
+        //     accessor: 'loginId',
+        //     maxWidth: 120,
+        //     minWidth: 40,
+        //     width: 60,
+        // },
         {            
             maxWidth: 300,
             minWidth: 60,
@@ -133,6 +131,7 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
 
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
     function handleEdit(row) {
+        // console.log("updateCard", row)
         updateCard(row)        
     }
 
@@ -143,12 +142,13 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
         deleteCard(row, servicerChild) // Palautetaan oieka XService servicerChildina varsinaisen datan kera
     }
 
-    function handleShowCard(row) {
-        console.log(row)
-        imgUris = JSON.parse(row.imageUris)
-        console.log("imgUris", imgUris.normal)
-        imageUri = imgUris.normal
-        fetchImage()   
+    // Kortin kuvan näyttämiseen funktio
+    function handleShowCard(row) { 
+        // console.log(row)
+        imgUris = JSON.parse(row.imageUris) // Parseroidaan row.original.imageUris
+        // console.log("imgUris", imgUris.normal)
+        imageUri = imgUris.normal // Parseroidusta imageUrista valitaan normal-kuvalinkki
+        fetchImage()
     }
 
     const {
@@ -378,9 +378,6 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
                 )}
                 </code>
             </pre> */}
-
-            
-            <img style={{ height: '40%', width: '40%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
         </React.Fragment>
         </>
     )

@@ -262,9 +262,9 @@ const expandedRows = React.useMemo(() => {
         {edit && <DeckEdit isShowDeckSettings={isShowDeckSettings} invokeModalDeckSettings={invokeModalDeckSettings} setEdit={setEdit}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
         editDeck={editDeck}
-        />}        
+        />}
 
-        {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
+        {/* {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />} */}
 
         {showDeck && <DeckContents isShowEditDeck={isShowEditDeck} invokeModalEditDeck={invokeModalEditDeck} query={query} setQuery={setQuery} editDeck={editDeck} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
 

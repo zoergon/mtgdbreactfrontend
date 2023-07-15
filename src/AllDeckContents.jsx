@@ -25,6 +25,9 @@ const [cardsSideboard, setCardsSideboard] = useState([]) // deckId:llä haettu d
 const [cardsTokens, setCardsTokens] = useState([]) // deckId:llä haettu data backendistä - Tokens
 // const [showCards, setShowCards] = useState(false)
 const [reload, reloadNow] = useState(false) // Komponentin uudelleen päivitystä varten oleva state
+
+const [img, setImg] = useState() // Kortin kuvalinkki
+
 // const [searchName, setSearchName] = useState("")
 // const [searchFormat, setSearchFormat] = useState("")
 // const [create, setCreate] = useState(false)
@@ -178,68 +181,78 @@ var imageUri = ""
 
   return (
     <>
-      {cardsCommander.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"} imgUris={imgUris} imageUri={imageUri} />
+      <div className='float-container'>        
+        <div className="float-child">
+          {cardsCommander.length > 0 ? (
+            <div className='table'><br/>              
+                <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"}
+                  imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+            </div>
+          ) : (
+            <span>          
+              <em className='subRowDataInfo'>There is no commander for the deck.</em><br/>
+            </span>
+          )}
+
+          {cardsCompanion.length > 0 ? (
+            <div className='table'><br/>              
+                <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"}
+                  imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+            </div>
+          ) : (
+            <span>
+              <em className='subRowDataInfo'>There is no companion for the deck.</em><br/>
+            </span>
+          )}
+
+          {cardsMainDeck.length > 0 ? (
+            <div className='table'><br/>              
+                <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"}
+                imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+            </div>
+          ) : (
+            <span>
+              <em className='subRowDataInfo'>Main deck is empty.</em><br/>
+            </span>
+          )}
+
+          {cardsSideboard.length > 0 ? (
+            <div className='table'><br/>              
+                <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"}
+                  imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+            </div>
+          ) : (
+            <span>
+              <em className='subRowDataInfo'>Sideboard is empty.</em><br/>
+            </span>
+          )}
+
+          {cardsMaybeboard.length > 0 ? (
+            <div className='table'><br/>              
+                <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"}
+                  imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+            </div>
+          ) : (
+            <span>
+              <em className='subRowDataInfo'>Maybeboard is empty.</em><br/>
+            </span>
+          )}
+
+          {cardsTokens.length > 0 ? (
+            <div className='table'><br/>              
+                <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"}
+                  imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+            </div>
+          ) : (
+            <span>
+              <em className='subRowDataInfo'>There are no tokens for the deck.</em>
+            </span>
+          )}
         </div>
-      ) : (
-        <span>          
-          <em className='subRowDataInfo'>There is no commander for the deck.</em><br/>
-        </span>
-      )}
-
-      {cardsCompanion.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"} imgUris={imgUris} imageUri={imageUri} />
+        <div className="float-child">
+          <img style={{ height: '60%', width: '60%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
         </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>There is no companion for the deck.</em><br/>
-        </span>
-      )}
-
-      {cardsMainDeck.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"} imgUris={imgUris} imageUri={imageUri} />            
-        </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>Main deck is empty.</em><br/>
-        </span>
-      )}
-
-      {cardsSideboard.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"} imgUris={imgUris} imageUri={imageUri} />
-        </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>Sideboard is empty.</em><br/>
-        </span>
-      )}
-
-      {cardsMaybeboard.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"} imgUris={imgUris} imageUri={imageUri} />
-        </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>Maybeboard is empty.</em><br/>
-        </span>
-      )}
-
-      {cardsTokens.length > 0 ? (
-        <div className='table'><br/>              
-            <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"} imgUris={imgUris} imageUri={imageUri} />
-        </div>
-      ) : (
-        <span>
-          <em className='subRowDataInfo'>There are no tokens for the deck.</em>
-        </span>
-      )}
-
-        
-
+      </div>
     </>
   )
 }

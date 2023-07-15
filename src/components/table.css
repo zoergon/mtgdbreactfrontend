@@ -121,6 +121,18 @@ table {
     flex-direction: column;
   } */
 
+  .subTable {
+    font-size: 12px;
+    width: 100%;
+    /* display: inline-block; */
+    float: left;
+    margin-left: 3rem;
+    margin-right: 1rem;
+    padding: 0rem;
+    background-color: black;
+    margin-bottom: 0rem;
+  }
+
   .subTableDecks {
     font-size: 12px;
     width: 100%;
@@ -149,4 +161,4 @@ table {
     /* flex-wrap: wrap; */
     /* flex-basis: 50%; */
     /* flex-grow: 1; */
-  }
+  }  
