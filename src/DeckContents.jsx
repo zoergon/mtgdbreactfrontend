@@ -28,7 +28,7 @@ import { Modal, Button } from 'react-bootstrap'
 // delete jokaisen kortin kohdalla
 // kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> edit-button rivillä
 
-const DeckContents = ({ isShowEditDeck, invokeModalEditDeck, query, editDeck, setEditDeck, setIsPositive, setShowMessage, setMessage }) => {
+const ModalDeckContents = ({ isShowEditDeck, invokeModalEditDeck, query, editDeck, setEditDeck, setIsPositive, setShowMessage, setMessage }) => {
 
 const [cardsCommander, setCardsCommander] = useState([]) // deckId:llä haettu data backendistä - Commander
 const [cardsCompanion, setCardsCompanion] = useState([]) // deckId:llä haettu data backendistä - Company
@@ -436,14 +436,14 @@ const refreshAndClose = () => {
         </Modal.Header >
         <Modal.Body className='modalContent'>
             <div style={{ display: "flex" }}>            
-            <input placeholder='Search for cards...' type='text' value={queryCards} onChange={(e) => {setQueryCards(e.target.value)}} style={{ marginLeft: "0rem" }}/>
-            <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected}
-            isSearchable isMulti placeHolder={queryCards} options={optionListCards} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
-            <DropdownDeckParts newId={newDeckPartId} setNewId={setNewDeckPartId} newDeckPartName={newDeckPartName} setNewDeckPartName={setNewDeckPartName} 
-            selected={selectedDeckPart} setSelected={setSelectedDeckPart} isSearchable isMulti placeHolder={queryDeckParts}
-            options={optionListDeckParts} onChange={(value) => value.map((option) => (setNewDeckPartId(option.partId)))} />
-            <button className='button' onClick={(e) => {handleAdd(e)}} >Add a card</button>
-            <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>
+              <input placeholder='Search for cards...' type='text' value={queryCards} onChange={(e) => {setQueryCards(e.target.value)}} style={{ marginLeft: "0rem" }}/>
+              <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected}
+              isSearchable isMulti placeHolder={queryCards} options={optionListCards} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
+              <DropdownDeckParts newId={newDeckPartId} setNewId={setNewDeckPartId} newDeckPartName={newDeckPartName} setNewDeckPartName={setNewDeckPartName} 
+              selected={selectedDeckPart} setSelected={setSelectedDeckPart} isSearchable isMulti placeHolder={queryDeckParts}
+              options={optionListDeckParts} onChange={(value) => value.map((option) => (setNewDeckPartId(option.partId)))} />
+              <button className='button' onClick={(e) => {handleAdd(e)}} >Add a card</button>
+              <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>
             </div>
 
             <div className='floatContainer'>        
@@ -575,4 +575,4 @@ const refreshAndClose = () => {
   )
 }
 
-export default DeckContents
+export default ModalDeckContents

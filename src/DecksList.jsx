@@ -2,15 +2,15 @@ import './App.css'
 import React, { useState, useEffect, useMemo } from 'react'
 import DecksService from './services/Decks'
 import Deck from './Deck'
-import DeckAdd from './DeckAdd'
-import DeckEdit from './DeckEdit'
+import ModalDeckAdd from './DeckAdd'
+import ModalDeckEdit from './DeckEdit'
+import ModalDeckContents from './DeckContents.jsx'
 import MainDecksList from './MainDecksList'
 import MainDecksListDeckId from './MainDecksListDeckId'
 import Table from "./Table"
 import { TableDecks } from "./components/TableDecks"
 import { TableAllDeckContents } from "./components/TableAllDeckContents"
 import AllDeckContents from './AllDeckContents'
-import DeckContents from './DeckContents.jsx'
 
 // import styles from "./components/modal.css"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
@@ -18,6 +18,10 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 // Parent kaikkeen deckeihin liittyvään
 // DecksList.jsx -> TableDecks.js | deckien listaus taulukkona
 // subRow -> AllDeckContents.jsx -> TableAllDeckContents.js | deckin koko sisältö subRow:na taulukossa
+
+// DeckAdd.jsx -> deckin lisääminen ModalDeckAdd
+// DeckEdit.jsx -> deckin settings-buttonin ModalDeckEdit
+// DeckContents.jsx -> deckin koko sisällön hallinta ModalDeckContents
 
 const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
 
@@ -36,9 +40,9 @@ const [editDeck, setEditDeck] = useState("")
 const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId) MainDecksien hakuun
 const [deckName, setDeckName] = useState("") // Deckin nimi child-taulukoille näytettäväksi
 
-
-const [isShowDeckSettings, invokeModalDeckSettings] = useState(false) // DeckEdit-modalin (deck's settings) aukaiseminen ja sulkeminen
-const [isShowEditDeck, invokeModalEditDeck] = useState(false) // DeckContents-modalin (edit deck) aukaiseminen ja sulkeminen
+const [isShowAddDeck, invokeModalAddDeck] = useState(false) // ModalDeckAdd aukaiseminen ja sulkeminen
+const [isShowDeckSettings, invokeModalDeckSettings] = useState(false) // ModalDeckEdit (deck's settings) aukaiseminen ja sulkeminen
+const [isShowEditDeck, invokeModalEditDeck] = useState(false) // ModalDeckContents-modalin (edit deck) aukaiseminen ja sulkeminen
 // const initModal = () => {
 //   // return invokeModal(!false)
 //   return invokeModalDeckSettings(!isShowDeckSettings)
@@ -68,6 +72,11 @@ useEffect(() => {
 //   setShowDecks(true)
 //   setSearchFormat(event.target.value.toLowerCase())
 // }
+
+const addDeck = () => {
+  setCreate(true)
+  invokeModalAddDeck(!isShowAddDeck) // avaa/sulkee ko. modal-ikkunan
+}
 
 // TableDecks.js (child) Edit-buttonin kautta tuleva käskytys
 // Muokattavan deckinId tulee queryna, jota käytetään kaikkien korttien hakemiseenkin
@@ -221,13 +230,14 @@ const expandedRows = React.useMemo(() => {
     <>
         {decks.length > 0 ? (
           <div className='table'>            
-              {!create && <button className="button" onClick={() => setCreate(true)}>Create a new deck</button>}{' '}
+              {!create && <button className="button" onClick={addDeck}>Create a new deck</button>}{' '}
+              <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>
               {/* {!edit && <button className="button" onClick={() => setEdit(true)}>Edit the selected deck</button>}{' '} */}
               <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} setEditDeck={setEditDeck} deck={aDeck} reloadNow={reloadNow} reload={reload}
                       setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
                       updateDeck={updateDeck} deleteDeck={deleteDeck} tbodyData={decks} showDeck={showDeck} setShowDeck={setShowDeck} editDeckContents={editDeckContents}
                       showDecks={showDecks} setShowDecks={setShowDecks} setQuery={setQuery} setDeckName={setDeckName}
-                      renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />
+                      renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />              
               {/* {!create && !edit && showDecks && decks &&
               <TableDecks deck={deck} reloadNow={reloadNow} reload={reload}
                         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
@@ -257,18 +267,18 @@ const expandedRows = React.useMemo(() => {
           <input placeholder="Search decks by format" value={searchFormat} onChange={handleSearchFormatInputChange} />
         } */}
 
-        {create && <DeckAdd setCreate={setCreate}
-        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
+        {create && <ModalDeckAdd isShowAddDeck={isShowAddDeck} invokeModalAddDeck={invokeModalAddDeck} setCreate={setCreate}
+        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} reload={reload} reloadNow={reloadNow}
         />}
 
-        {edit && <DeckEdit isShowDeckSettings={isShowDeckSettings} invokeModalDeckSettings={invokeModalDeckSettings} setEdit={setEdit}
+        {edit && <ModalDeckEdit isShowDeckSettings={isShowDeckSettings} invokeModalDeckSettings={invokeModalDeckSettings} setEdit={setEdit}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
         editDeck={editDeck}
         />}
 
         {/* {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />} */}
 
-        {showDeck && <DeckContents isShowEditDeck={isShowEditDeck} invokeModalEditDeck={invokeModalEditDeck}
+        {showDeck && <ModalDeckContents isShowEditDeck={isShowEditDeck} invokeModalEditDeck={invokeModalEditDeck}
         query={query} setQuery={setQuery} editDeck={editDeck} setEditDeck={setEditDeck}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
 

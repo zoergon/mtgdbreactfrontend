@@ -54,9 +54,9 @@ const Dropdown = ({ newId, setNewId, newName, setNewName, selected, setSelected,
           return options
       }
       // Hakee mistä tahansa kohtaa haettavista hakukriteerit täyttäviä optioita
-      return options.filter((option) => option.setName.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0)
+      // return options.filter((option) => option.setName.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0)
       // Hakee hakukohteiden alusta hakusanat täyttäviä kohteita
-      // return options.filter((option) => option.label.toLowerCase().indexOf(searchValue.toLowerCase()) === 0
+      return options.filter((option) => option.label.toLowerCase().indexOf(searchValue.toLowerCase()) === 0)
     }
 
     // Tämä oli multiselectin tilalla aiemmin:

@@ -9,18 +9,18 @@ import { Modal, Button, Form } from 'react-bootstrap'
 // parent: DecksList.jsx
 // TableDecks.js Settings-buttonin aukaisema deckin tietojen editointiin modal-ikkuna
 
-const DeckEdit = ({ isShowDeckSettings, invokeModalDeckSettings, setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
+const ModalDeckEdit = ({ isShowDeckSettings, invokeModalDeckSettings, setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
 
 const [newDeckId, setNewDeckId] = useState(editDeck.deckId)
 const [newName, setNewName] = useState(editDeck.name)
 const [newFormatId, setNewFormatId] = useState(editDeck.formatId)
 const [newLoginId, setNewLoginId] = useState(editDeck.loginId)
 
-const [optionList, setOptionList] = useState([]) // Backendiltä saadut kategoriat
+const [optionList, setOptionList] = useState([]) // Backendiltä saadut formaatit
 const [selected, setSelected] = useState([])
 const [query, setQuery] = useState(editDeck.formatId) // query useEffectille = olemassa oleva formatId
 const [newFormatName, setNewFormatName] = useState(editDeck.format.formatName)
-const [newId, setNewId] = useState("") // tarvitseeko tätä? voiko käyttää olemassa olevaa editDeck.formatId:tä alunperin -> vaihdot?
+const [newId, setNewId] = useState("") // dropdown käyttää tätä
 const [reload, reloadNow] = useState(false)
 
 // DeckEdit.jsx modalin (deck's settings) aukaiseminen ja sulkeminen
@@ -139,4 +139,4 @@ useEffect(() => {
   )
 }
 
-export default DeckEdit
+export default ModalDeckEdit
