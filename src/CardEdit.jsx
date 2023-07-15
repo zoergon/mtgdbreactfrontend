@@ -15,7 +15,7 @@ import DropdownCardEdit from "./components/DropdownCardEdit.js"
 // Yhden kortin muokkaaminen, eli version vaihtaminen editCard-statessa tulleen row-datan perusteella
 // Dropdown, josta voidaan valita ja asettaa uusi versio kortille
 
-const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, editCard, img, setImg,
+const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, editCard, img, setImg, servicer,
     reload, reloadNow, setIsPositive, setShowMessage, setMessage }) => {
 
     const [optionList, setOptionList] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
@@ -32,11 +32,12 @@ const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, edit
 
     var imageUri = ""
     var query = editCard.name
+    // var servicerChild = servicer
 
     // Modal-ikkunan aukaiseminen ja sulkeminen
     const initModal = () => {
         return invokeModalCardEdit(!isShowModalCardEdit)
-    }
+    }   
 
     // Hakee editoitavan kortin nimellä kaikki vastaavuudet
     // ja sijoitetaan optionList-stateen hakutulokset näytettäväksi Dropdownissa
@@ -72,6 +73,15 @@ const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, edit
 
     // onSubmit tapahtumankäsittelijä-funktio
     const handleSubmit = (event) => {
+        if (newId !== "")        
+        if (servicer !== "") {
+            if (servicer === "Commander") {servicer = CommandersService}
+            if (servicer === "Companion") {servicer = CompanionsService}
+            if (servicer === "Main deck") {servicer = MainDecksService}
+            if (servicer === "Sideboard") {servicer = SideboardsService}
+            if (servicer === "Maybeboard") {servicer = MaybeboardsService}
+            if (servicer === "Tokens") {servicer = TokensService}
+        }
         // estää oletusarvoisen käyttäytymisen
         event.preventDefault()
         // luodaan newCard-olio, joka poimii stateistä datan
@@ -81,13 +91,13 @@ const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, edit
             id: newId,
             count: parseInt(newCount),
             loginId: parseInt(newLoginId)
-        }
+        }        
     
-        // Deckin update
-        MainDecksService.update(newCard)
+        // Kortin update
+        servicer.update(newCard)
         .then(response => {
         if (response.status === 200) {
-            setMessage("Updated the card: " + newName)
+            setMessage("Updated the card: " + editCard.name)
             reloadNow(!reload)
             setIsPositive(true)
             setShowMessage(true)
@@ -114,16 +124,16 @@ const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, edit
     return (
     <div id="edit" className='container'>
         <Modal
-        size='xl'
+        size='xl'        
         show={isShowModalCardEdit}>
             <Modal.Header className='modalHeader' closeButton onClick={initModal}>
                 <Modal.Title>Change the version of a card</Modal.Title>
             </Modal.Header>
             <Modal.Body className='modalContent'>
-                <Form onSubmit={handleSubmit}>
+                <Form id="cardEdit" onSubmit={handleSubmit}>
                     <Form.Group>
-                        <div className='float-container'>        
-                            <div className="float-child-modalCardEdit">
+                        <div className='floatContainer'>        
+                            <div className="floatChildModalCardEdit">
                                 <h1 style={{ color: "whitesmoke" }}>{editCard.name}</h1><br/>
                                 <h2 style={{ color: "whitesmoke" }}>{editCard.setName}</h2><br/>
                                 <DropdownCardEdit setNewId={setNewId} setNewName={setNewName}
@@ -131,8 +141,8 @@ const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, edit
                                 placeHolder={editCard.setName} options={optionList} onChange={(value) => newDropdownId(value)} />
                             </div>
 
-                            <div className="float-child-modalCardEditImage">
-                                <img style={{ height: '100%', width: '100%', paddingLeft: '0rem', paddingTop: '0rem' }} src={img}></img>
+                            <div className="floatChildModalCardEditImage">
+                                <img style={{ height: '100%', width: '100%', paddingLeft: '0rem', paddingTop: '0rem', paddingRight: '0rem' }} src={img}></img>
                             </div>
                         </div>
                     </Form.Group>

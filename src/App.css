@@ -109,44 +109,45 @@ a:active {
 }
 
 /* tablen ja kuvan rinnakkain sijoittamiseen float-containerit */
-.float-container {  
+.floatContainer {  
   /* justify-content: center; */
   /* display: relative;
   flex-direction: column; */
+  /* margin-right: 2rem; */
   margin-top: 2px;
   /* border: 3px solid #fff; */
   padding: 0px;
 }
 
-.float-child {
+.floatChild {
   width: 50%;
   float: left;
   padding: 0px;
   /* border: 2px solid red; */
 }
 
-.float-child-editDeckTable {
+.floatChildEditDeckTable {
   width: 70%;
   float: left;
   padding: 0px;
   /* border: 2px solid red; */
 }
 
-.float-child-editDeckImage {
+.floatChildEditDeckImage {
   width: 30%;
   float: left;
   padding: 0px;
   /* border: 2px solid red; */
 }
 
-.float-child-modalCardEdit {
+.floatChildModalCardEdit {
   width: 80%;
   float: left;
   padding: 0px;
   /* border: 2px solid red; */
 }
 
-.float-child-modalCardEditImage {
+.floatChildModalCardEditImage {
   width: 20%;
   float: left;
   padding: 0px;

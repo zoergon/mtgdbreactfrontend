@@ -181,8 +181,8 @@ var imageUri = ""
 
   return (
     <>
-      <div className='float-container'>        
-        <div className="float-child">
+      <div className='floatContainer'>        
+        <div className="floatChild">
           {cardsCommander.length > 0 ? (
             <div className='table'><br/>              
                 <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"}
@@ -249,7 +249,7 @@ var imageUri = ""
             </span>
           )}
         </div>
-        <div className="float-child">
+        <div className="floatChild">
           <img style={{ height: '60%', width: '60%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
         </div>
       </div>

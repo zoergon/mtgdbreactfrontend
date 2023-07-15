@@ -6,6 +6,9 @@ import DropdownFormats from './components/DropdownFormats.js'
 
 import { Modal, Button, Form } from 'react-bootstrap'
 
+// parent: DecksList.jsx
+// TableDecks.js Settings-buttonin aukaisema deckin tietojen editointiin modal-ikkuna
+
 const DeckEdit = ({ isShowDeckSettings, invokeModalDeckSettings, setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
 
 const [newDeckId, setNewDeckId] = useState(editDeck.deckId)
@@ -73,8 +76,7 @@ useEffect(() => {
   // if (query !== "") // Ei hae tyhjällä stringillä
     // FormatsService.getFormat(query)
     FormatsService.getAll()
-  .then(data => {
-    console.log("getFormat", data)
+  .then(data => {    
     setOptionList(data) // saatu data sijoitetaan optionListiin
 })
   .catch(error => console.log(error))
@@ -89,7 +91,7 @@ useEffect(() => {
           <Modal.Title>Deck's settings</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit}>
+          <Form id="settings" onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>deck_id: </Form.Label>
                 <Form.Control type='number' value={newDeckId} disabled />
@@ -129,10 +131,7 @@ useEffect(() => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={initModal => setEdit(false)}>
-            Close
-          </Button>
-          <Button variant="dark" onClick={initModal}>
-            Store
+            Cancel
           </Button>
         </Modal.Footer>
       </Modal>

@@ -199,7 +199,7 @@ export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, image
     // // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
     const fetchImage = async () => {
         // console.log("imageUrl", imageUrl)
-        console.log("imageUri", imageUri)
+        // console.log("imageUri", imageUri)
         const res = await fetch(imageUri)
         const imageBlob = await res.blob()
         const imageObjectURL = URL.createObjectURL(imageBlob)

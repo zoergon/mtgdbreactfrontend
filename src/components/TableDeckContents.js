@@ -26,7 +26,7 @@ import {
 export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, editCard, card, 
     // queryCompanion, setQueryCompanion,
     // newId, setNewId, newName, setNewName, selected, setSelected, optionListCompanion, setOptionListCompanion, options, handleAdd, 
-    servicerChild, servicerX, updateCard, deleteCard, deckPart, tbodyData, imgUris, imageUri, setImg }) => {
+    servicerChild, servicerX, updateCard, deleteCard, deckPart, tbodyData, imgUris, imageUri, setImg, setEditableDeckPart }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -130,8 +130,8 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
     }
 
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
-    function handleEdit(row) {
-        // console.log("updateCard", row)
+    function handleEdit(row) {        
+        setEditableDeckPart(deckPart) // Asetetaan mistä deckin osiosta on kyse, niin saadaan asetettua oikea service CardEdit.jsx:ssä
         updateCard(row)        
     }
 
@@ -221,10 +221,10 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
 
     
 
-    // // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
+    // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
     const fetchImage = async () => {
         // console.log("imageUrl", imageUrl)
-        console.log("imageUri", imageUri)
+        // console.log("imageUri", imageUri)
         const res = await fetch(imageUri)
         const imageBlob = await res.blob()
         const imageObjectURL = URL.createObjectURL(imageBlob)

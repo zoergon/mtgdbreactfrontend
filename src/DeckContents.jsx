@@ -18,7 +18,7 @@ import ModalCardEdit from './CardEdit.jsx'
 import { TableDeckContents } from "./components/TableDeckContents"
 import './components/modal.css'
 
-import { Modal, Button, Form } from 'react-bootstrap'
+import { Modal, Button } from 'react-bootstrap'
 
 // modal-ikkunana näytettävä yhden deckin koko sisältö
 // deckin kaikkien osioiden muokkaus: add, edit, delete cards
@@ -28,7 +28,7 @@ import { Modal, Button, Form } from 'react-bootstrap'
 // delete jokaisen kortin kohdalla
 // kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> edit-button rivillä
 
-const DeckContents = ({ isShowEditDeck, invokeModalEditDeck, query, editDeck, setIsPositive, setShowMessage, setMessage }) => {
+const DeckContents = ({ isShowEditDeck, invokeModalEditDeck, query, editDeck, setEditDeck, setIsPositive, setShowMessage, setMessage }) => {
 
 const [cardsCommander, setCardsCommander] = useState([]) // deckId:llä haettu data backendistä - Commander
 const [cardsCompanion, setCardsCompanion] = useState([]) // deckId:llä haettu data backendistä - Company
@@ -48,7 +48,7 @@ const [reload, reloadNow] = useState(false) // Komponentin uudelleen päivityst�
 
 const [img, setImg] = useState() // Kortin kuvalinkki
 
-const [newDeckId, setNewDeckId] = useState(editDeck.deckId) // haetun deckin id
+// const [newDeckId, setNewDeckId] = useState(query) // haetun deckin id
 const [newId, setNewId] = useState("") // haetun kortin id
 const [newName, setNewName] = useState("") // haetun kortin nimi
 const [newCount, setNewCount] = useState(1) // vaihdettava lukumäärä
@@ -60,25 +60,26 @@ const [newDeckPartName, setNewDeckPartName] = useState("") // haetun kortin nimi
 const [optionListCards, setOptionListCards] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
 const [optionListDeckParts, setOptionListDeckParts] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
 
-const [optionListCommander, setOptionListCommander] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-const [optionListCompanion, setOptionListCompanion] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-const [optionListMainDeck, setOptionListMainDeck] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-const [optionListSideboard, setOptionListSideboard] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-const [optionListMaybeboard, setOptionListMaybeboard] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-const [optionListTokens, setOptionListTokens] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+// const [optionListCommander, setOptionListCommander] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+// const [optionListCompanion, setOptionListCompanion] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+// const [optionListMainDeck, setOptionListMainDeck] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+// const [optionListSideboard, setOptionListSideboard] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+// const [optionListMaybeboard, setOptionListMaybeboard] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
+// const [optionListTokens, setOptionListTokens] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
 
 const [selected, setSelected] = useState([]) //
 const [selectedDeckPart, setSelectedDeckPart] = useState([]) //
+const [editableDeckPart, setEditableDeckPart] = useState([]) // Editoitavan kortin deckPart oikean servicen valintaan
 
 const [queryCards, setQueryCards] = useState("") // Backendille lähtevä hakusana - dropdowniin
 const [queryDeckParts, setQueryDeckParts] = useState("") // Backendille lähtevä hakusana - dropdowniin
 
-const [queryCommander, setQueryCommander] = useState("") // Backendille lähtevä hakusana - commander
-const [queryCompanion, setQueryCompanion] = useState("") // Backendille lähtevä hakusana - companion
-const [queryMainDeck, setQueryMainDeck] = useState("") // Backendille lähtevä hakusana - main deck
-const [queryMaybeboard, setQueryMaybeboard] = useState("") // Backendille lähtevä hakusana - maybeboard
-const [querySideboard, setQuerySideboard] = useState("") // Backendille lähtevä hakusana - sideboard
-const [queryTokens, setQueryTokens] = useState("") // Backendille lähtevä hakusana - tokens
+// const [queryCommander, setQueryCommander] = useState("") // Backendille lähtevä hakusana - commander
+// const [queryCompanion, setQueryCompanion] = useState("") // Backendille lähtevä hakusana - companion
+// const [queryMainDeck, setQueryMainDeck] = useState("") // Backendille lähtevä hakusana - main deck
+// const [queryMaybeboard, setQueryMaybeboard] = useState("") // Backendille lähtevä hakusana - maybeboard
+// const [querySideboard, setQuerySideboard] = useState("") // Backendille lähtevä hakusana - sideboard
+// const [queryTokens, setQueryTokens] = useState("") // Backendille lähtevä hakusana - tokens
 
 const [service, setService] = useState("") // Oikean servicen valintaan - add-buttonin kautta sijoitus
 
@@ -91,10 +92,22 @@ var servicerSideboard = SideboardsService
 var servicerMaybeboard = MaybeboardsService
 var servicerTokens = TokensService
 
+const imgUris = ""
+var imageUri = ""
+
 // Modal-ikkunan aukaiseminen ja sulkeminen
 const initModal = () => {
     return invokeModalEditDeck(!isShowEditDeck)
   }
+
+// Tällä ja alemmalla useEffectillä voidaan asettaa autofocus haluttuun kohtaan viittauksella:
+// ref={inputReference}
+// const inputReference = useRef(null)
+
+// useEffect(() => {
+//     inputReference.current.focus()
+// }, [])
+
 
 // Hakee kaikki commanderit deckId:n mukaisesti
 useEffect(() => {
@@ -166,7 +179,7 @@ useEffect(() => {
 const handleSubmit = (event, servicer) => {
   event.preventDefault()
     var newCard = {
-    deckId: parseInt(newDeckId),
+    deckId: parseInt(query),
     id: newId,
     count: parseInt(newCount),
     loginId: parseInt(newLoginId)
@@ -205,7 +218,7 @@ const handleSubmit = (event, servicer) => {
 }
 
 // Edit-funktio
-const updateCard = (card) =>  {
+const updateCard = (card) =>  {  
   setEditCard(card) // Editoitava kortti (row)
   setEdit(true) // Editointitila päälle
   invokeModalCardEdit(!isShowModalCardEdit) // Avaa/sulkee ko. modal-ikkunan
@@ -285,8 +298,7 @@ useEffect(() => {
 useEffect(() => {
   // if (queryCommander !== "" && queryCommander.length >= 3) // Ei hae tyhjällä stringillä
   DeckPartsService.getAll()
-  .then(data => {
-    // console.log("DeckParts", data)
+  .then(data => {    
     setOptionListDeckParts(data)
   },)
   .catch(error => console.log(error))
@@ -407,8 +419,12 @@ const handleAdd = (e, servicer) => {
 //   handleSubmit(e, servicer)
 // }
 
-const imgUris = ""
-var imageUri = ""
+// Modalin sulkeminen ja mahdollinen pakotettu refresh stateihin
+const refreshAndClose = () => {
+  // setEditDeck("")
+  // console.log("editDeck", editDeck)
+  initModal()
+}
 
   return (
     <div id="edit" className='container'>
@@ -420,7 +436,7 @@ var imageUri = ""
         </Modal.Header >
         <Modal.Body className='modalContent'>
             <div style={{ display: "flex" }}>            
-            <input type='text' value={queryCards} onChange={(e) => {setQueryCards(e.target.value)}} style={{ marginLeft: "0rem" }}/>
+            <input placeholder='Search for cards...' type='text' value={queryCards} onChange={(e) => {setQueryCards(e.target.value)}} style={{ marginLeft: "0rem" }}/>
             <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected}
             isSearchable isMulti placeHolder={queryCards} options={optionListCards} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
             <DropdownDeckParts newId={newDeckPartId} setNewId={setNewDeckPartId} newDeckPartName={newDeckPartName} setNewDeckPartName={setNewDeckPartName} 
@@ -430,14 +446,14 @@ var imageUri = ""
             <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>
             </div>
 
-            <div className='float-container'>        
-              <div className="float-child-editDeckTable">
+            <div className='floatContainer'>        
+              <div className="floatChildEditDeckTable">
 
                 {cardsCommander.length > 0 ? (
                 <div className='tableEditDeck'>
                     <TableDeckContents servicerChild={servicerChild} servicerX={servicerCommander} deleteCard={deleteCard} updateCard={updateCard}
                     reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"}
-                    imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                    imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
                 </div>
                 ) : (
                     <span style={{ display: "flex" }}>
@@ -454,7 +470,7 @@ var imageUri = ""
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerCompanion} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"}
-                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
                     </div>
                 ) : (
                     <span style={{ display: "flex" }}>
@@ -471,7 +487,7 @@ var imageUri = ""
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerMainDeck} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"}
-                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
                     </div>
                 ) : (
                     <span style={{ display: "flex" }}>
@@ -488,7 +504,7 @@ var imageUri = ""
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerSideboard} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"}
-                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
                     </div>
                 ) : (
                     <span style={{ display: "flex" }}>
@@ -505,7 +521,7 @@ var imageUri = ""
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerMaybeboard} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"}
-                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
                     </div>
                 ) : (
                     <span style={{ display: "flex" }}>
@@ -522,7 +538,7 @@ var imageUri = ""
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerTokens} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"}
-                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
                     </div>
                 ) : (
                     <span style={{ display: "flex" }}>
@@ -537,7 +553,7 @@ var imageUri = ""
 
               </div>
 
-              <div className="float-child-editDeckImage">
+              <div className="floatChildEditDeckImage">
                 <img style={{ height: '100%', width: '100%', paddingLeft: '0rem', paddingTop: '3rem' }} src={img}></img>
               </div>
 
@@ -545,12 +561,12 @@ var imageUri = ""
 
             {edit && <ModalCardEdit isShowModalCardEdit={isShowModalCardEdit} invokeModalCardEdit={invokeModalCardEdit} setEdit={setEdit}
               setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-              editCard={editCard} reload={reload} reloadNow={reloadNow} img={img} setImg={setImg}
+              editCard={editCard} reload={reload} reloadNow={reloadNow} img={img} setImg={setImg} servicer={editableDeckPart}
             />}
 
         </Modal.Body>
         <Modal.Footer className='modalFooter'>
-          <Button variant="danger" onClick={initModal}>
+          <Button variant="danger" onClick={refreshAndClose}>
             Close
           </Button>
         </Modal.Footer>

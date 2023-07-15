@@ -22,7 +22,8 @@ import {
   faAngleUp
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, setShowDeck, showDecks, setShowDecks, edit, setEdit, create, setCreate, editDeck, deck, updateDeck, deleteDeck, tbodyData, renderRowSubComponent, expandRows,
+export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, setShowDeck, showDecks, setShowDecks,
+    edit, setEdit, create, setCreate, editDeck, setEditDeck, deck, updateDeck, deleteDeck, tbodyData, renderRowSubComponent, expandRows,
     expandedRowObj }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
@@ -103,31 +104,33 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
             Cell: row => (
             <div>
                 <button className='button' onClick={e=> handleEditDeckContents(row.row.original)}>Edit</button>{' '}
-                <button className='button' onClick={e=> handleEdit(row.row.original)}>Settings</button>{' '}
+                <button className='button' onClick={e=> handleSettings(row.row.original)}>Settings</button>{' '}
                 <button className='button' onClick={e=> handleDelete(row.row.original)}>Delete</button>
             </div>
             ),
           },
     ], [], )    
 
-    // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
-    function handleEdit(row) {
+    // Käsittelee ko. riviltä painetun Edit-buttonin pyynnön & asettaa ko. rivin originaali datana parentin editDeckContents-funktioon    
+    function handleEditDeckContents(row) {        
+        setDeckName(row.name) // Deckin nimen näyttäminen
+        setQuery(row.deckId) // query backendille deckId:llä
+        // console.log("setQuery:", query)
+        // setShowDeck(showDeck => !showDeck) // Vaihtaa boolean-arvoa & näyttää/ei näytä deckin sisältöä
+        // setEditDeck(row)
+        editDeckContents(row)
+    }
+
+    // Käsittelee ko. riviltä painetun Settings-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
+    function handleSettings(row) {
+        // setEditDeck(row)
         updateDeck(row) // DecksList.jsx (parent)       
     }
 
     // Käsittelee ko. riviltä painetun Delete-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
     function handleDelete(row) {
         deleteDeck(row) // DecksList.jsx (parent)
-    }
-
-    // Aukaisee modal-ikkunana deckin sisällön
-    function handleEditDeckContents(row) {
-        // console.log("row:", row)
-        setDeckName(row.name) // Deckin nimen näyttäminen
-        setQuery(row.deckId) // query backendille deckId:llä
-        // setShowDeck(showDeck => !showDeck) // Vaihtaa boolean-arvoa & näyttää/ei näytä deckin sisältöä
-        editDeckContents(row)
-    }
+    }   
 
     // rivin painalluksesta aukaisee deckin sisällön tablena alle <MainDecksListDeckId
     function handleShowDecks(row) {

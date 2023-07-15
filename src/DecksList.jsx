@@ -70,9 +70,11 @@ useEffect(() => {
 // }
 
 // TableDecks.js (child) Edit-buttonin kautta tuleva käskytys
+// Muokattavan deckinId tulee queryna, jota käytetään kaikkien korttien hakemiseenkin
 const editDeckContents = (deck) =>  {
-  setEditDeck(deck) // käsiteltävän deckin data
+  // setEditDeck(deck) // käsiteltävän deckin data
   // console.log("editDeck:", editDeck)
+  // console.log("setQuery:", query)
   setShowDeck(true) // == true, jotta voi avata DeckContents.jsx modal-ikkunan 
   invokeModalEditDeck(!isShowEditDeck) // avaa/sulkee ko. modal-ikkunan
 }
@@ -221,7 +223,7 @@ const expandedRows = React.useMemo(() => {
           <div className='table'>            
               {!create && <button className="button" onClick={() => setCreate(true)}>Create a new deck</button>}{' '}
               {/* {!edit && <button className="button" onClick={() => setEdit(true)}>Edit the selected deck</button>}{' '} */}
-              <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} deck={aDeck} reloadNow={reloadNow} reload={reload}
+              <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} setEditDeck={setEditDeck} deck={aDeck} reloadNow={reloadNow} reload={reload}
                       setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
                       updateDeck={updateDeck} deleteDeck={deleteDeck} tbodyData={decks} showDeck={showDeck} setShowDeck={setShowDeck} editDeckContents={editDeckContents}
                       showDecks={showDecks} setShowDecks={setShowDecks} setQuery={setQuery} setDeckName={setDeckName}
@@ -266,7 +268,9 @@ const expandedRows = React.useMemo(() => {
 
         {/* {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />} */}
 
-        {showDeck && <DeckContents isShowEditDeck={isShowEditDeck} invokeModalEditDeck={invokeModalEditDeck} query={query} setQuery={setQuery} editDeck={editDeck} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
+        {showDeck && <DeckContents isShowEditDeck={isShowEditDeck} invokeModalEditDeck={invokeModalEditDeck}
+        query={query} setQuery={setQuery} editDeck={editDeck} setEditDeck={setEditDeck}
+        setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
 
         {/* {
           // Viimeisen && jälkeen se mitä tehdään
