@@ -5,6 +5,7 @@ import FormatsService from './services/Formats'
 import DropdownFormats from './components/DropdownFormats.js'
 
 import { Modal, Button, Form } from 'react-bootstrap'
+import './components/modal.css'
 
 // parent: DecksList.jsx
 // TableDecks.js Settings-buttonin aukaisema deckin tietojen editointiin modal-ikkuna
@@ -83,14 +84,13 @@ useEffect(() => {
 },[query, reload]
 )
 
-  return (
-    // <div id="edit" className='container'>
-    <div id="edit">
+  return (    
+    <div id="edit" >
       <Modal show={isShowDeckSettings}>
-        <Modal.Header closeButton onClick={initModal}>
+        <Modal.Header className='modalHeader' closeButton onClick={initModal}>
           <Modal.Title>Deck's settings</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className='modalContent'>
           <Form id="settings" onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>deck_id: </Form.Label>
@@ -129,7 +129,7 @@ useEffect(() => {
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className='modalFooter'>
           <Button variant="danger" onClick={initModal => setEdit(false)}>
             Cancel
           </Button>
