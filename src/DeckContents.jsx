@@ -421,8 +421,11 @@ var imageUri = ""
         <Modal.Body className='modalContent'>
             <div style={{ display: "flex" }}>            
             <input type='text' value={queryCards} onChange={(e) => {setQueryCards(e.target.value)}} style={{ marginLeft: "0rem" }}/>
-            <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryCards} options={optionListCards} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
-            <DropdownDeckParts newId={newDeckPartId} setNewId={setNewDeckPartId} newDeckPartName={newDeckPartName} setNewDeckPartName={setNewDeckPartName} selected={selectedDeckPart} setSelected={setSelectedDeckPart} isSearchable isMulti placeHolder={queryDeckParts} options={optionListDeckParts} onChange={(value) => value.map((option) => (setNewDeckPartId(option.partId)))} />
+            <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected}
+            isSearchable isMulti placeHolder={queryCards} options={optionListCards} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
+            <DropdownDeckParts newId={newDeckPartId} setNewId={setNewDeckPartId} newDeckPartName={newDeckPartName} setNewDeckPartName={setNewDeckPartName} 
+            selected={selectedDeckPart} setSelected={setSelectedDeckPart} isSearchable isMulti placeHolder={queryDeckParts}
+            options={optionListDeckParts} onChange={(value) => value.map((option) => (setNewDeckPartId(option.partId)))} />
             <button className='button' onClick={(e) => {handleAdd(e)}} >Add a card</button>
             <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>
             </div>
@@ -542,7 +545,7 @@ var imageUri = ""
 
             {edit && <ModalCardEdit isShowModalCardEdit={isShowModalCardEdit} invokeModalCardEdit={invokeModalCardEdit} setEdit={setEdit}
               setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-              editCard={editCard}
+              editCard={editCard} reload={reload} reloadNow={reloadNow} img={img} setImg={setImg}
             />}
 
         </Modal.Body>

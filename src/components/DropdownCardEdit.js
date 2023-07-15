@@ -19,7 +19,7 @@ const CloseIcon = () => {
 // isMulti = multiselect
 // Sen sisään on rakennettu muitakin ominaisuuksia, esim. tägit ja filtteröinti setNamen mukaan erillisen haun ulkopuolelle.
 // Tässä komponentissa multiselect EI ole käytössä. DropdownMulti.js -> multiselectiin.
-const DropdownCardEdit = ({ newId, setNewId, newName, setNewName, imgUris, setImgUris, imageUri, fetchImage,
+const DropdownCardEdit = ({ setNewId, setNewName,
   selected, setSelected,  placeHolder, options, isMulti, isSearchable, onChange }) => {
 
     const [showMenu, setShowMenu] = useState(false)
@@ -117,15 +117,6 @@ const DropdownCardEdit = ({ newId, setNewId, newName, setNewName, imgUris, setIm
       setNewId(selectedId) // Tämä state palautuu parentille      
       const selectedName = selected.map((s) => s.setName)
       setNewName(selectedName) // Tämä state palautuu parentille
-      const selectedImageUris = selected.map((s) => s.imageUris)
-      // setImgUris(selectedImageUris)
-      console.log("imageUris:", selectedImageUris)
-      var imgUrit = JSON.parse(selectedImageUris) // Parseroidaan 
-      // console.log("imgUris", imgUris.normal)
-      imageUri = imgUrit.normal // Parseroidusta imageUrista valitaan normal-kuvalinkki
-      console.log("normaal", imgUris.normal)
-      fetchImage()
-
       setSelectedValue(newValue)        
       onChange(newValue)
     }

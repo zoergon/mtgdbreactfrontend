@@ -30,7 +30,7 @@ const initModal = () => {
 const handleSubmit = (event) => {
   // estää oletusarvoisen käyttäytymisen
   event.preventDefault()
-  // luodaan customer-olio, joka poimii stateistä datan
+  // luodaan newDeck-olio, joka poimii stateistä datan
   var newDeck = {
     deckId: parseInt(newDeckId),
     name: newName,
@@ -121,7 +121,7 @@ useEffect(() => {
                     value={newLoginId} onChange={({target}) => setNewLoginId(target.value)} />
             </Form.Group>
             <Form.Group>
-            <Button variant='primary' type='submit' value='Save'>Save</Button>
+              <Button variant='primary' type='submit' value='Save'>Save</Button>
 
             {/* <input type='button' value='Cancel' onClick={() => setEdit(false)} /> */}
             </Form.Group>
