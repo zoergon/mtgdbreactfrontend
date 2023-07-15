@@ -26,7 +26,8 @@ import {
 export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, editCard, card, 
     // queryCompanion, setQueryCompanion,
     // newId, setNewId, newName, setNewName, selected, setSelected, optionListCompanion, setOptionListCompanion, options, handleAdd, 
-    servicerChild, servicerX, updateCard, deleteCard, deckPart, tbodyData, imgUris, imageUri, setImg, setEditableDeckPart }) => {
+    servicerChild, servicerX, updateCard, deleteCard, increaseCount, decreaseCount, deckPart, tbodyData,
+    imgUris, imageUri, setImg, setEditableDeckPart }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -122,11 +123,13 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
     // }
 
     function handlePlus(row) {
-        // updateCard(row)
+        servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
+        increaseCount(row, servicerChild)
     }
 
     function handleMinus(row) {
-        // updateCard(row)
+        servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService        
+        decreaseCount(row, servicerChild)
     }
 
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon

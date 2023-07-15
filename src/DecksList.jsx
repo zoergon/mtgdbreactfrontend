@@ -1,13 +1,11 @@
 import './App.css'
 import React, { useState, useEffect, useMemo } from 'react'
 import DecksService from './services/Decks'
-import Deck from './Deck'
 import ModalDeckAdd from './DeckAdd'
 import ModalDeckEdit from './DeckEdit'
 import ModalDeckContents from './DeckContents.jsx'
 import MainDecksList from './MainDecksList'
 import MainDecksListDeckId from './MainDecksListDeckId'
-import Table from "./Table"
 import { TableDecks } from "./components/TableDecks"
 import { TableAllDeckContents } from "./components/TableAllDeckContents"
 import AllDeckContents from './AllDeckContents'
@@ -24,9 +22,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 // DeckContents.jsx -> deckin koko sisällön hallinta ModalDeckContents
 
 const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
-
-// Komponentin tilan määritys
-const [aDeck, setADeck] = useState([]) // Tätä ei luultavasti tarvitse
 
 const [decks, setDecks] = useState([]) // Backendiltä tuleva data
 const [showDeck, setShowDeck] = useState(false) // Deckin sisällön näyttämistä varten
@@ -233,7 +228,7 @@ const expandedRows = React.useMemo(() => {
               {!create && <button className="button" onClick={addDeck}>Create a new deck</button>}{' '}
               <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>
               {/* {!edit && <button className="button" onClick={() => setEdit(true)}>Edit the selected deck</button>}{' '} */}
-              <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} setEditDeck={setEditDeck} deck={aDeck} reloadNow={reloadNow} reload={reload}
+              <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} setEditDeck={setEditDeck} reloadNow={reloadNow} reload={reload}
                       setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
                       updateDeck={updateDeck} deleteDeck={deleteDeck} tbodyData={decks} showDeck={showDeck} setShowDeck={setShowDeck} editDeckContents={editDeckContents}
                       showDecks={showDecks} setShowDecks={setShowDecks} setQuery={setQuery} setDeckName={setDeckName}

@@ -30,8 +30,6 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
     // const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
 
-    const [aDeck, setADeck] = useState([]) // Tämä lisätty, todennäköisesti ei tarvitse.
-    
     // const [rowData, setRowData] = useState(data) // Rividatan päivitykseen
 
     const defaultColumn = useMemo(() => {
@@ -42,8 +40,7 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
 
     // Tätä ei todennäköisesti tarvitse. (Checkboxin tai rivin klikkaamisessa asetetaan ko. rivi stateen.)
     const setRowToADeck = (deck) => {
-        setADeck(deck)
-        // console.log("setADeck:", aDeck)
+        
       }
 
     // const onChangeInput = (e, deckId) => {

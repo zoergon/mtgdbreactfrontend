@@ -1,5 +1,5 @@
 import './App.css'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import AllCardsService from './services/AllCards'
 import CommandersService from './services/Commanders'
 import CompanionsService from './services/Companions'
@@ -11,10 +11,6 @@ import DeckPartsService from './services/DeckParts'
 import Dropdown from "./components/Dropdown.js"
 import DropdownDeckParts from "./components/DropdownDeckParts.js"
 import ModalCardEdit from './CardEdit.jsx'
-// import MainDeck from './MainDeck'
-// import MainDeckAdd from './MainDeckAdd'
-// import MainDeckEdit from './MainDeckEdit'
-// import { TableMainDecks } from "./components/TableMainDecks"
 import { TableDeckContents } from "./components/TableDeckContents"
 import './components/modal.css'
 
@@ -37,8 +33,6 @@ const [cardsMaybeboard, setCardsMaybeboard] = useState([]) // deckId:llä haettu
 const [cardsSideboard, setCardsSideboard] = useState([]) // deckId:llä haettu data backendistä - Sideboard
 const [cardsTokens, setCardsTokens] = useState([]) // deckId:llä haettu data backendistä - Tokens
 
-// const [searchName, setSearchName] = useState("")
-// const [searchFormat, setSearchFormat] = useState("")
 const [create, setCreate] = useState(false)
 const [edit, setEdit] = useState(false) // Editointitila päälle/pois
 const [editCard, setEditCard] = useState(false) // Editoitavan kortin data
@@ -49,42 +43,28 @@ const [reload, reloadNow] = useState(false) // Komponentin uudelleen päivityst�
 const [img, setImg] = useState() // Kortin kuvalinkki
 
 // const [newDeckId, setNewDeckId] = useState(query) // haetun deckin id
-const [newId, setNewId] = useState("") // haetun kortin id
-const [newName, setNewName] = useState("") // haetun kortin nimi
+const [newId, setNewId] = useState('') // haetun kortin id
+const [newName, setNewName] = useState('') // haetun kortin nimi
 const [newCount, setNewCount] = useState(1) // vaihdettava lukumäärä
 const [newLoginId, setNewLoginId] = useState(1) // käyttäjätunnuksen id
 
-const [newDeckPartId, setNewDeckPartId] = useState("") // haetun kortin id
-const [newDeckPartName, setNewDeckPartName] = useState("") // haetun kortin nimi
+const [newDeckPartId, setNewDeckPartId] = useState('') // haetun kortin id
+const [newDeckPartName, setNewDeckPartName] = useState('') // haetun kortin nimi
 
 const [optionListCards, setOptionListCards] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
 const [optionListDeckParts, setOptionListDeckParts] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-
-// const [optionListCommander, setOptionListCommander] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-// const [optionListCompanion, setOptionListCompanion] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-// const [optionListMainDeck, setOptionListMainDeck] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-// const [optionListSideboard, setOptionListSideboard] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-// const [optionListMaybeboard, setOptionListMaybeboard] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
-// const [optionListTokens, setOptionListTokens] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
 
 const [selected, setSelected] = useState([]) //
 const [selectedDeckPart, setSelectedDeckPart] = useState([]) //
 const [editableDeckPart, setEditableDeckPart] = useState([]) // Editoitavan kortin deckPart oikean servicen valintaan
 
-const [queryCards, setQueryCards] = useState("") // Backendille lähtevä hakusana - dropdowniin
-const [queryDeckParts, setQueryDeckParts] = useState("") // Backendille lähtevä hakusana - dropdowniin
+const [queryCards, setQueryCards] = useState('') // Backendille lähtevä hakusana - dropdowniin
+const [queryDeckParts, setQueryDeckParts] = useState('') // Backendille lähtevä hakusana - dropdowniin
 
-// const [queryCommander, setQueryCommander] = useState("") // Backendille lähtevä hakusana - commander
-// const [queryCompanion, setQueryCompanion] = useState("") // Backendille lähtevä hakusana - companion
-// const [queryMainDeck, setQueryMainDeck] = useState("") // Backendille lähtevä hakusana - main deck
-// const [queryMaybeboard, setQueryMaybeboard] = useState("") // Backendille lähtevä hakusana - maybeboard
-// const [querySideboard, setQuerySideboard] = useState("") // Backendille lähtevä hakusana - sideboard
-// const [queryTokens, setQueryTokens] = useState("") // Backendille lähtevä hakusana - tokens
+const [service, setService] = useState('') // Oikean servicen valintaan - add-buttonin kautta sijoitus
 
-const [service, setService] = useState("") // Oikean servicen valintaan - add-buttonin kautta sijoitus
-
-var servicer = "" // Oikean servicen valintaan - add-buttonin kautta sijoitus handleAddX-functioiden kautta
-var servicerChild = ""
+var servicer = '' // Oikean servicen valintaan - add-buttonin kautta sijoitus handleAddX-functioiden kautta
+var servicerChild = ''
 var servicerCommander = CommandersService
 var servicerCompanion = CompanionsService
 var servicerMainDeck = MainDecksService
@@ -92,22 +72,27 @@ var servicerSideboard = SideboardsService
 var servicerMaybeboard = MaybeboardsService
 var servicerTokens = TokensService
 
-const imgUris = ""
-var imageUri = ""
+// Kuvan asettamiseen tarvittavat
+const imgUris = ''
+var imageUri = ''
+
+// Muuttujat kortin count-määrän muuttamiseen
+var editCount = ''
+var updateRow = ''
+
 
 // Modal-ikkunan aukaiseminen ja sulkeminen
 const initModal = () => {
     return invokeModalEditDeck(!isShowEditDeck)
   }
 
-// Tällä ja alemmalla useEffectillä voidaan asettaa autofocus haluttuun kohtaan viittauksella:
-// ref={inputReference}
-// const inputReference = useRef(null)
+// useRef refresh-buttonille
+const buttonRef = useRef(null)
 
-// useEffect(() => {
-//     inputReference.current.focus()
-// }, [])
-
+// reload-staten kääntely
+function clickHandler(event) {
+  reloadNow(!reload)
+}
 
 // Hakee kaikki commanderit deckId:n mukaisesti
 useEffect(() => {
@@ -175,6 +160,19 @@ useEffect(() => {
 },[query, reload]
 )
 
+// Add-funktion oikean servicen valintaan
+const handleAdd = (e, servicer) => {
+  if (newDeckPartId !== "") {
+    if (newDeckPartId === 1) {servicer = CommandersService}
+  if (newDeckPartId === 2) {servicer = CompanionsService}
+  if (newDeckPartId === 3) {servicer = MainDecksService}
+  if (newDeckPartId === 4) {servicer = SideboardsService}
+  if (newDeckPartId === 5) {servicer = MaybeboardsService}
+  if (newDeckPartId === 6) {servicer = TokensService}
+  handleSubmit(e, servicer)
+  }
+}
+
 // Kortin lisäämiseen luodaan kortti-olio, johon sijoitetaan stateista oikeat tiedot
 const handleSubmit = (event, servicer) => {
   event.preventDefault()
@@ -192,8 +190,9 @@ const handleSubmit = (event, servicer) => {
   servicer.create(newCard)
   .then(response => {
     if (response.status === 200) {
-      setMessage("Added a new Card: " + newCard.id)
-      reloadNow(!reload)
+      buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
+      buttonRef.current.click() // Käskee klikata refresh-buttonia
+      setMessage("Added a new Card: " + newCard.id)      
       setIsPositive(true)
       setShowMessage(true)
 
@@ -217,13 +216,14 @@ const handleSubmit = (event, servicer) => {
 }
 }
 
-// Edit-funktio
+// Edit-funktio kortille
 const updateCard = (card) =>  {  
   setEditCard(card) // Editoitava kortti (row)
   setEdit(true) // Editointitila päälle
   invokeModalCardEdit(!isShowModalCardEdit) // Avaa/sulkee ko. modal-ikkunan
 }
 
+// Delete-funktio kortille
 const deleteCard = (card, servicer) => {
   let answer = window.confirm(`Are you sure you want to permanently delete the card: ${card.name}?`)
 
@@ -234,7 +234,8 @@ const deleteCard = (card, servicer) => {
   .then(res => {
       if (res.status === 200) {
           setMessage(`Succesfully removed the deck: ${card.id}.`)
-          reloadNow(!reload)
+          buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
+          buttonRef.current.click() // Käskee klikata refresh-buttonia
           setIsPositive(true)
           setShowMessage(true)
           window.scrollBy(0, -10000) // Scrollaa ylös ruudun
@@ -270,19 +271,7 @@ const deleteCard = (card, servicer) => {
   }
 }
 
-// Companionin haku <input> asettaa queryn, jota käytetään useEffectillä backendille pyyntöihin
-// const onQueryCompanion = (e) => {
-//   setQueryCompanion(e.target.value)
-//   // console.log("query: ", query)
-// }
-
-// hoitaa millä queryllä dropdowneihin haetaan data
-// const handleQuery = (e) => {
-//   setQueryDropdown(e.target.value)
-//   console.log("Query Dropdown:". queryDropdown)
-// }
-
-// Kortit dropdown-valikkoon data .getName
+// Kortit dropdown-valikkoon, data nimen perusteella queryCards => .getPartialName
 useEffect(() => {
   if (queryCards !== "" && queryCards.length >= 3) // Ei hae tyhjällä stringillä
     AllCardsService.getPartialName(queryCards)
@@ -294,7 +283,7 @@ useEffect(() => {
 },[queryCards, reload]
 )
 
-// DeckParts dropdown-valikkoon data .getAll
+// DeckParts dropdown-valikkoon data => .getAll
 useEffect(() => {
   // if (queryCommander !== "" && queryCommander.length >= 3) // Ei hae tyhjällä stringillä
   DeckPartsService.getAll()
@@ -305,119 +294,53 @@ useEffect(() => {
 },[reload]
 )
 
-// Dropdown-valikkoon data .getName - commander
-// useEffect(() => {
-//   if (queryCommander !== "" && queryCommander.length >= 3) // Ei hae tyhjällä stringillä
-//     AllCardsService.getPartialName(queryCommander)
-//   .then(data => {
-//     console.log("getName", data)
-//     setOptionListCommander(data)
-//   },)
-//   .catch(error => console.log(error))
-// },[queryCommander, reload]
-// )
+// Kortin lukumäärän (count) kasvattamiseen funktio
+const increaseCount = (row, servicer) => {
+  updateRow = (row)
+  editCount = parseInt(updateRow.count) + 1  
+  updateCount(updateRow, editCount, servicer)
+}
 
-// Dropdown-valikkoon data .getName - companion
-// useEffect(() => {
-//   if (queryCompanion !== "" && queryCompanion.length >= 3) // Ei hae tyhjällä stringillä
-//     AllCardsService.getPartialName(queryCompanion)
-//   .then(data => {
-//     console.log("getName", data)
-//     setOptionListCompanion(data)
-//   },)
-//   .catch(error => console.log(error))
-// },[queryCompanion, reload]
-// )
-
-// Dropdown-valikkoon data .getName - mainDeck
-// useEffect(() => {
-//   if (queryMainDeck !== "" && queryMainDeck.length >= 3) // Ei hae tyhjällä stringillä
-//     AllCardsService.getPartialName(queryMainDeck)
-//   .then(data => {
-//     console.log("getName", data)
-//     setOptionListMainDeck(data)
-//   },)
-//   .catch(error => console.log(error))
-// },[queryMainDeck, reload]
-// )
-
-// Dropdown-valikkoon data .getName - sideboard
-// useEffect(() => {
-//   if (querySideboard !== "" && querySideboard.length >= 3) // Ei hae tyhjällä stringillä
-//     AllCardsService.getPartialName(querySideboard)
-//   .then(data => {
-//     console.log("getName", data)
-//     setOptionListSideboard(data)
-//   },)
-//   .catch(error => console.log(error))
-// },[querySideboard, reload]
-// )
-
-// Dropdown-valikkoon data .getName - maybeboard
-// useEffect(() => {
-//   if (queryMaybeboard !== "" && queryMaybeboard.length >= 3) // Ei hae tyhjällä stringillä
-//     AllCardsService.getPartialName(queryMaybeboard)
-//   .then(data => {
-//     console.log("getName", data)
-//     setOptionListMaybeboard(data)
-//   },)
-//   .catch(error => console.log(error))
-// },[queryMaybeboard, reload]
-// )
-
-// Dropdown-valikkoon data .getName - tokens
-// useEffect(() => {
-//   if (queryTokens !== "" && queryTokens.length >= 3) // Ei hae tyhjällä stringillä
-//     AllCardsService.getPartialName(queryTokens)
-//   .then(data => {
-//     console.log("getName", data)
-//     setOptionListTokens(data)
-//   },)
-//   .catch(error => console.log(error))
-// },[queryTokens, reload]
-// )
-
-const handleAdd = (e, servicer) => {
-  if (newDeckPartId !== "") {
-    if (newDeckPartId === 1) {servicer = CommandersService}
-  if (newDeckPartId === 2) {servicer = CompanionsService}
-  if (newDeckPartId === 3) {servicer = MainDecksService}
-  if (newDeckPartId === 4) {servicer = SideboardsService}
-  if (newDeckPartId === 5) {servicer = MaybeboardsService}
-  if (newDeckPartId === 6) {servicer = TokensService}
-  handleSubmit(e, servicer)
+// Kortin lukumäärän (count) vähentämiseen funktio
+const decreaseCount = (row, servicer) => {
+  updateRow = (row)
+  if (updateRow.count != 1) {    
+    editCount = parseInt(updateRow.count) - 1
+    updateCount(updateRow, editCount, servicer)
   }
 }
 
-// const handleAddCommander = (e, servicer) => {
-//   servicer = CommandersService
-//   handleSubmit(e, servicer)
-// }
+const updateCount = (updateRow, editCount, servicer) => {  
+  if (servicer !== "")
+  // luodaan newCard-olio, joka poimii muuttujasta datan
+  var newCard = {
+      indexId: parseInt(updateRow.indexId),
+      deckId: parseInt(updateRow.deckId),
+      id: updateRow.id,
+      count: parseInt(editCount),
+      loginId: parseInt(updateRow.loginId)
+  }
+  // Kortin update
+  servicer.update(newCard)
+  .then(response => {
+  if (response.status === 200) {      
+      editCount = ''
+      updateRow = ''      
+      buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
+      buttonRef.current.click() // Käskee klikata refresh-buttonia
+  }
+  })
+  .catch(error => {
+  console.log(newCard)
+  setMessage(error.message)
+  setIsPositive(false)
+  setShowMessage(true)
 
-// const handleAddCompanion = (e, servicer) => {
-//   servicer = CompanionsService
-//   handleSubmit(e, servicer)
-// }
-
-// const handleAddMainDeck = (e, servicer) => {
-//   servicer = MainDecksService
-//   handleSubmit(e, servicer)
-// }
-
-// const handleAddSideboard = (e, servicer) => {
-//   servicer = SideboardsService
-//   handleSubmit(e, servicer)
-// }
-
-// const handleAddMaybeboard = (e, servicer) => {
-//   servicer = MaybeboardsService
-//   handleSubmit(e, servicer)
-// }
-
-// const handleAddTokens = (e, servicer) => {
-//   servicer = TokensService
-//   handleSubmit(e, servicer)
-// }
+  setTimeout(() => {
+      setShowMessage(false)
+  }, 6000)
+  })
+}
 
 // Modalin sulkeminen ja mahdollinen pakotettu refresh stateihin
 const refreshAndClose = () => {
@@ -443,7 +366,7 @@ const refreshAndClose = () => {
               selected={selectedDeckPart} setSelected={setSelectedDeckPart} isSearchable isMulti placeHolder={queryDeckParts}
               options={optionListDeckParts} onChange={(value) => value.map((option) => (setNewDeckPartId(option.partId)))} />
               <button className='button' onClick={(e) => {handleAdd(e)}} >Add a card</button>
-              <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>
+              <button ref={buttonRef} className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>
             </div>
 
             <div className='floatContainer'>        
@@ -453,16 +376,11 @@ const refreshAndClose = () => {
                 <div className='tableEditDeck'>
                     <TableDeckContents servicerChild={servicerChild} servicerX={servicerCommander} deleteCard={deleteCard} updateCard={updateCard}
                     reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"}
-                    imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
+                    imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                 </div>
                 ) : (
                     <span style={{ display: "flex" }}>
-                      {/* <button className='button'
-                        onClick={(e) => {
-                          handleAddCommander(e)}} >Add a card</button> */}
                       <em className='subRowDataInfo'>There is no commander for the deck.</em><br/>
-                      {/* <input type='text' value={queryCommander} onChange={(e) => {setQueryCommander(e.target.value)}} style={{ marginLeft: "1rem" }}/>
-                      <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryCommander} options={optionListCommander} onChange={(value) => value.map((option) => (setNewId(option.id)))} /> */}
                     </span>
                 )}
 
@@ -470,16 +388,11 @@ const refreshAndClose = () => {
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerCompanion} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"}
-                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
+                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                     </div>
                 ) : (
                     <span style={{ display: "flex" }}>
-                      {/* <button className='button'
-                        onClick={(e) => {
-                          handleAddCompanion(e)}} >Add a card</button> */}
                       <em className='subRowDataInfo'>There is no companion for the deck.</em>
-                      {/* <input type='text' value={queryCompanion} onChange={(e) => {setQueryCompanion(e.target.value)}} style={{ marginLeft: "1rem" }}/>
-                      <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryCompanion} options={optionListCompanion} onChange={(value) => value.map((option) => (setNewId(option.id)))} /> */}
                     </span>
                 )}
 
@@ -487,16 +400,11 @@ const refreshAndClose = () => {
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerMainDeck} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"}
-                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
+                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                     </div>
                 ) : (
                     <span style={{ display: "flex" }}>
-                      {/* <button className='button'
-                        onClick={(e) => {
-                          handleAddMainDeck(e)}} >Add a card</button> */}
-                      <em className='subRowDataInfo'>Main deck is empty.</em><br/>
-                      {/* <input type='text' value={queryMainDeck} onChange={(e) => {setQueryMainDeck(e.target.value)}} style={{ marginLeft: "1rem" }}/>
-                      <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryMainDeck} options={optionListMainDeck} onChange={(value) => value.map((option) => (setNewId(option.id)))} /> */}
+                      <em className='subRowDataInfo'>Main deck is empty.</em><br/>                      
                     </span>
                 )}
 
@@ -504,16 +412,11 @@ const refreshAndClose = () => {
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerSideboard} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"}
-                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
+                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                     </div>
                 ) : (
                     <span style={{ display: "flex" }}>
-                      {/* <button className='button'
-                        onClick={(e) => {
-                          handleAddSideboard(e)}} >Add a card</button> */}
-                      <em className='subRowDataInfo'>Sideboard is empty.</em><br/>
-                      {/* <input type='text' value={querySideboard} onChange={(e) => {setQuerySideboard(e.target.value)}} style={{ marginLeft: "1rem" }}/>
-                      <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={querySideboard} options={optionListSideboard} onChange={(value) => value.map((option) => (setNewId(option.id)))} /> */}
+                      <em className='subRowDataInfo'>Sideboard is empty.</em><br/>                      
                     </span>
                 )}
 
@@ -521,16 +424,11 @@ const refreshAndClose = () => {
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerMaybeboard} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"}
-                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
+                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                     </div>
                 ) : (
                     <span style={{ display: "flex" }}>
-                      {/* <button className='button'
-                        onClick={(e) => {
-                          handleAddMaybeboard(e)}} >Add a card</button> */}
-                      <em className='subRowDataInfo'>Maybeboard is empty.</em><br/>
-                      {/* <input type='text' value={queryMaybeboard} onChange={(e) => {setQueryMaybeboard(e.target.value)}} style={{ marginLeft: "1rem" }}/>
-                      <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryMaybeboard} options={optionListMaybeboard} onChange={(value) => value.map((option) => (setNewId(option.id)))} /> */}
+                      <em className='subRowDataInfo'>Maybeboard is empty.</em><br/>                      
                     </span>
                 )}
 
@@ -538,16 +436,11 @@ const refreshAndClose = () => {
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerTokens} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"}
-                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} />
+                        imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                     </div>
                 ) : (
                     <span style={{ display: "flex" }}>
-                      {/* <button className='button'
-                        onClick={(e) => {
-                          handleAddTokens(e)}} >Add a card</button> */}
-                      <em className='subRowDataInfo'>There are no tokens for the deck.</em>
-                      {/* <input type='text' value={queryTokens} onChange={(e) => {setQueryTokens(e.target.value)}} style={{ marginLeft: "1rem" }}/>
-                      <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={queryTokens} options={optionListTokens} onChange={(value) => value.map((option) => (setNewId(option.id)))} /> */}
+                      <em className='subRowDataInfo'>There are no tokens for the deck.</em>                      
                     </span>
                 )}
 
