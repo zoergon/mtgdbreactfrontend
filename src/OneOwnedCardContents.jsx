@@ -1,13 +1,13 @@
 import './App.css'
 import React, { useState, useEffect } from 'react'
-import AllCardsService from './services/AllCards'
-import { TableAllCardData } from "./components/TableAllCardData"
+import OwnedCardsService from './services/OwnedCards'
+import { TableOwnedCardData } from "./components/TableOwnedCardData"
 
 // Hakee yhden kortin id:n perusteella kaiken datan taulukkoon näytettäväksi -> TableAllCardDataHC
 // Kortin kuvan fetchiin saatava id tulee tätä kautta
-// Parent: AllCardsList.jsx
+// Parent: OwnedCardsList.jsx
 
-const OneCardContents = ({ query, imgUris }) => {
+const OneOwnedCardContents = ({ query, imgUris }) => {
 
 const [card, setCard] = useState([]) // id:llä haettu yksi kortti
 // const [imgUri, setImgUri] = useState([]) // id:llä haettu yksi kortti
@@ -47,10 +47,10 @@ const [reload, reloadNow] = useState(false) // Komponentin uudelleen päivityst�
 
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
-  AllCardsService.getOneCardById(query) //query = id
-  .then(data => {
-    // console.log("getOneCardById", data)
-    setCard(data)    
+  OwnedCardsService.getById(query) //query = id
+  .then(data => {    
+    // console.log("getById", data)
+    setCard(data.map(e => e.idNavigation))    
     // console.log("AFTER", card)
 })
   .catch(error => console.log(error))
@@ -61,7 +61,7 @@ useEffect(() => {
     <>
       {card.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllCardData tbodyData={card} imgId={query} imgUris={imgUris} />
+            <TableOwnedCardData tbodyData={card} imgId={query} imgUris={imgUris} />
         </div>
       ) : (
         <span>
@@ -72,4 +72,4 @@ useEffect(() => {
   )
 }
 
-export default OneCardContents
+export default OneOwnedCardContents

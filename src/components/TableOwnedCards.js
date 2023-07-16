@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useImperativeHandle, useFlexLayout,  useResizeColumns } from 'react-table'
+import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRowSelect, useColumnOrder, useImperativeHandle, useFlexLayout, useBlockLayout, useAbsoluteLayout, useResizeColumns, useExpanded } from 'react-table'
 import './table.css'
 import { COLUMNS } from './ColumnsOwnedCards'
 import { GlobalFilter } from './GlobalFilter'
@@ -17,14 +17,18 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCards = ({ tbodyData }) => {
+export const TableOwnedCards = ({ setCard, tbodyData, renderRowSubComponent, expandRows, expandedRowObj }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
 
-    const defaultColumn = useMemo(() => {
-        return {
+    const defaultColumn = useMemo(() => {        
+        // () => ({
+        //     width: columnWidth > 0 ? columnWidth : 150,
+        //   }),
+        //   [columnWidth]
+        return {            
             Filter: ColumnFilter
         }
     })
@@ -48,13 +52,14 @@ export const TableAllCards = ({ tbodyData }) => {
         getTableBodyProps,
         headerGroups,
         footerGroups,
-        // rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
+        rows, // Korvattu page:lla alla (mahdollistaa sivuttamisen)
         page,
         nextPage,
         previousPage,
         canNextPage,
         canPreviousPage,
         prepareRow,
+        state: { expanded },
         selectedFlatRows,
         // state: { selectedRowIds }, // Tämä lisätty
         pageOptions,
@@ -80,6 +85,7 @@ export const TableAllCards = ({ tbodyData }) => {
         useGlobalFilter,
         useSortBy,
         useResizeColumns,
+        useExpanded,
         usePagination,
         useColumnOrder,
         useRowSelect,
@@ -93,6 +99,35 @@ export const TableAllCards = ({ tbodyData }) => {
                 ),
                 Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => console.log(row.original)}/>
                 },
+                {                    
+                    maxWidth: 60,
+                    minWidth: 40,
+                    width: 40,
+                    // Expander column
+                    id: 'expander', // Make sure it has an ID
+                    Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
+                    <span {...getToggleAllRowsExpandedProps()}>
+                        {isAllRowsExpanded ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleRight}/>)}
+                    </span>
+                    ),                    
+                    Cell: ({ row }) =>
+                    // Use the row.canExpand and row.getToggleRowExpandedProps prop getter
+                    // to build the toggle for expanding a row
+                    // row.canExpand ? (
+                        <span
+                        {...row.getToggleRowExpandedProps({
+                            style: {
+                            // We can even use the row.depth property
+                            // and paddingLeft to indicate the depth
+                            // of the row
+                            paddingLeft: `${row.depth * 2}rem`,
+                            },
+                        })}
+                        >
+                        {row.isExpanded ? (<FontAwesomeIcon className="ms-3" icon={faAngleDown}/>) : (<FontAwesomeIcon className="ms-3" icon={faAngleRight}/>)}                        
+                        </span>
+                    // ) : null,
+                },
                 ...columns
             ])
         }
@@ -103,28 +138,28 @@ export const TableAllCards = ({ tbodyData }) => {
 
       // Jos haluaa muuttaa kolumnien järjestystä.
       // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
-      const changeOrder = () => {
-        setColumnOrder([
-            'set',
-            'id',
-            'name',
-            'rarity',
-            'setName',
-            'manaCost',
-            'typeLine',          
-            'oracleText',
-            'power',
-            'toughness',
-            'lang',
-            'borderColor',
-            'object',
-        ])
-      }
+    //   const changeOrder = () => {
+    //     setColumnOrder([
+    //         'set',
+    //         'id',
+    //         'name',
+    //         'rarity',
+    //         'setName',
+    //         'manaCost',
+    //         'typeLine',          
+    //         'oracleText',
+    //         'power',
+    //         'toughness',
+    //         'lang',
+    //         'borderColor',
+    //         'object',
+    //     ])
+    //   }
 
     return (
         <>
         <React.Fragment>
-            <button onClick={changeOrder}>Change column order</button>{' '}
+            {/* <button className='button' onClick={changeOrder}>Change column order</button>{' '} */}
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
             <div className='aligned'>
@@ -144,7 +179,7 @@ export const TableAllCards = ({ tbodyData }) => {
 
             <table {...getTableProps()}>
                 <thead>
-                    {headerGroups.map((headerGroup, i) => (  
+                    {headerGroups.map((headerGroup, i) => (                
                         <React.Fragment key={headerGroup.headers.length + "_hfrag"}>
                             <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (                            
@@ -176,14 +211,25 @@ export const TableAllCards = ({ tbodyData }) => {
                     {page.map((row, i) => {                                
                         prepareRow(row)
                         // console.log("row:", row.original.id)
-                        return (
+                        return (                  
                             <React.Fragment key={i + "_frag"}>
                                 <tr key={row.original.id} {...row.getRowProps()} onClick={() => console.log(row.original)}>
                                     {row.cells.map((cell) => {
                                         return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                     })}                            
                                 </tr>
-                            </React.Fragment>
+                                {row.isExpanded ? (
+                                    <tr>
+                                    {/* <td onClick={() => handleShowDeck(row.original)}></td> */}
+                                    <td >
+                                        <span className="subTableAllCards">
+                                        {/* {setCard(row.original)} */}
+                                        {renderRowSubComponent({ row })}                               
+                                        </span>
+                                    </td>
+                                    </tr>
+                                ) : null}
+                            </React.Fragment>      
                         )
                     })}                
                 </tbody>
@@ -197,6 +243,9 @@ export const TableAllCards = ({ tbodyData }) => {
                     ))}
                 </tfoot> */}
             </table>
+            {/* <br /> */}
+            <div>Showing {pageSize} results of {rows.length} rows total</div>
+            <pre></pre>
 
             <div>
                 <span>
@@ -234,13 +283,16 @@ export const TableAllCards = ({ tbodyData }) => {
                 <select
                     value={pageSize}
                     onChange={e => setPageSize(Number(e.target.value))}>
-                    {[10, 25, 50].map(pageSize => (
+                    {[10, 25, 50, 100, 1].map(pageSize => (
                         <option key={pageSize} value={pageSize}>
                         Show {pageSize}
                         </option>
                     ))}
                 </select>
             </div>
+            <pre>
+            <code>{JSON.stringify({ expanded: expanded }, null, 2)}</code>
+            </pre>
 
             {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
             {/* <pre>

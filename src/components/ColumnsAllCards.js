@@ -5,7 +5,7 @@ import DecksList from '../DecksList'
 
 export const COLUMNS =  [
     {
-        Header: 'name',
+        Header: 'Name',
         Footer: 'name',
         accessor: 'name',
         //   maxWidth: 350,
@@ -13,7 +13,7 @@ export const COLUMNS =  [
         //   width: 200,
     },
     {
-        Header: 'rarity',
+        Header: 'Rarity',
         Footer: 'rarity',
         accessor: 'rarity',
       //   maxWidth: 150,
@@ -21,7 +21,31 @@ export const COLUMNS =  [
         width: 70,
     },
     {
-        Header: 'mana_cost',
+        Header: 'Set',
+        Footer: 'set_name',
+        accessor: 'setName',
+      //   maxWidth: 300,
+      //   minWidth: 100,
+      //   width: 180,
+    },
+    {
+        Header: 'Set code',
+        Footer: '[set]',
+        accessor: 'set',  
+      //   maxWidth: 140,
+      //   minWidth: 60,
+        width: 50,
+    },
+    {
+        Header: 'Lang',
+        Footer: 'lang',
+        accessor: 'lang',
+      //   maxWidth: 100,
+        // minWidth: 100,
+        width: 50,
+    },
+    {
+        Header: 'Mana cost',
         Footer: 'mana_cost',
         accessor: 'manaCost',
       //   maxWidth: 300,
@@ -29,7 +53,7 @@ export const COLUMNS =  [
         width: 100,
     },
     {
-        Header: 'type_line',
+        Header: 'Type line',
         Footer: 'type_line',
         accessor: 'typeLine',
       //   maxWidth: 400,
@@ -37,7 +61,7 @@ export const COLUMNS =  [
       //   width: 250,
     },
     {
-        Header: 'oracle_text',
+        Header: 'Oracle text',
         Footer: 'oracle_text',
         accessor: 'oracleText',
       //   maxWidth: 600,
@@ -46,7 +70,7 @@ export const COLUMNS =  [
         // padding: 10,
     },
     {
-        Header: 'power',
+        Header: 'Power',
         Footer: 'power',
         accessor: 'power',
       //   maxWidth: 100,
@@ -54,7 +78,7 @@ export const COLUMNS =  [
         width: 40,
     },
     {
-        Header: 'toughness',
+        Header: 'Toughness',
         Footer: 'toughness',
         accessor: 'toughness',
       //   maxWidth: 100,
@@ -62,36 +86,28 @@ export const COLUMNS =  [
         width: 40,
     },
     {
-        Header: 'lang',
-        Footer: 'lang',
-        accessor: 'lang',
-      //   maxWidth: 100,
-        // minWidth: 100,
-        width: 50,
-    },
-    // {
-    //   id: 'id', // luultavimmin voi poistaa
-    //   Header: 'id',
-    //   Footer: 'id',
-    //   accessor: 'id',
-    //   // Filter: ColumnFilter,
-    //   // disableFilters: true
-    // },
-    {
-        Header: '[set]',
-        Footer: '[set]',
-        accessor: 'set',  
-      //   maxWidth: 140,
-      //   minWidth: 60,
-        width: 50,
+      id: 'id', // luultavimmin voi poistaa
+      Header: 'id',
+      Footer: 'id',
+      accessor: 'id',
+      // Filter: ColumnFilter,
+      // disableFilters: true
     },
     {
-        Header: 'set_name',
-        Footer: 'set_name',
-        accessor: 'setName',
-      //   maxWidth: 300,
-      //   minWidth: 100,
-      //   width: 180,
+        Header: 'Border color',
+        Footer: 'border_color',
+        accessor: 'borderColor',
+        maxWidth: 110,
+        minWidth: 10,
+        width: 110,
+    },
+    {
+        Header: 'Object',
+        Footer: 'object',
+        accessor: 'object',
+        maxWidth: 100,
+        minWidth: 50,
+        width: 80,
     },
   // {
   //     Header: 'all_parts',
@@ -123,14 +139,6 @@ export const COLUMNS =  [
   //     Footer: 'booster',
   //     accessor: 'booster',
   // },
-//   {
-//       Header: 'border_color',
-//       Footer: 'border_color',
-//       accessor: 'borderColor',
-    //   maxWidth: 120,
-    //   minWidth: 10,
-    //   width: 120,
-//   },
   // {
   //     Header: 'card_back_id',
   //     Footer: 'card_back_id',
@@ -296,14 +304,6 @@ export const COLUMNS =  [
   //     Footer: 'nonfoil',
   //     accessor: 'nonfoil',
   // },
-//   {
-//       Header: 'object',
-//       Footer: 'object',
-//       accessor: 'object',
-//     //   maxWidth: 140,
-//     //   minWidth: 50,
-//     //   width: 80,
-//   },
   // {
   //     Header: 'oracle_id',
   //     Footer: 'oracle_id',

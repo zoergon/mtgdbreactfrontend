@@ -3,7 +3,7 @@ import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination, useRow
 import './table.css'
 import { GlobalFilter } from './GlobalFilter'
 import { ColumnFilter } from './ColumnFilter'
-import { COLUMNS } from './ColumnsAllCardData'
+import { COLUMNS } from './ColumnsOwnedCardData'
 // import { Checkbox } from './Checkbox'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,7 +17,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCardData = ({ tbodyData, imgId, imgUris }) => {
+export const TableOwnedCardData = ({ tbodyData, imgId, imgUris }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     const columns = useMemo(() => COLUMNS, [])
@@ -29,84 +29,7 @@ export const TableAllCardData = ({ tbodyData, imgId, imgUris }) => {
         return {
             Filter: ColumnFilter
         }
-    })   
-
-    // Tämä oli alunperin ColumnsDecks.js:ssä
-    // const columns = useMemo(
-    //     () => [
-        // {
-        //     id: 'indexId', // luultavimmin voi poistaa
-        //     Header: 'indexId',
-        //     Footer: 'indexId',
-        //     accessor: 'indexId',
-        //     // Filter: ColumnFilter,
-        //     // disableFilters: true
-        //     maxWidth: 120,
-        //     minWidth: 40,
-        //     width: 70,
-        // },
-        // {
-        //     Header: 'deckId',
-        //     Footer: 'deckId',
-        //     accessor: 'deckId',
-        //     maxWidth: 120,
-        //     minWidth: 40,
-        //     width: 70,      
-        // },
-        // {
-        //     Header: 'count',
-        //     Footer: 'count',
-        //     accessor: 'count',
-        //     maxWidth: 120,
-        //     minWidth: 40,
-        //     width: 60,
-        // },
-        // {
-        //     Header: () => (
-        //         <div style={{ textAlign: "left" }}>Card</div>
-        //       ),
-        //     Footer: 'Card',
-        //     accessor: 'name',
-        //     maxWidth: 400,
-        //     minWidth: 40,
-        //     width: 350,
-        //     Cell: row => <div style={{ textAlign: "left" }}>{row.value}</div>
-        // },
-        // {
-        //     Header: 'Set',
-        //     Footer: 'Set',
-        //     accessor: 'setName',
-        //     maxWidth: 400,
-        //     minWidth: 40,
-        //     width: 250,
-        // },
-        // {
-        //     Header: 'id',
-        //     Footer: 'id',
-        //     accessor: 'id',
-        // },
-        // {
-        //     Header: 'loginId',
-        //     Footer: 'loginId',
-        //     accessor: 'loginId',
-        //     maxWidth: 120,
-        //     minWidth: 40,
-        //     width: 60,
-        // },
-        // {            
-        //     maxWidth: 150,
-        //     minWidth: 60,
-        //     width: 80,
-        //     Header: ('Actions'),
-        //     // accessor: 'action',
-        //     Cell: row => (
-        //     <div>
-        //        <button onClick={e=> handleEdit(row.row.original)}>Edit</button>{' '}
-        //        <button onClick={e=> handleDelete(row.row.original)}>Delete</button>
-        //     </div>
-        //     ),
-        //   },
-    // ], [], )
+    })
 
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
     // function handleEdit(row) {
@@ -193,8 +116,6 @@ export const TableAllCardData = ({ tbodyData, imgId, imgUris }) => {
     //     ])
     //   }
 
-    // const imageUrl = "https://cards.scryfall.io/normal/front/5/3/5355873e-39f6-4833-9c67-418f3a67895e.jpg?"
-    // const imageUrl = `https://cards.scryfall.io/normal/front/5/3/${imgId}.jpg?`
     const imageUri = imgUris.normal
 
     // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista

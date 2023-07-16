@@ -1,8 +1,9 @@
 import axios from "axios"
 
 const baseUrl = "https://localhost:7120/api/ownedcards"
+const idUrl = "https://localhost:7120/api/ownedcards/id"
 const nameUrl = "https://localhost:7120/api/ownedcards/name"
-const deckIdUrl = "https://localhost:7120/api/ownedcards/deckid"
+const partialNameUrl = "https://localhost:7120/api/ownedcards/partialname"
 
 const getAll = () => {
     const config = {
@@ -12,19 +13,27 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
-const getByDeckId = (query) => {
+const getById = (query) => {
     const config = {
         headers: {},        
     }
-    const request = axios.get(`${deckIdUrl}/${query}`, config)
+    const request = axios.get(`${idUrl}/${query}`, config)
     return request.then(response => response.data)
 }
 
-const getName = (query) => {
+const getByName = (query) => {
     const config = {
         headers: {},        
     }
     const request = axios.get(`${nameUrl}/${query}`, config)
+    return request.then(response => response.data)
+}
+
+const getPartialName = (query) => {
+    const config = {
+        headers: {},        
+    }
+    const request = axios.get(`${partialNameUrl}/${query}`, config)
     return request.then(response => response.data)
 }
 
@@ -50,5 +59,5 @@ const update = object => {
 }
 
 
-export default { getAll, getByDeckId, getName, create, remove, update }
+export default { getAll, getById, getByName, getPartialName, create, remove, update }
 
