@@ -310,6 +310,7 @@ const decreaseCount = (row, servicer) => {
   }
 }
 
+// Varsinainen päivittävä toiminto kortin countin muuttamiseen
 const updateCount = (updateRow, editCount, servicer) => {  
   if (servicer !== "")
   // luodaan newCard-olio, joka poimii muuttujasta datan

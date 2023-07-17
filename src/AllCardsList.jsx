@@ -1,14 +1,16 @@
 import './App.css'
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import AllCardsService from './services/AllCards'
+import OwnedCardsService from './services/OwnedCards'
 import AllCard from './AllCard'
 import OneCardContents from './OneCardContents'
+import OwnedCardsList from './OwnedCardsList'
 import { TableAllCards } from "./components/TableAllCards"
 import { TableAllCardData } from "./components/TableAllCardData"
 
 // 
 
-const AllCardsList = ({setIsPositive, setShowMessage, setMessage}) => {
+const AllCardsList = ({ setIsPositive, setShowMessage, setMessage }) => {
 
 // Komponentin tilan määritys
 const [allCards, setAllCards] = useState([]) // Kaikki kortit allCards-taulusta
@@ -16,8 +18,22 @@ const [showAllCards, setShowAllCards] = useState(false)
 const [reload, reloadNow] = useState(false)
 // const [search, setSearch] = useState("")
 const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana
-const [card, setCard] = useState("") // Yhden haettavan kortin data backendiltä
 
+const [newId, setNewId] = useState('') // haetun kortin id
+const [newCount, setNewCount] = useState(1) // vaihdettava lukumäärä
+const [newLoginId, setNewLoginId] = useState(1) // käyttäjätunnuksen id
+
+var addId = ''
+// var checkId = ''
+// var checkSame = ''
+
+// useRef refresh-buttonille
+const buttonRef = useRef(null)
+
+// reload-staten kääntely
+function clickHandler(event) {
+  reloadNow(!reload)
+}
 
 useEffect(() => {
     AllCardsService.getAll()
@@ -29,22 +45,71 @@ useEffect(() => {
 },[reload]
 )
 
-// useEffect(() => {
-//   if (query !== "") // Ei hae tyhjällä stringillä
-//   AllCardsService.getOneCard(query)
-//   .then(data => {
-//     console.log("getOneCard", data)
-//     setCard(data)
-// })
-//   .catch(error => console.log(error))
-// },[reload]
-// )
+const addToCollection = (event) => {  
+    // console.log("submit", event.id)
+    var newCard = {    
+    id: event.id,
+    count: parseInt(newCount),
+    loginId: parseInt(newLoginId)
+  }
 
-//hakukentän funktio
-// const handleSearchInputChange = (event) => {
-//     setShowAllCards(true)
-//     setSearch(event.target.value.toLowerCase())
-// }
+  // Tarkistaa löytyykö OwnedCardsista vastaavuutta
+  // Asettaa .id:t checkId & checkSame -muuttujiin
+  // Ongelmana toinen on alunperin objekti ja toinen array= !==  
+  // if (event !== "") // Ei hae tyhjällä stringillä
+  //   OwnedCardsService.getById(event.id)
+  //   .then(data => {      
+  //     // console.log("data", data)
+  //     checkId = (event.id)      
+  //     checkId = JSON.stringify(event.id)
+  //     checkSame = (data.map(e => e.id))
+  //     checkSame = JSON.stringify(checkSame)      
+  //     console.log("event.id", checkId)
+  //     console.log("data.id", checkSame)
+  //   })
+  //   .catch(error => console.log(error))
+
+  // Antaa virheilmoituksen, mikäli koittaa lisätä jo olemassa olevalla id:llä korttia
+  // if (checkId === checkSame) {
+  //   setMessage("There is already a: " + event.name + " | " + event.setName)      
+  //   setIsPositive(false)
+  //   setShowMessage(true)
+
+  //   setTimeout(() => {
+  //     setShowMessage(false)
+  //   }, 2000)
+  // }
+  // console.log("checkId", checkId)
+  // console.log("checkSame", checkSame)
+
+  // if (event !== "" && checkId !== "" && checkSame !== "" && checkId !== checkSame) {
+  if (event !== "") {
+    console.log("POST:", event);
+    OwnedCardsService.create(newCard)
+    .then(response => {
+      if (response.status === 200) {
+        // buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
+        // buttonRef.current.click() // Käskee klikata refresh-buttonia
+        setMessage("Added a new Card: " + newCard.id)      
+        setIsPositive(true)
+        setShowMessage(true)
+  
+        setTimeout(() => {
+          setShowMessage(false)
+        }, 1000)  
+      }
+    })
+    .catch(error => {
+      setMessage(error)
+      setIsPositive(false)
+      setShowMessage(true)
+  
+      setTimeout(() => {
+        setShowMessage(false)
+      }, 6000)
+    })
+  }
+}
 
 // Nämä Expandable-mallista
 // XXX - tästä saakka
@@ -139,7 +204,9 @@ const expandedRows = React.useMemo(() => {
           
             {showAllCards &&
             <div className='table'>
-                <TableAllCards tbodyData={allCards} setCard={setCard} setQuery={setQuery} renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />
+                <button ref={buttonRef} className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '}
+                <TableAllCards tbodyData={allCards} addToCollection={addToCollection} addId={addId}
+                renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />
             </div>}
           </div>
         ) : (

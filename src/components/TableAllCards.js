@@ -17,11 +17,13 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expandRows, expandedRowObj }) => {
+export const TableAllCards = ({ tbodyData, addToCollection, renderRowSubComponent, expandRows, expandedRowObj }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
-    const columns = useMemo(() => COLUMNS, [])
+    // const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => tbodyData, [tbodyData]) // tbodyData={decks}, eli deckit tietokannasta. , [tbodyData]) = useMemo päivittyy aina tbodyDatan päivittyessä.
+
+    const [upstatedId, setUpstatedId] = useState('') // haetun kortin id:n uudelleen asetus staten päivittämiseksi ajantasalle
 
     const defaultColumn = useMemo(() => {        
         // () => ({
@@ -32,15 +34,133 @@ export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expan
             Filter: ColumnFilter
         }
     })
+
+    const columns = useMemo(
+        () => [
+            {
+                Header: 'Name',
+                Footer: 'name',
+                accessor: 'name',
+                //   maxWidth: 350,
+                //   minWidth: 100,
+                //   width: 200,
+            },
+            {
+                Header: 'Rarity',
+                Footer: 'rarity',
+                accessor: 'rarity',
+              //   maxWidth: 150,
+              //   minWidth: 100,
+                width: 70,
+            },
+            {
+                Header: 'Set',
+                Footer: 'set_name',
+                accessor: 'setName',
+              //   maxWidth: 300,
+              //   minWidth: 100,
+              //   width: 180,
+            },
+            {
+                Header: 'Set code',
+                Footer: '[set]',
+                accessor: 'set',  
+              //   maxWidth: 140,
+              //   minWidth: 60,
+                width: 50,
+            },
+            {
+                Header: 'Lang',
+                Footer: 'lang',
+                accessor: 'lang',
+              //   maxWidth: 100,
+                // minWidth: 100,
+                width: 50,
+            },
+            {
+                Header: 'Mana cost',
+                Footer: 'mana_cost',
+                accessor: 'manaCost',
+              //   maxWidth: 300,
+              //   minWidth: 100,
+                width: 100,
+            },
+            {
+                Header: 'Type line',
+                Footer: 'type_line',
+                accessor: 'typeLine',
+              //   maxWidth: 400,
+              //   minWidth: 100,
+              //   width: 250,
+            },
+            {
+                Header: 'Oracle text',
+                Footer: 'oracle_text',
+                accessor: 'oracleText',
+              //   maxWidth: 600,
+              //   minWidth: 100,
+              //   width: 400,
+                // padding: 10,
+            },
+            {
+                Header: 'Power',
+                Footer: 'power',
+                accessor: 'power',
+              //   maxWidth: 100,
+              //   minWidth: 40,
+                width: 40,
+            },
+            {
+                Header: 'Toughness',
+                Footer: 'toughness',
+                accessor: 'toughness',
+              //   maxWidth: 100,
+              //   minWidth: 40,
+                width: 40,
+            },
+            {
+              id: 'id', // luultavimmin voi poistaa
+              Header: 'id',
+              Footer: 'id',
+              accessor: 'id',
+              // Filter: ColumnFilter,
+              // disableFilters: true
+            },
+            {
+                Header: 'Border color',
+                Footer: 'border_color',
+                accessor: 'borderColor',
+                maxWidth: 110,
+                minWidth: 10,
+                width: 110,
+            },
+            {
+                Header: 'Object',
+                Footer: 'object',
+                accessor: 'object',
+                maxWidth: 100,
+                minWidth: 50,
+                width: 80,
+            },{
+              width: 60,
+              Header: ('Add'),
+              // accessor: 'action',
+              Cell: row => (
+              <div>
+                <button className='button' onClick={e=> handleAdd(row.row.original)}>Add</button>
+              </div>
+              ),
+            },
+          ], [], )
+
+    function handleAdd(row) {        
+        const addId = (row)
+        addToCollection(addId)
+    }
     
     function handleShowDetails(row) {
-        console.log(row)
+        // console.log(row)
     }
-
-    // Käsittelee ko. riviltä painetun Deletee-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
-    // function handleDelete(row) {
-    //     deleteDeck(row)
-    // }
 
     // function handleShowDeck(row) {
     //     setQuery(row.deckId)
@@ -91,14 +211,14 @@ export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expan
         useRowSelect,
         hooks => {
             hooks.visibleColumns.push(columns => [
-                {
-                id: 'selection',
-                width: 40,
-                Header: ({ getToggleAllRowsSelectedProps }) => (
-                    <Checkbox {...getToggleAllRowsSelectedProps()} />
-                ),
-                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => console.log(row.original)}/>
-                },
+                // {
+                // id: 'selection',
+                // width: 40,
+                // Header: ({ getToggleAllRowsSelectedProps }) => (
+                //     <Checkbox {...getToggleAllRowsSelectedProps()} />
+                // ),
+                // Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => console.log(row.original)}/>
+                // },
                 {                    
                     maxWidth: 60,
                     minWidth: 40,
@@ -138,28 +258,28 @@ export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expan
 
       // Jos haluaa muuttaa kolumnien järjestystä.
       // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
-      const changeOrder = () => {
-        setColumnOrder([
-            'set',
-            'id',
-            'name',
-            'rarity',
-            'setName',
-            'manaCost',
-            'typeLine',          
-            'oracleText',
-            'power',
-            'toughness',
-            'lang',
-            'borderColor',
-            'object',
-        ])
-      }
+    //   const changeOrder = () => {
+    //     setColumnOrder([
+    //         'set',
+    //         'id',
+    //         'name',
+    //         'rarity',
+    //         'setName',
+    //         'manaCost',
+    //         'typeLine',          
+    //         'oracleText',
+    //         'power',
+    //         'toughness',
+    //         'lang',
+    //         'borderColor',
+    //         'object',
+    //     ])
+    //   }
 
     return (
         <>
         <React.Fragment>
-            <button className='button' onClick={changeOrder}>Change column order</button>{' '}
+            {/* <button className='button' onClick={changeOrder}>Change column order</button>{' '} */}
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
             <div className='aligned'>
@@ -213,7 +333,7 @@ export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expan
                         // console.log("row:", row.original.id)
                         return (                  
                             <React.Fragment key={i + "_frag"}>
-                                <tr key={row.original.id} {...row.getRowProps()} onClick={() => console.log(row.original)}>
+                                <tr key={row.original.id} {...row.getRowProps()} onClick={() => handleShowDetails(row.original)}>
                                     {row.cells.map((cell) => {
                                         return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                     })}                            
@@ -222,8 +342,7 @@ export const TableAllCards = ({ setCard, tbodyData, renderRowSubComponent, expan
                                     <tr>
                                     {/* <td onClick={() => handleShowDeck(row.original)}></td> */}
                                     <td >
-                                        <span className="subTableAllCards">
-                                        {/* {setCard(row.original)} */}
+                                        <span className="subTableAllCards">                                        
                                         {renderRowSubComponent({ row })}                               
                                         </span>
                                     </td>

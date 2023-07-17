@@ -1,7 +1,4 @@
 import { ColumnFilter } from './ColumnFilter'
-import DecksService from '../services/Decks'
-import DeckEdit from '../DeckEdit'
-import DecksList from '../DecksList'
 
 export const COLUMNS =  [
     {
@@ -485,9 +482,10 @@ export const COLUMNS =  [
   //     // accessor: 'action',
   //     Cell: row => (
   //     <div>
-  //       {/* <button onClick={e=> handleShowDetails(row.row.original)}>Details</button> */}
+  //       <button onClick={e=> handleAdd(row.row.original)}>Add</button>
   //       {/* <button onClick={e=> handleDelete(row.row.original)}>Delete</button> */}
   //     </div>
   //     ),
   //   },
   ]
+  

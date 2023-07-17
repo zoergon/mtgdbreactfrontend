@@ -1,5 +1,5 @@
 import './App.css'
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import OwnedCardsService from './services/OwnedCards'
 import OneOwnedCardContents from './OneOwnedCardContents'
 import { TableOwnedCards } from "./components/TableOwnedCards"
@@ -14,13 +14,24 @@ const OwnedCardsList = ({setIsPositive, setShowMessage, setMessage}) => {
 const [allCards, setAllCards] = useState([]) // Kaikki kortit allCards-taulusta
 const [showAllCards, setShowAllCards] = useState(false)
 const [reload, reloadNow] = useState(false)
+
 // const [search, setSearch] = useState("")
 const [query, setQuery] = useState('') // Bäckendille lähtevä hakusana
-const [card, setCard] = useState('') // Yhden haettavan kortin data backendiltä
 
+// Muuttujat kortin count-määrän muuttamiseen
+var editCount = ''
+var updateRow = ''
+
+// useRef refresh-buttonille
+const buttonRef = useRef(null)
+
+// reload-staten kääntely
+function clickHandler(event) {
+  reloadNow(!reload)
+}
 
 useEffect(() => {
-    OwnedCardsService.getAll()
+  OwnedCardsService.getAll()
   .then(data => {
     console.log(data)
     setAllCards(data)
@@ -29,22 +40,99 @@ useEffect(() => {
 },[reload]
 )
 
-// useEffect(() => {
-//   if (query !== "") // Ei hae tyhjällä stringillä
-//   AllCardsService.getOneCard(query)
-//   .then(data => {
-//     console.log("getOneCard", data)
-//     setCard(data)
-// })
-//   .catch(error => console.log(error))
-// },[reload]
-// )
+// Kortin lukumäärän (count) kasvattamiseen funktio
+const increaseCount = (row) => {
+  updateRow = (row)
+  editCount = parseInt(updateRow.count) + 1  
+  updateCount(updateRow, editCount)
+}
 
-//hakukentän funktio
-// const handleSearchInputChange = (event) => {
-//     setShowAllCards(true)
-//     setSearch(event.target.value.toLowerCase())
-// }
+// Kortin lukumäärän (count) vähentämiseen funktio
+const decreaseCount = (row) => {
+  updateRow = (row)
+  if (updateRow.count != 1) {    
+    editCount = parseInt(updateRow.count) - 1
+    updateCount(updateRow, editCount)
+  }
+}
+
+// Varsinainen päivittävä toiminto kortin countin muuttamiseen
+const updateCount = (updateRow, editCount) => {  
+  // luodaan newCard-olio, joka poimii muuttujasta datan
+  var newCard = {
+      indexId: parseInt(updateRow.indexId),      
+      id: updateRow.id,
+      count: parseInt(editCount),
+      loginId: parseInt(updateRow.loginId)
+  }
+  // Kortin update
+  OwnedCardsService.update(newCard)
+  .then(response => {
+  if (response.status === 200) {      
+      editCount = ''
+      updateRow = ''      
+      buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
+      buttonRef.current.click() // Käskee klikata refresh-buttonia
+  }
+  })
+  .catch(error => {
+  console.log(newCard)
+  setMessage(error.message)
+  setIsPositive(false)
+  setShowMessage(true)
+
+  setTimeout(() => {
+      setShowMessage(false)
+  }, 6000)
+  })
+}
+
+// Delete-funktio kortille
+const deleteCard = (card) => {
+  let answer = window.confirm(`Are you sure you want to permanently delete the card: ${card.idNavigation.name}?`)
+
+  if(answer === true) {
+  
+    OwnedCardsService.remove(card.indexId)
+  .then(res => {
+      if (res.status === 200) {
+          setMessage(`Succesfully deleted the card: ${card.idNavigation.name}.`)
+          buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
+          buttonRef.current.click() // Käskee klikata refresh-buttonia
+          setIsPositive(true)
+          setShowMessage(true)
+          window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+
+          // Ilmoituksen piilotus
+          setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+            reloadNow(!reload)
+      }
+  })
+  .catch(error => {
+      setMessage(error)
+      setIsPositive(false)
+      setShowMessage(true)
+      window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+
+      setTimeout(() => {
+        setShowMessage(false)
+      }, 6000)
+    })
+
+  } // Jos poisto perutaan, annetaan ilmoitus onnistuneesta perumisesta.
+  else {
+      setMessage('Canceled the deletion of the card.')
+          setIsPositive(true)
+          setShowMessage(true)
+          window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+
+          setTimeout(() => {
+              setShowMessage(false)
+            }, 3000)
+  }
+}
 
 // Nämä Expandable-mallista
 // XXX - tästä saakka
@@ -139,7 +227,9 @@ const expandedRows = React.useMemo(() => {
           
             {showAllCards &&
             <div className='table'>
-                <TableOwnedCards tbodyData={allCards} setCard={setCard} setQuery={setQuery} renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />
+                <button ref={buttonRef} className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '}
+                <TableOwnedCards tbodyData={allCards} setQuery={setQuery} deleteCard={deleteCard} increaseCount={increaseCount} decreaseCount={decreaseCount}
+                renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />
             </div>}
           </div>
         ) : (

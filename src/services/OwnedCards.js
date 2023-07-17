@@ -21,6 +21,14 @@ const getById = (query) => {
     return request.then(response => response.data)
 }
 
+// const getAllById = (query) => {
+//     const config = {
+//         headers: {},        
+//     }
+//     const request = axios.get(`${idUrl}/${query}`, config)
+//     return request.then(response => response.data)
+// }
+
 const getByName = (query) => {
     const config = {
         headers: {},        
