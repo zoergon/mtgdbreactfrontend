@@ -223,10 +223,15 @@ const expandedRows = React.useMemo(() => {
 // if (decks.length > 0) {
   return (
     <>
+      <div>
+        <h3><nobr style={{ cursor: 'pointer'}}
+          onClick={() => setShowDecks(!showDecks)}>Decks</nobr>        
+        </h3>
+      </div>
         {decks.length > 0 ? (
           <div className='table'>            
               {!create && <button className="button" onClick={addDeck}>Create a new deck</button>}{' '}
-              <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>
+              <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '}
               {/* {!edit && <button className="button" onClick={() => setEdit(true)}>Edit the selected deck</button>}{' '} */}
               <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} setEditDeck={setEditDeck} reloadNow={reloadNow} reload={reload}
                       setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}

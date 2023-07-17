@@ -47,13 +47,16 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
                 Header: 'Name',
                 Footer: 'name',
                 accessor: 'idNavigation.name',
+                maxWidth: 350,
+                minWidth: 100,
+                width: 120,
             },
             {
                 Header: 'Rarity',
                 Footer: 'rarity',
                 accessor: 'idNavigation.rarity',
                 maxWidth: 120,
-                minWidth: 50,
+                minWidth: 10,
                 width: 70,
             },
             {
@@ -61,32 +64,32 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
                 Footer: 'set_name',
                 accessor: 'idNavigation.setName',
                 maxWidth: 200,
-                minWidth: 100,
-                width: 180,
+                minWidth: 50,
+                width: 120,
             },
             {
                 Header: 'Set code',
                 Footer: '[set]',
                 accessor: 'idNavigation.set',  
                 maxWidth: 100,
-                minWidth: 60,
-                width: 70,      
+                minWidth: 10,
+                width: 50,      
             },
             {
                 Header: 'Lang',
                 Footer: 'lang',
                 accessor: 'idNavigation.lang',
-                maxWidth: 80,
-                minWidth: 40,
-                width: 60,
+                maxWidth: 100,
+                minWidth: 10,
+                width: 50,
             },
             {
                 Header: 'Mana cost',
                 Footer: 'mana_cost',
                 accessor: 'idNavigation.manaCost',
                 maxWidth: 200,
-                minWidth: 100,
-                width: 150,
+                minWidth: 10,
+                width: 70,
             },
             {
                 Header: 'Type line',
@@ -100,7 +103,7 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
                 Header: 'Oracle text',
                 Footer: 'oracle_text',
                 accessor: 'idNavigation.oracleText',
-                maxWidth: 400,
+                maxWidth: 600,
                 minWidth: 100,
                 width: 400,
                 // padding: 10,
@@ -110,40 +113,40 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
                 Footer: 'power',
                 accessor: 'idNavigation.power',
                 maxWidth: 60,
-                minWidth: 40,
-                width: 60,
+                minWidth: 10,
+                width: 40,
             },
             {
                 Header: 'Toughness',
                 Footer: 'toughness',
                 accessor: 'idNavigation.toughness',
                 maxWidth: 60,
-                minWidth: 40,
-                width: 60,
+                minWidth: 10,
+                width: 40,
             },
-            {
-              id: 'id', // luultavimmin voi poistaa
-              Header: 'id',
-              Footer: 'id',
-              accessor: 'id',
-              // Filter: ColumnFilter,
-              // disableFilters: true
-            },
+            // {
+            //   id: 'id', // luultavimmin voi poistaa
+            //   Header: 'id',
+            //   Footer: 'id',
+            //   accessor: 'id',
+            //   // Filter: ColumnFilter,
+            //   // disableFilters: true
+            // },
             {
                 Header: 'Border color',
                 Footer: 'border_color',
                 accessor: 'idNavigation.borderColor',
                 maxWidth: 110,
                 minWidth: 10,
-                width: 110,
+                width: 40,
             },
             {
                 Header: 'Object',
                 Footer: 'object',
                 accessor: 'idNavigation.object',
                 maxWidth: 100,
-                minWidth: 50,
-                width: 80,
+                minWidth: 10,
+                width: 40,
             },
             {
               width: 90,
@@ -160,16 +163,16 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
           ], [], )
     
     function handleShowDetails(row) {
-        console.log(row)
+        // console.log(row)
+        // setQuery(row.deckId)
+        // setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
     }
 
     function handlePlus(row) {
-        // servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
         increaseCount(row)
     }
 
     function handleMinus(row) {
-        // servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService        
         decreaseCount(row)
     }
 
@@ -177,11 +180,6 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
     function handleDelete(row) {
         console.log("row.id", row.id)
         deleteCard(row)
-    }
-
-    function handleShowDeck(row) {
-    //     setQuery(row.deckId)
-    //     setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
     }
 
     const {
@@ -238,8 +236,8 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
                 },
                 {                    
                     maxWidth: 60,
-                    minWidth: 40,
-                    width: 40,
+                    minWidth: 10,
+                    width: 30,
                     // Expander column
                     id: 'expander', // Make sure it has an ID
                     Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
@@ -350,7 +348,7 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
                         // console.log("row:", row.original.id)
                         return (                  
                             <React.Fragment key={i + "_frag"}>
-                                <tr key={row.original.id} {...row.getRowProps()} onClick={() => handleShowDeck(row.original)}>
+                                <tr key={row.original.id} {...row.getRowProps()} onClick={() => handleShowDetails(row.original)}>
                                     {row.cells.map((cell) => {
                                         return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                     })}                            
@@ -379,9 +377,7 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
                     ))}
                 </tfoot> */}
             </table>
-            {/* <br /> */}
-            <div>Showing {pageSize} results of {rows.length} rows total</div>
-            <pre></pre>
+            {/* <br /> */}            
 
             <div>
                 <span>
@@ -426,9 +422,11 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
                     ))}
                 </select>
             </div>
-            <pre>
+            <div>Showing {pageSize} results of {rows.length} rows total</div>
+            <pre></pre>
+            {/* <pre>
             <code>{JSON.stringify({ expanded: expanded }, null, 2)}</code>
-            </pre>
+            </pre> */}
 
             {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
             {/* <pre>

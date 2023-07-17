@@ -4,10 +4,10 @@ import AllCardsService from './services/AllCards'
 import CommandersService from './services/Commanders'
 import DecksService from './services/Decks'
 import DecksList from './DecksList'
-import ResultList from './components/ResultList.js'
-import SearchBar from './components/SearchBar.js'
+// import ResultList from './components/ResultList.js'
+// import SearchBar from './components/SearchBar.js'
 import Dropdown from "./components/Dropdown.js"
-import SelectedCard from "./components/SelectedCard.js"
+// import SelectedCard from "./components/SelectedCard.js"
 
 
 const CommanderEdit = ({ setEdit, setIsPositive, setShowMessage, setMessage, editCommander }) => {
@@ -145,7 +145,7 @@ const onQuery = (e) => {
           <input type='text' value={query} onChange={onQuery} />
           <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected} isSearchable isMulti placeHolder={query} options={optionList} onChange={(value) => console.log("X onChange: ", value)} />
           <label>Asetettu commander: </label>
-          <SelectedCard selected={selected} />
+          {/* <SelectedCard selected={selected} /> */}
           
       </div>
       

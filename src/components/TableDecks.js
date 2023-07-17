@@ -226,19 +226,19 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
 
       // Jos haluaa muuttaa kolumnien järjestystä.
       // Nämä ovat hard coodatut. Eikä buttoni muuta näitä takaisin alkuperäisiksi.
-      const changeOrder = () => {
-        setColumnOrder([
-            'format',            
-            'name',
-            'deckId',          
-            'loginId',
-        ])
-      }
+    //   const changeOrder = () => {
+    //     setColumnOrder([
+    //         'format',            
+    //         'name',
+    //         'deckId',          
+    //         'loginId',
+    //     ])
+    //   }
 
     return (
         <>
         <React.Fragment>
-            <button className='button' onClick={changeOrder}>Change the column order</button>{' '}
+            {/* <button className='button' onClick={changeOrder}>Change the column order</button>{' '} */}
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
             <div className='aligned'>
@@ -371,9 +371,9 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
                     ))}
                 </select>
             </div>
-            <pre>
+            {/* <pre>
             <code>{JSON.stringify({ expanded: expanded }, null, 2)}</code>
-            </pre>
+            </pre> */}
 
             {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
             {/* <pre>

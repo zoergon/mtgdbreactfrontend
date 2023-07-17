@@ -199,7 +199,7 @@ const expandedRows = React.useMemo(() => {
         {allCards.length > 0 ? (
           <div>
             <h3><nobr style={{ cursor: 'pointer'}}
-            onClick={() => setShowAllCards(!showAllCards)}>Show all cards</nobr>        
+            onClick={() => setShowAllCards(!showAllCards)}>Database</nobr>        
             </h3>
           
             {showAllCards &&

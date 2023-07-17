@@ -18,10 +18,13 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 const App = () => {
 
-//App-komponentin tila
-const [showMessage, setShowMessage] = useState(false)
-const [message, setMessage] = useState('')
-const [isPositive, setIsPositive] = useState(false)
+const [showMessage, setShowMessage] = useState(false) // Näytetäänkö ilmoitus
+const [message, setMessage] = useState('') // Ilmoitukseen asetettava teksti
+const [isPositive, setIsPositive] = useState(false) // Näytetäänkö positiivinen vai negatiivinen viesti
+
+const [showAllCards, setShowAllCards] = useState(true) // AllCardsin avaamista varten statet
+const [showOwnedCards, setShowOwnedCards] = useState(true) // OwnedCardsin avaamista varten statet
+const [showDecks, setShowDecks] = useState(true) // Deckkien avaamista varten statet
 
 return (
   <div className="App">
@@ -35,13 +38,13 @@ return (
             <Nav.Link href={'/AllCards'} className='nav-link'>All cards</Nav.Link>
             <Nav.Link href={'/OwnedCards'} className='nav-link'>Owned cards</Nav.Link>
             <Nav.Link href={'/Decks'} className='nav-link'>Decks</Nav.Link>
-            <Nav.Link href={'/Commanders'} className='nav-link'>Commanders</Nav.Link>
-            <Nav.Link href={'/Companions'} className='nav-link'>Companions</Nav.Link>
-            <Nav.Link href={'/MainDecks'} className='nav-link'>MainDecks</Nav.Link>
-            <Nav.Link href={'/MainDecks'} className='nav-link'>MainDecksDeckId</Nav.Link>
-            <Nav.Link href={'/Maybeboards'} className='nav-link'>Maybeboards</Nav.Link>
-            <Nav.Link href={'/Sideboards'} className='nav-link'>Sideboards</Nav.Link>
-            <Nav.Link href={'/Tokens'} className='nav-link'>Tokens</Nav.Link>
+            {/* <Nav.Link href={'/Commanders'} className='nav-link'>Commanders</Nav.Link> */}
+            {/* <Nav.Link href={'/Companions'} className='nav-link'>Companions</Nav.Link> */}
+            {/* <Nav.Link href={'/MainDecks'} className='nav-link'>MainDecks</Nav.Link> */}
+            {/* <Nav.Link href={'/MainDecks'} className='nav-link'>MainDecksDeckId</Nav.Link> */}
+            {/* <Nav.Link href={'/Maybeboards'} className='nav-link'>Maybeboards</Nav.Link> */}
+            {/* <Nav.Link href={'/Sideboards'} className='nav-link'>Sideboards</Nav.Link> */}
+            {/* <Nav.Link href={'/Tokens'} className='nav-link'>Tokens</Nav.Link> */}
             <Nav.Link href={'/Logins'} className='nav-link'>Logins</Nav.Link>
           </Nav>
         </Navbar>
@@ -50,16 +53,22 @@ return (
 
         {showMessage && <Message message={message} isPositive={isPositive} /> }
 
+        {/* {showAllCards && <AllCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /> } */}
+
+        {/* {showOwnedCards && <OwnedCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /> } */}
+
+        {/* {showDecks && <DecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /> } */}
+
         {/* sen mukaan mitä routessa lukee, niin renderöidään sen mukainen komponentti */}
         <Switch>
           {/* <Route path="/AllCards"> element={<AllCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} />}</Route> */}
           <Route path="/AllCards"> <AllCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
           <Route path="/OwnedCards"> <OwnedCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
           <Route path="/Decks"> <DecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
-          <Route path="/Commanders"> <CommandersList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
+          {/* <Route path="/Commanders"> <CommandersList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Companions"> <CompanionsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
-          <Route path="/MainDecks"> <MainDecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
-          <Route path="/MainDecks"> <MainDecksListDeckId setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
+          {/* <Route path="/MainDecks"> <MainDecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
+          {/* <Route path="/MainDecks"> <MainDecksListDeckId setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Maybeboards"> <MaybeboardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Sideboards"> <SideboardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Tokens"> <TokensList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}

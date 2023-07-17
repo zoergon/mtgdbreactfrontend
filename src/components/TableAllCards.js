@@ -41,49 +41,49 @@ export const TableAllCards = ({ tbodyData, addToCollection, renderRowSubComponen
                 Header: 'Name',
                 Footer: 'name',
                 accessor: 'name',
-                //   maxWidth: 350,
-                //   minWidth: 100,
-                //   width: 200,
+                maxWidth: 350,
+                minWidth: 100,
+                width: 120,
             },
             {
                 Header: 'Rarity',
                 Footer: 'rarity',
                 accessor: 'rarity',
-              //   maxWidth: 150,
-              //   minWidth: 100,
-                width: 70,
+                maxWidth: 150,
+                minWidth: 10,
+                width: 50,
             },
             {
                 Header: 'Set',
                 Footer: 'set_name',
                 accessor: 'setName',
-              //   maxWidth: 300,
-              //   minWidth: 100,
-              //   width: 180,
+                maxWidth: 300,
+                minWidth: 50,
+                width: 120,
             },
             {
                 Header: 'Set code',
                 Footer: '[set]',
                 accessor: 'set',  
-              //   maxWidth: 140,
-              //   minWidth: 60,
+                maxWidth: 140,
+                minWidth: 10,
                 width: 50,
             },
             {
                 Header: 'Lang',
                 Footer: 'lang',
                 accessor: 'lang',
-              //   maxWidth: 100,
-                // minWidth: 100,
+                maxWidth: 100,
+                minWidth: 10,
                 width: 50,
             },
             {
                 Header: 'Mana cost',
                 Footer: 'mana_cost',
                 accessor: 'manaCost',
-              //   maxWidth: 300,
-              //   minWidth: 100,
-                width: 100,
+                maxWidth: 200,
+                minWidth: 10,
+                width: 70,
             },
             {
                 Header: 'Type line',
@@ -107,42 +107,42 @@ export const TableAllCards = ({ tbodyData, addToCollection, renderRowSubComponen
                 Footer: 'power',
                 accessor: 'power',
               //   maxWidth: 100,
-              //   minWidth: 40,
-                width: 40,
+                minWidth: 10,
+                width: 30,
             },
             {
                 Header: 'Toughness',
                 Footer: 'toughness',
                 accessor: 'toughness',
               //   maxWidth: 100,
-              //   minWidth: 40,
-                width: 40,
+                minWidth: 10,
+                width: 30,
             },
-            {
-              id: 'id', // luultavimmin voi poistaa
-              Header: 'id',
-              Footer: 'id',
-              accessor: 'id',
-              // Filter: ColumnFilter,
-              // disableFilters: true
-            },
+            // {
+            //   id: 'id', // luultavimmin voi poistaa
+            //   Header: 'id',
+            //   Footer: 'id',
+            //   accessor: 'id',
+            //   // Filter: ColumnFilter,
+            //   // disableFilters: true
+            // },
             {
                 Header: 'Border color',
                 Footer: 'border_color',
                 accessor: 'borderColor',
                 maxWidth: 110,
                 minWidth: 10,
-                width: 110,
+                width: 40,
             },
             {
                 Header: 'Object',
                 Footer: 'object',
                 accessor: 'object',
                 maxWidth: 100,
-                minWidth: 50,
-                width: 80,
+                minWidth: 20,
+                width: 40,
             },{
-              width: 60,
+              width: 45,
               Header: ('Add'),
               // accessor: 'action',
               Cell: row => (
@@ -221,8 +221,8 @@ export const TableAllCards = ({ tbodyData, addToCollection, renderRowSubComponen
                 // },
                 {                    
                     maxWidth: 60,
-                    minWidth: 40,
-                    width: 40,
+                    minWidth: 10,
+                    width: 30,
                     // Expander column
                     id: 'expander', // Make sure it has an ID
                     Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
@@ -362,9 +362,7 @@ export const TableAllCards = ({ tbodyData, addToCollection, renderRowSubComponen
                     ))}
                 </tfoot> */}
             </table>
-            {/* <br /> */}
-            <div>Showing {pageSize} results of {rows.length} rows total</div>
-            <pre></pre>
+            {/* <br /> */}           
 
             <div>
                 <span>
@@ -408,10 +406,12 @@ export const TableAllCards = ({ tbodyData, addToCollection, renderRowSubComponen
                         </option>
                     ))}
                 </select>
+                <div>Showing {pageSize} results of {rows.length} rows total</div>
+            <pre></pre>
             </div>
-            <pre>
+            {/* <pre>
             <code>{JSON.stringify({ expanded: expanded }, null, 2)}</code>
-            </pre>
+            </pre> */}
 
             {/* näyttää checkboxilla valittujen rivien flatrow-datan */}
             {/* <pre>
