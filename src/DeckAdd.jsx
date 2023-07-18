@@ -6,9 +6,8 @@ import DecksService from './services/Decks'
 import FormatsService from './services/Formats'
 import DropdownFormats from './components/DropdownFormats.js'
 
-const ModalDeckAdd = ({setCreate, setIsPositive, setShowMessage, setMessage, isShowAddDeck, invokeModalAddDeck, reload, reloadNow }) => {
+const ModalDeckAdd = ({ setCreate, setIsPositive, setShowMessage, setMessage, isShowAddDeck, invokeModalAddDeck, reload, reloadNow }) => {
 
-const [newDeckId, setNewDeckId] = useState('')
 const [newName, setNewName] = useState('')
 const [newFormatId, setNewFormatId] = useState('')
 const [newLoginId, setNewLoginId] = useState('')
@@ -25,6 +24,11 @@ const initModal = () => {
 
 // Dropdown-valikkoon valittavissa olevat formaatit
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      FormatsService
+            .setToken(token)
+
     FormatsService.getAll()
   .then(data => {    
     setOptionList(data) // saatu data sijoitetaan optionListiin

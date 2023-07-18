@@ -46,7 +46,12 @@ const [isShowEditDeck, invokeModalEditDeck] = useState(false) // ModalDeckConten
 
 // UseEffect ajetaan aina alussa kerran
 useEffect(() => {
-    DecksService.getAll()
+
+  const token = localStorage.getItem('token')
+        DecksService
+              .setToken(token)
+
+  DecksService.getAll()
   .then(data => {
     console.log(data)
     setDecks(data)

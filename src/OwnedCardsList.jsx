@@ -31,6 +31,11 @@ function clickHandler(event) {
 }
 
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+        OwnedCardsService
+              .setToken(token)
+
   OwnedCardsService.getAll()
   .then(data => {
     console.log(data)

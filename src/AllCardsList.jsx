@@ -36,6 +36,11 @@ function clickHandler(event) {
 }
 
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+        AllCardsService
+              .setToken(token)
+
     AllCardsService.getAll()
   .then(data => {
     console.log(data)
@@ -84,7 +89,12 @@ const addToCollection = (event) => {
 
   // if (event !== "" && checkId !== "" && checkSame !== "" && checkId !== checkSame) {
   if (event !== "") {
-    console.log("POST:", event);
+    console.log("POST:", event)
+
+    const token = localStorage.getItem('token')
+        OwnedCardsService
+              .setToken(token)
+
     OwnedCardsService.create(newCard)
     .then(response => {
       if (response.status === 200) {

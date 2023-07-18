@@ -81,6 +81,7 @@ return (
             {/* <Nav.Link href={'/Sideboards'} className='nav-link'>Sideboards</Nav.Link> */}
             {/* <Nav.Link href={'/Tokens'} className='nav-link'>Tokens</Nav.Link> */}
             {accesslevelId === '1' && <Nav.Link href={'/Logins'} className='nav-link'>Logins</Nav.Link>}
+            <Nav.Link id='loggedIn' >{loggedInUser}</Nav.Link>
             <button onClick={() => logout()}>Logout</button>
           </Nav>
         </Navbar>

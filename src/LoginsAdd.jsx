@@ -2,6 +2,8 @@ import './App.css'
 import React, { useState } from 'react'
 import LoginsService from './services/Logins'
 import md5 from 'md5'
+import { Modal, Button, Form } from 'react-bootstrap'
+import './components/modal.css'
 
 //setLisäystila-props - päästään lähtemään pois lisäyslomakkeelta!
 const LoginsAdd = ({ setCreate, setIsPositive, setShowMessage, setMessage, createUser }) => {

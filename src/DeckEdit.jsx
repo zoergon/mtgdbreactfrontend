@@ -74,6 +74,11 @@ const handleSubmit = (event) => {
 // const [query, setQuery] = useState("") // Backendille lähtevä hakusana
 // Dropdown-valikkoon valittavissa olevat formaatit
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      FormatsService
+            .setToken(token)
+
   // if (query !== "") // Ei hae tyhjällä stringillä
     // FormatsService.getFormat(query)
     FormatsService.getAll()

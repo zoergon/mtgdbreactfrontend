@@ -61,6 +61,11 @@ const [img, setImg] = useState() // Kortin kuvalinkki
 // })
 
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      CommandersService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   CommandersService.getByDeckId(query) // parseInt stringille
   .then(data => {
@@ -72,6 +77,11 @@ useEffect(() => {
 )
 
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      CompanionsService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   CompanionsService.getByDeckId(query) // parseInt stringille
   .then(data => {
@@ -83,6 +93,11 @@ useEffect(() => {
 )
 
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      MainDecksService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   MainDecksService.getByDeckId(query) // parseInt stringille
   .then(data => {
@@ -94,6 +109,11 @@ useEffect(() => {
 )
 
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      MaybeboardsService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   MaybeboardsService.getByDeckId(query) // parseInt stringille
   .then(data => {
@@ -105,6 +125,11 @@ useEffect(() => {
 )
 
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      SideboardsService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   SideboardsService.getByDeckId(query) // parseInt stringille
   .then(data => {
@@ -116,6 +141,11 @@ useEffect(() => {
 )
 
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      TokensService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   TokensService.getByDeckId(query) // parseInt stringille
   .then(data => {

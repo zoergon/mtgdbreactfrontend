@@ -15,7 +15,7 @@ const setToken = newToken => {
 
 const getAll = () => {
     const config = {
-        headers: {},
+        headers: { Authorization: token },
     }
     const request = axios.get(baseUrl, config)
     return request.then(response => response.data)
@@ -23,7 +23,7 @@ const getAll = () => {
 
 const getOneCardById = (query) => {
     const config = {
-        headers: {},        
+        headers: { Authorization: token },        
     }
     const request = axios.get(`${idUrl}/${query}`, config)
     return request.then(response => response.data)
@@ -31,7 +31,7 @@ const getOneCardById = (query) => {
 
 const getName = (query) => {
     const config = {
-        headers: {},        
+        headers: { Authorization: token },        
     }
     const request = axios.get(`${nameUrl}/${query}`, config)
     return request.then(response => response.data)
@@ -39,10 +39,10 @@ const getName = (query) => {
 
 const getPartialName = (query) => {
     const config = {
-        headers: {},        
+        headers: { Authorization: token },        
     }
     const request = axios.get(`${partialNameUrl}/${query}`, config)
     return request.then(response => response.data)
 }
 
-export default { getAll, getOneCardById, getName, getPartialName }
+export default { getAll, getOneCardById, getName, getPartialName, setToken }

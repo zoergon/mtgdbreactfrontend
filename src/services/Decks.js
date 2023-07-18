@@ -13,7 +13,7 @@ const setToken = newToken => {
 
 const getAll = () => {
     const config = {
-        headers: {},
+        headers: { Authorization: token },
     }
     const request = axios.get(baseUrl, config)
     return request.then(response => response.data)
@@ -21,7 +21,7 @@ const getAll = () => {
 
 const getName = (query) => {
     const config = {
-        headers: {},        
+        headers: { Authorization: token },        
     }
     const request = axios.get(`${nameUrl}/${query}`, config)
     return request.then(response => response.data)
@@ -29,24 +29,24 @@ const getName = (query) => {
 
 const create = newDeck => {
     const config = {
-        headers: {},
+        headers: { Authorization: token },
     }
     return axios.post(baseUrl, newDeck, config)
 }
 
 const remove = id => {
     const config = {
-        headers: {},
+        headers: { Authorization: token },
     }
     return axios.delete(`${baseUrl}/${id}`, config)
 }
 
 const update = object => {
     const config = {
-        headers: {},
+        headers: { Authorization: token },
     }
     return axios.put(`${baseUrl}/${object.deckId}`, object, config)
 }
 
 
-export default { getAll, getName, create, remove, update }
+export default { getAll, getName, create, remove, update, setToken }

@@ -96,6 +96,11 @@ function clickHandler(event) {
 
 // Hakee kaikki commanderit deckId:n mukaisesti
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      CommandersService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   CommandersService.getByDeckId(query)
   .then(data => {
@@ -107,6 +112,11 @@ useEffect(() => {
 
 // Hakee kaikki companionit deckId:n mukaisesti
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      CompanionsService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   CompanionsService.getByDeckId(query)
   .then(data => {
@@ -118,6 +128,11 @@ useEffect(() => {
 
 // Hakee kaikki main deckin kortit deckId:n mukaisesti
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      MainDecksService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   MainDecksService.getByDeckId(query)
   .then(data => {
@@ -129,6 +144,11 @@ useEffect(() => {
 
 // Hakee kaikki maybe boardin kortit deckId:n mukaisesti
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      MaybeboardsService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   MaybeboardsService.getByDeckId(query)
   .then(data => {
@@ -140,6 +160,11 @@ useEffect(() => {
 
 // Hakee kaikki side boardin kortit deckId:n mukaisesti
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      SideboardsService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   SideboardsService.getByDeckId(query)
   .then(data => {
@@ -151,6 +176,11 @@ useEffect(() => {
 
 // Hakee kaikki tokenit deckId:n mukaisesti
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      TokensService
+            .setToken(token)
+
   if (query !== "") // Ei hae tyhjällä stringillä
   TokensService.getByDeckId(query)
   .then(data => {
@@ -273,6 +303,11 @@ const deleteCard = (card, servicer) => {
 
 // Kortit dropdown-valikkoon, data nimen perusteella queryCards => .getPartialName
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      AllCardsService
+            .setToken(token)
+
   if (queryCards !== "" && queryCards.length >= 3) // Ei hae tyhjällä stringillä
     AllCardsService.getPartialName(queryCards)
   .then(data => {
@@ -285,6 +320,11 @@ useEffect(() => {
 
 // DeckParts dropdown-valikkoon data => .getAll
 useEffect(() => {
+
+  const token = localStorage.getItem('token')
+      DeckPartsService
+            .setToken(token)
+
   // if (queryCommander !== "" && queryCommander.length >= 3) // Ei hae tyhjällä stringillä
   DeckPartsService.getAll()
   .then(data => {    
