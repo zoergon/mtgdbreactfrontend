@@ -4,7 +4,7 @@ import MainDecksService from './services/MainDecks'
 // import MainDeck from './MainDeck'
 import MainDeckAdd from './MainDeckAdd'
 import MainDeckEdit from './MainDeckEdit'
-import { TableMainDecks } from "./components/TableMainDecks"
+import { TableDeckContents } from "./components/TableDeckContents"
 
 // kopio alkuperäisestä MainDecksListDeckId.jsx:stä
 // mukana kaikki aivan alkuperäiset kommentoidut osiotkin

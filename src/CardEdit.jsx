@@ -32,7 +32,6 @@ const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, edit
 
     var imageUri = ""
     var query = editCard.name
-    // var servicerChild = servicer
 
     // Modal-ikkunan aukaiseminen ja sulkeminen
     const initModal = () => {

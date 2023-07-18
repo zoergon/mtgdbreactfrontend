@@ -4,7 +4,7 @@ export default function Table({ theadData, tbodyData }) {
             <thead>
                 <tr>
                     {theadData.map(heading =>  {
-                        return <th key={heading}>{heading}</th>
+                        return <th key={heading}>{heading} </th>
                     })}
                 </tr>
             </thead>
