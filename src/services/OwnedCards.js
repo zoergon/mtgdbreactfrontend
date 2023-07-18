@@ -5,6 +5,14 @@ const idUrl = "https://localhost:7120/api/ownedcards/id"
 const nameUrl = "https://localhost:7120/api/ownedcards/name"
 const partialNameUrl = "https://localhost:7120/api/ownedcards/partialname"
 
+let token = null
+
+// Tämä on metodi, jota kutsutaan aina ennen kuin tehdään muu pyyntö serviceen
+// Parametrina annetaan token, joka otetaan local storagesta
+const setToken = newToken => {
+    token = `bearer ${newToken}`
+}
+
 const getAll = () => {
     const config = {
         headers: {},

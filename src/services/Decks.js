@@ -3,6 +3,14 @@ import axios from "axios"
 const baseUrl = "https://localhost:7120/api/decks"
 const nameUrl = "https://localhost:7120/api/decks/name"
 
+let token = null
+
+// Tämä on metodi, jota kutsutaan aina ennen kuin tehdään muu pyyntö serviceen
+// Parametrina annetaan token, joka otetaan local storagesta
+const setToken = newToken => {
+    token = `bearer ${newToken}`
+}
+
 const getAll = () => {
     const config = {
         headers: {},

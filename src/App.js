@@ -3,10 +3,13 @@ import './App.css';
 import AllCardsList from './AllCardsList'
 import CommandersList from './CommandersList'
 import DecksList from './DecksList'
+import LoginsList from './LoginsList'
 import MainDecksList from './MainDecksList'
 import MainDecksListDeckId from './MainDecksListDeckId'
 import Message from './Message'
 import OwnedCardsList from './OwnedCardsList'
+
+import Login from './Login'
 
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
@@ -26,8 +29,40 @@ const [showAllCards, setShowAllCards] = useState(true) // AllCardsin avaamista v
 const [showOwnedCards, setShowOwnedCards] = useState(true) // OwnedCardsin avaamista varten statet
 const [showDecks, setShowDecks] = useState(true) // Deckkien avaamista varten statet
 
+const [loggedInUser, setLoggedInUser] = useState('')
+const [accesslevelId, setAccesslevelId] = useState('3')
+
+// Käyttäjän "uudelleen sisään kirjaaminen" local storagesta
+useEffect(() => {
+  let storedUser = localStorage.getItem("username")
+  if (storedUser !== null) {
+    setLoggedInUser(storedUser)
+  }
+}, [])
+
+// Accesslevelin hakeminen local storagesta
+useEffect(() => {
+  let storedAccesslevelId = localStorage.getItem("accesslevelId")
+  if (storedAccesslevelId !== null) {
+    setAccesslevelId(storedAccesslevelId)
+  }
+}, [])
+
+// Logout-napin tapahtumakäsittelijä
+const logout = () => {
+  localStorage.clear()
+  setLoggedInUser('')
+  setAccesslevelId('3')
+}
+
 return (
   <div className="App">
+
+    {/* Jollei ole loggedin: */}
+    {!loggedInUser && <Login setMessage={setMessage} setIsPositive={setIsPositive}  setShowMessage={setShowMessage} setLoggedInUser={setLoggedInUser} />}
+
+    {/* Jos on loggedin: */}
+    { loggedInUser &&
 
       <Router>
 
@@ -45,7 +80,8 @@ return (
             {/* <Nav.Link href={'/Maybeboards'} className='nav-link'>Maybeboards</Nav.Link> */}
             {/* <Nav.Link href={'/Sideboards'} className='nav-link'>Sideboards</Nav.Link> */}
             {/* <Nav.Link href={'/Tokens'} className='nav-link'>Tokens</Nav.Link> */}
-            <Nav.Link href={'/Logins'} className='nav-link'>Logins</Nav.Link>
+            {accesslevelId === '1' && <Nav.Link href={'/Logins'} className='nav-link'>Logins</Nav.Link>}
+            <button onClick={() => logout()}>Logout</button>
           </Nav>
         </Navbar>
 
@@ -72,10 +108,12 @@ return (
           {/* <Route path="/Maybeboards"> <MaybeboardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Sideboards"> <SideboardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Tokens"> <TokensList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
-          {/* <Route path="/Logins"> <LoginsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
+          {accesslevelId === '1' && <Route path="/Logins"> <LoginsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>}
         </Switch>
 
       </Router>
+
+    }
 
     </div>
   );
