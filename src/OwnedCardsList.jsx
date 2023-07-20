@@ -8,7 +8,7 @@ import { TableOwnedCardData } from "./components/TableOwnedCardData"
 // Parent
 // Kontrolloi kaikkea ownedCardsiin liittyvää
 
-const OwnedCardsList = ({setIsPositive, setShowMessage, setMessage}) => {
+const OwnedCardsList = ({ loggedInLoginId, setIsPositive, setShowMessage, setMessage }) => {
 
 // Komponentin tilan määritys
 const [allCards, setAllCards] = useState([]) // Kaikki kortit allCards-taulusta
@@ -36,7 +36,8 @@ useEffect(() => {
         OwnedCardsService
               .setToken(token)
 
-  OwnedCardsService.getAll()
+  // OwnedCardsService.getAll()
+  OwnedCardsService.getCardsByLoginId(loggedInLoginId)
   .then(data => {
     console.log(data)
     setAllCards(data)

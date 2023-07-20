@@ -9,7 +9,9 @@ import MainDecksListDeckId from './MainDecksListDeckId'
 import Message from './Message'
 import OwnedCardsList from './OwnedCardsList'
 
-import Login from './Login'
+import ModalLogin from './Login'
+import { Modal, Button, Form } from 'react-bootstrap'
+import './components/modal.css'
 
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
@@ -21,6 +23,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 const App = () => {
 
+const [isShowModalLogin, invokeModalLogin] = useState(true) // ModalLogin (Login.jsx) aukaiseminen ja sulkeminen
+
 const [showMessage, setShowMessage] = useState(false) // Näytetäänkö ilmoitus
 const [message, setMessage] = useState('') // Ilmoitukseen asetettava teksti
 const [isPositive, setIsPositive] = useState(false) // Näytetäänkö positiivinen vai negatiivinen viesti
@@ -29,10 +33,18 @@ const [showAllCards, setShowAllCards] = useState(true) // AllCardsin avaamista v
 const [showOwnedCards, setShowOwnedCards] = useState(true) // OwnedCardsin avaamista varten statet
 const [showDecks, setShowDecks] = useState(true) // Deckkien avaamista varten statet
 
+const [newLoginId, setNewLoginId] = useState(0) // käyttäjätunnuksen id
+
 const [loggedInUser, setLoggedInUser] = useState('')
+const [loggedInLoginId, setLoggedInLoginId] = useState('')
 const [accesslevelId, setAccesslevelId] = useState('3')
 
-// Käyttäjän "uudelleen sisään kirjaaminen" local storagesta
+// Modal-ikkunan aukaiseminen ja sulkeminen
+// const initModal = () => {
+//   return invokeModalLogin(!isShowModalLogin)
+// }
+
+// Käyttäjän "uudelleen sisään kirjaaminen" local storagesta (backend)
 useEffect(() => {
   let storedUser = localStorage.getItem("username")
   if (storedUser !== null) {
@@ -40,11 +52,21 @@ useEffect(() => {
   }
 }, [])
 
-// Accesslevelin hakeminen local storagesta
+// LoginId:n hakeminen local storagesta (backend)
+useEffect(() => {
+  let storedLoginId = localStorage.getItem("loginId")
+  console.log("storedLoginId", storedLoginId)
+  if (storedLoginId !== null) {
+    setLoggedInLoginId(parseInt(storedLoginId)) // Käyttäjätunnuksen loginId kaikkiin ko. käyttäjän omien sisältöjen hakuihin
+    setNewLoginId(parseInt(storedLoginId)) // Käyttäjätunnuksen loginId kaikkiin postauksiin, updateihin
+  }
+}, [])
+
+// Accesslevelin hakeminen local storagesta (backend)
 useEffect(() => {
   let storedAccesslevelId = localStorage.getItem("accesslevelId")
   if (storedAccesslevelId !== null) {
-    setAccesslevelId(storedAccesslevelId)
+    setAccesslevelId(storedAccesslevelId) // Minne kaikkialle käyttäjätunnuksen accesslevelId:llä on pääsy
   }
 }, [])
 
@@ -59,7 +81,8 @@ return (
   <div className="App">
 
     {/* Jollei ole loggedin: */}
-    {!loggedInUser && <Login setMessage={setMessage} setIsPositive={setIsPositive}  setShowMessage={setShowMessage} setLoggedInUser={setLoggedInUser} />}
+    {!loggedInUser && <ModalLogin isShowModalLogin={isShowModalLogin} invokeModalLogin={invokeModalLogin}
+    setMessage={setMessage} setIsPositive={setIsPositive}  setShowMessage={setShowMessage} setLoggedInUser={setLoggedInUser} />}
 
     {/* Jos on loggedin: */}
     { loggedInUser &&
@@ -99,9 +122,9 @@ return (
         {/* sen mukaan mitä routessa lukee, niin renderöidään sen mukainen komponentti */}
         <Switch>
           {/* <Route path="/AllCards"> element={<AllCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} />}</Route> */}
-          <Route path="/AllCards"> <AllCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
-          <Route path="/OwnedCards"> <OwnedCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
-          <Route path="/Decks"> <DecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
+          <Route path="/AllCards"> <AllCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
+          <Route path="/OwnedCards"> <OwnedCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
+          <Route path="/Decks"> <DecksList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
           {/* <Route path="/Commanders"> <CommandersList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Companions"> <CompanionsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/MainDecks"> <MainDecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}

@@ -2,6 +2,7 @@ import axios from "axios"
 
 const baseUrl = "https://localhost:7120/api/decks"
 const nameUrl = "https://localhost:7120/api/decks/name"
+const loginIdUrl = "https://localhost:7120/api/decks/loginid"
 
 let token = null
 
@@ -27,6 +28,14 @@ const getName = (query) => {
     return request.then(response => response.data)
 }
 
+const getDecksByLoginId = (query) => {
+    const config = {
+        headers: { Authorization: token },        
+    }
+    const request = axios.get(`${loginIdUrl}/${query}`, config)
+    return request.then(response => response.data)
+}
+
 const create = newDeck => {
     const config = {
         headers: { Authorization: token },
@@ -49,4 +58,4 @@ const update = object => {
 }
 
 
-export default { getAll, getName, create, remove, update, setToken }
+export default { getAll, getName, getDecksByLoginId, create, remove, update, setToken }

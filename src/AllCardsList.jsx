@@ -10,7 +10,7 @@ import { TableAllCardData } from "./components/TableAllCardData"
 
 // 
 
-const AllCardsList = ({ setIsPositive, setShowMessage, setMessage }) => {
+const AllCardsList = ({ loggedInUser, newLoginId, setIsPositive, setShowMessage, setMessage }) => {
 
 // Komponentin tilan määritys
 const [allCards, setAllCards] = useState([]) // Kaikki kortit allCards-taulusta
@@ -21,7 +21,7 @@ const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana
 
 const [newId, setNewId] = useState('') // haetun kortin id
 const [newCount, setNewCount] = useState(1) // vaihdettava lukumäärä
-const [newLoginId, setNewLoginId] = useState(1) // käyttäjätunnuksen id
+// const [newLoginId, setNewLoginId] = useState(loggedInUser) // käyttäjätunnuksen id
 
 var addId = ''
 // var checkId = ''
@@ -41,6 +41,8 @@ useEffect(() => {
         AllCardsService
               .setToken(token)
 
+  console.log("newLoginId", newLoginId)
+
     AllCardsService.getAll()
   .then(data => {
     console.log(data)
@@ -55,7 +57,7 @@ const addToCollection = (event) => {
     var newCard = {    
     id: event.id,
     count: parseInt(newCount),
-    loginId: parseInt(newLoginId)
+    loginId: newLoginId
   }
 
   // Tarkistaa löytyykö OwnedCardsista vastaavuutta

@@ -1,6 +1,7 @@
 import axios from "axios"
 
 const baseUrl = "https://localhost:7120/api/ownedcards"
+const loginIdUrl = "https://localhost:7120/api/ownedcards/loginid"
 const idUrl = "https://localhost:7120/api/ownedcards/id"
 const nameUrl = "https://localhost:7120/api/ownedcards/name"
 const partialNameUrl = "https://localhost:7120/api/ownedcards/partialname"
@@ -18,6 +19,14 @@ const getAll = () => {
         headers: { Authorization: token },
     }
     const request = axios.get(baseUrl, config)
+    return request.then(response => response.data)
+}
+
+const getCardsByLoginId = (query) => {
+    const config = {
+        headers: { Authorization: token },        
+    }
+    const request = axios.get(`${loginIdUrl}/${query}`, config)
     return request.then(response => response.data)
 }
 
@@ -75,5 +84,5 @@ const update = object => {
 }
 
 
-export default { getAll, getById, getByName, getPartialName, create, remove, update, setToken }
+export default { getAll, getCardsByLoginId, getById, getByName, getPartialName, create, remove, update, setToken }
 

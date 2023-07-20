@@ -10,12 +10,12 @@ import './components/modal.css'
 // parent: DecksList.jsx
 // TableDecks.js Settings-buttonin aukaisema deckin tietojen editointiin modal-ikkuna
 
-const ModalDeckEdit = ({ isShowDeckSettings, invokeModalDeckSettings, setEdit, setIsPositive, setShowMessage, setMessage, editDeck }) => {
+const ModalDeckEdit = ({ isShowDeckSettings, invokeModalDeckSettings, setEdit, newLoginId, setIsPositive, setShowMessage, setMessage, editDeck }) => {
 
 const [newDeckId, setNewDeckId] = useState(editDeck.deckId)
 const [newName, setNewName] = useState(editDeck.name)
 const [newFormatId, setNewFormatId] = useState(editDeck.formatId)
-const [newLoginId, setNewLoginId] = useState(editDeck.loginId)
+// const [newLoginId, setNewLoginId] = useState(editDeck.loginId)
 
 const [optionList, setOptionList] = useState([]) // Backendiltä saadut formaatit
 const [selected, setSelected] = useState([])
@@ -39,7 +39,7 @@ const handleSubmit = (event) => {
     deckId: parseInt(newDeckId),
     name: newName,
     formatId: parseInt(newFormatId),
-    loginId: parseInt(newLoginId)
+    loginId: newLoginId
   }
 
   // Deckin update
@@ -122,11 +122,11 @@ useEffect(() => {
                 <input type='text' placeholder='Format'
                     value={newFormatId} onChange={({target}) => setNewFormatId(target.value)} />
             </div> */}
-            <Form.Group>
+            {/* <Form.Group>
                 <Form.Label>login_id: </Form.Label>
                 <Form.Control type='number' placeholder='login_id'
                     value={newLoginId} onChange={({target}) => setNewLoginId(target.value)} />
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group>
               <Button variant='primary' type='submit' value='Save'>Save</Button>
 

@@ -24,7 +24,7 @@ import { Modal, Button } from 'react-bootstrap'
 // delete jokaisen kortin kohdalla
 // kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> edit-button rivillä
 
-const ModalDeckContents = ({ isShowEditDeck, invokeModalEditDeck, query, editDeck, setEditDeck, setIsPositive, setShowMessage, setMessage }) => {
+const ModalDeckContents = ({ isShowEditDeck, invokeModalEditDeck, newLoginId, query, editDeck, setEditDeck, setIsPositive, setShowMessage, setMessage }) => {
 
 const [cardsCommander, setCardsCommander] = useState([]) // deckId:llä haettu data backendistä - Commander
 const [cardsCompanion, setCardsCompanion] = useState([]) // deckId:llä haettu data backendistä - Company
@@ -46,7 +46,7 @@ const [img, setImg] = useState() // Kortin kuvalinkki
 const [newId, setNewId] = useState('') // haetun kortin id
 const [newName, setNewName] = useState('') // haetun kortin nimi
 const [newCount, setNewCount] = useState(1) // vaihdettava lukumäärä
-const [newLoginId, setNewLoginId] = useState(1) // käyttäjätunnuksen id
+// const [newLoginId, setNewLoginId] = useState(1) // käyttäjätunnuksen id
 
 const [newDeckPartId, setNewDeckPartId] = useState('') // haetun kortin id
 const [newDeckPartName, setNewDeckPartName] = useState('') // haetun kortin nimi
@@ -210,7 +210,7 @@ const handleSubmit = (event, servicer) => {
     deckId: parseInt(query),
     id: newId,
     count: parseInt(newCount),
-    loginId: parseInt(newLoginId)
+    loginId: newLoginId
   }
 
 // Kortin lisääminen. Tämän olisi tarkoitus toimia muuttuvalla service-statella, riippuen mitä add-buttonia painetaan
@@ -384,6 +384,7 @@ const updateCount = (updateRow, editCount, servicer) => {
 }
 
 // Modalin sulkeminen ja mahdollinen pakotettu refresh stateihin
+// Tämän luultavimmin voisi siirtää takaisin normaalille paikalleen pelkällä initModalilla
 const refreshAndClose = () => {
   // setEditDeck("")
   // console.log("editDeck", editDeck)

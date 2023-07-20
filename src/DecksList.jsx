@@ -1,6 +1,12 @@
 import './App.css'
 import React, { useState, useEffect, useMemo } from 'react'
 import DecksService from './services/Decks'
+import CommandersService from './services/Commanders'
+import CompanionsService from './services/Companions'
+import MainDecksService from './services/MainDecks'
+import MaybeboardsService from './services/Maybeboards'
+import SideboardsService from './services/Sideboards'
+import TokensService from './services/Tokens'
 import ModalDeckAdd from './DeckAdd'
 import ModalDeckEdit from './DeckEdit'
 import ModalDeckContents from './DeckContents.jsx'
@@ -21,19 +27,26 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 // DeckEdit.jsx -> deckin settings-buttonin ModalDeckEdit
 // DeckContents.jsx -> deckin koko sisällön hallinta ModalDeckContents
 
-const DecksList = ({ setIsPositive, setShowMessage, setMessage }) => {
+const DecksList = ({ loggedInLoginId, newLoginId, setIsPositive, setShowMessage, setMessage }) => {
 
 const [decks, setDecks] = useState([]) // Backendiltä tuleva data
 const [showDeck, setShowDeck] = useState(false) // Deckin sisällön näyttämistä varten
 const [showDecks, setShowDecks] = useState(false) // MainDeckien näyttämistä varten. (Nimeä paremmin muiden osioiden myötä.) Tämä näyttää siis vain MainDeckin tablena alla nyt.
 const [reload, reloadNow] = useState(false) // State reloadia varten
-const [searchName, setSearchName] = useState("") // Vanha hakukenttä
-const [searchFormat, setSearchFormat] = useState("") // Vanha hakukenttä
+// const [searchName, setSearchName] = useState("") // Vanha hakukenttä
+// const [searchFormat, setSearchFormat] = useState("") // Vanha hakukenttä
 const [create, setCreate] = useState(false) // Create-tilan määritys (Add)
 const [edit, setEdit] = useState(false) // Edit-tilan määritys
 const [editDeck, setEditDeck] = useState("")
 const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId) MainDecksien hakuun
 const [deckName, setDeckName] = useState("") // Deckin nimi child-taulukoille näytettäväksi
+
+const [cardsCommander, setCardsCommander] = useState([]) // deckId:llä haettu data backendistä - Commander
+const [cardsCompanion, setCardsCompanion] = useState([]) // deckId:llä haettu data backendistä - Company
+const [cardsMainDeck, setCardsMainDeck] = useState([]) // deckId:llä haettu data backendistä - MainDeck
+const [cardsMaybeboard, setCardsMaybeboard] = useState([]) // deckId:llä haettu data backendistä - Maybeboard
+const [cardsSideboard, setCardsSideboard] = useState([]) // deckId:llä haettu data backendistä - Sideboard
+const [cardsTokens, setCardsTokens] = useState([]) // deckId:llä haettu data backendistä - Tokens
 
 const [isShowAddDeck, invokeModalAddDeck] = useState(false) // ModalDeckAdd aukaiseminen ja sulkeminen
 const [isShowDeckSettings, invokeModalDeckSettings] = useState(false) // ModalDeckEdit (deck's settings) aukaiseminen ja sulkeminen
@@ -51,7 +64,8 @@ useEffect(() => {
         DecksService
               .setToken(token)
 
-  DecksService.getAll()
+  DecksService.getDecksByLoginId(loggedInLoginId)
+  // DecksService.getAll()
   .then(data => {
     console.log(data)
     setDecks(data)
@@ -102,6 +116,216 @@ const deleteDeck = (deck) => {
 
   if(answer === true) {
       
+  // Haetaan ensiksi deckin kaikki sisältö osio osiolta ja sijoitetaan ne omiin stateihinsa
+  // Hakee kaikki commanderit deckId:n mukaisesti
+  // const token = localStorage.getItem('token')
+  //       CommandersService
+  //             .setToken(token)
+  //       CompanionsService
+  //             .setToken(token)
+  //       MainDecksService
+  //             .setToken(token)
+  //       MaybeboardsService
+  //             .setToken(token)
+  //       SideboardsService
+  //             .setToken(token)
+  //       TokensService
+  //             .setToken(token)
+
+  // if (deck.deckId !== "") // Ei hae tyhjällä stringillä
+  //   CommandersService.getByDeckId(deck.deckId)
+  //   .then(data => {
+  //     // setCardsCommander(data)
+
+  //     let cardsCommanders = (data)
+  //     console.log("cardsCommanders", cardsCommanders)
+
+  //     // Jos array.length > 0, poistetaan kortti kortilta kaikki pois
+  //     if (cardsCommanders.length > 0) {
+  //       cardsCommanders.forEach(e => {
+  //         CommandersService.remove(e.indexId)
+  //         .then(res => {
+  //             if (res.status === 200) {
+  //                 console.log("success commanders")
+  //             }
+  //         })
+  //         .catch(error => {
+  //             setMessage(error)
+  //             setIsPositive(false)
+  //             setShowMessage(true)
+  //             window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+
+  //             setTimeout(() => {
+  //               setShowMessage(false)
+  //             }, 6000)
+  //           })
+  //       });        
+  //     }
+
+  // })
+  //   .catch(error => console.log(error))
+
+  // // Hakee kaikki companionit deckId:n mukaisesti
+  // if (deck.deckId !== "") // Ei hae tyhjällä stringillä
+  //   CompanionsService.getByDeckId(deck.deckId)
+  //   .then(data => {
+  //     // setCardsCompanion(data)
+  //     let cardsCompanions = (data)
+  //     console.log("cardsCompanions", cardsCompanions)
+
+  //     // Jos array.length > 0, poistetaan kortti kortilta kaikki pois
+  //     if (cardsCompanions.length > 0) {
+  //       cardsCompanions.forEach(e => {
+  //         CompanionsService.remove(e.indexId)
+  //         .then(res => {
+  //             if (res.status === 200) {
+  //                 console.log("success companions")
+  //             }
+  //         })
+  //         .catch(error => {
+  //             setMessage(error)
+  //             setIsPositive(false)
+  //             setShowMessage(true)
+  //             window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+
+  //             setTimeout(() => {
+  //               setShowMessage(false)
+  //             }, 6000)
+  //           })
+  //       });        
+  //     }
+  // })
+  //   .catch(error => console.log(error))
+
+  // // Hakee kaikki main deckin kortit deckId:n mukaisesti
+  // if (deck.deckId !== "") // Ei hae tyhjällä stringillä
+  //   MainDecksService.getByDeckId(deck.deckId)
+  //   .then(data => {
+  //     // setCardsMainDeck(data)
+  //     let cardsMainDecks = (data)
+  //     console.log("cardsMainDecks", cardsMainDecks)
+
+  //     // Jos array.length > 0, poistetaan kortti kortilta kaikki pois
+  //     if (cardsMainDecks.length > 0) {
+  //       cardsMainDecks.forEach(e => {
+  //         MainDecksService.remove(e.indexId)
+  //         .then(res => {
+  //             if (res.status === 200) {
+  //                 console.log("success maindecks")
+  //             }
+  //         })
+  //         .catch(error => {
+  //             setMessage(error)
+  //             setIsPositive(false)
+  //             setShowMessage(true)
+  //             window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+
+  //             setTimeout(() => {
+  //               setShowMessage(false)
+  //             }, 6000)
+  //           })
+  //       });        
+  //     }
+  // })
+  //   .catch(error => console.log(error))
+
+  // // Hakee kaikki maybe boardin kortit deckId:n mukaisesti
+  // if (deck.deckId !== "") // Ei hae tyhjällä stringillä
+  //   MaybeboardsService.getByDeckId(deck.deckId)
+  //   .then(data => {
+  //     // setCardsMaybeboard(data)
+  //     let cardsMaybeboards = (data)
+  //     console.log("cardsMayabeboards", cardsMaybeboards)
+
+  //     // Jos array.length > 0, poistetaan kortti kortilta kaikki pois
+  //     if (cardsMaybeboards.length > 0) {
+  //       cardsMaybeboards.forEach(e => {
+  //         MaybeboardsService.remove(e.indexId)
+  //         .then(res => {
+  //             if (res.status === 200) {
+  //                 console.log("success maybeboards")
+  //             }
+  //         })
+  //         .catch(error => {
+  //             setMessage(error)
+  //             setIsPositive(false)
+  //             setShowMessage(true)
+  //             window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+
+  //             setTimeout(() => {
+  //               setShowMessage(false)
+  //             }, 6000)
+  //           })
+  //       });        
+  //     }
+  // })
+  //   .catch(error => console.log(error))
+
+  // // Hakee kaikki side boardin kortit deckId:n mukaisesti
+  // if (deck.deckId !== "") // Ei hae tyhjällä stringillä
+  //   SideboardsService.getByDeckId(deck.deckId)
+  //   .then(data => {
+  //     // setCardsSideboard(data)
+  //     let cardsSideboards = (data)
+  //     console.log("cardsSideboards", cardsSideboards)
+
+  //     // Jos array.length > 0, poistetaan kortti kortilta kaikki pois
+  //     if (cardsSideboards.length > 0) {
+  //       cardsSideboards.forEach(e => {
+  //         SideboardsService.remove(e.indexId)
+  //         .then(res => {
+  //             if (res.status === 200) {
+  //                 console.log("success sideboards")
+  //             }
+  //         })
+  //         .catch(error => {
+  //             setMessage(error)
+  //             setIsPositive(false)
+  //             setShowMessage(true)
+  //             window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+
+  //             setTimeout(() => {
+  //               setShowMessage(false)
+  //             }, 6000)
+  //           })
+  //       });        
+  //     }
+  // })
+  //   .catch(error => console.log(error))
+
+  // // Hakee kaikki tokenit deckId:n mukaisesti
+  // if (deck.deckId !== "") // Ei hae tyhjällä stringillä
+  //   TokensService.getByDeckId(deck.deckId)
+  //   .then(data => {
+  //     // setCardsTokens(data)
+  //     let cardsTokens = (data)
+  //     console.log("cardsTokens", cardsTokens)
+
+  //     // Jos array.length > 0, poistetaan kortti kortilta kaikki pois      
+  //     if (cardsTokens.length > 0) {
+  //       cardsTokens.forEach(e => {
+  //         TokensService.remove(e.indexId)
+  //         .then(res => {
+  //             if (res.status === 200) {
+  //                 console.log("success tokens")
+  //             }
+  //         })
+  //         .catch(error => {
+  //             setMessage(error)
+  //             setIsPositive(false)
+  //             setShowMessage(true)
+  //             window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+
+  //             setTimeout(() => {
+  //               setShowMessage(false)
+  //             }, 6000)
+  //           })
+  //       });        
+  //     }
+  // })
+  //   .catch(error => console.log(error))  
+
+  // Varsinainen deckin poisto
   DecksService.remove(deck.deckId)
   .then(res => {
       if (res.status === 200) {
@@ -230,12 +454,12 @@ const expandedRows = React.useMemo(() => {
     <>
       <div>
         <h3><nobr style={{ cursor: 'pointer'}}
-          onClick={() => setShowDecks(!showDecks)}>Decks</nobr>        
+          onClick={() => setShowDecks(!showDecks)}>Decks</nobr>
+          {!create && <button className="button" onClick={addDeck}>Create a new deck</button>}
         </h3>
       </div>
         {decks.length > 0 ? (
-          <div className='table'>            
-              {!create && <button className="button" onClick={addDeck}>Create a new deck</button>}{' '}
+          <div className='table'>              
               <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '}
               {/* {!edit && <button className="button" onClick={() => setEdit(true)}>Edit the selected deck</button>}{' '} */}
               <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} setEditDeck={setEditDeck} reloadNow={reloadNow} reload={reload}
@@ -272,18 +496,18 @@ const expandedRows = React.useMemo(() => {
           <input placeholder="Search decks by format" value={searchFormat} onChange={handleSearchFormatInputChange} />
         } */}
 
-        {create && <ModalDeckAdd isShowAddDeck={isShowAddDeck} invokeModalAddDeck={invokeModalAddDeck} setCreate={setCreate}
+        {create && <ModalDeckAdd isShowAddDeck={isShowAddDeck} invokeModalAddDeck={invokeModalAddDeck} setCreate={setCreate} newLoginId={newLoginId}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} reload={reload} reloadNow={reloadNow}
         />}
 
-        {edit && <ModalDeckEdit isShowDeckSettings={isShowDeckSettings} invokeModalDeckSettings={invokeModalDeckSettings} setEdit={setEdit}
+        {edit && <ModalDeckEdit isShowDeckSettings={isShowDeckSettings} invokeModalDeckSettings={invokeModalDeckSettings} setEdit={setEdit} newLoginId={newLoginId}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
         editDeck={editDeck}
         />}
 
         {/* {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />} */}
 
-        {showDeck && <ModalDeckContents isShowEditDeck={isShowEditDeck} invokeModalEditDeck={invokeModalEditDeck}
+        {showDeck && <ModalDeckContents isShowEditDeck={isShowEditDeck} invokeModalEditDeck={invokeModalEditDeck} newLoginId={newLoginId}
         query={query} setQuery={setQuery} editDeck={editDeck} setEditDeck={setEditDeck}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
 

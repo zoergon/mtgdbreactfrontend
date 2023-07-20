@@ -6,11 +6,11 @@ import DecksService from './services/Decks'
 import FormatsService from './services/Formats'
 import DropdownFormats from './components/DropdownFormats.js'
 
-const ModalDeckAdd = ({ setCreate, setIsPositive, setShowMessage, setMessage, isShowAddDeck, invokeModalAddDeck, reload, reloadNow }) => {
+const ModalDeckAdd = ({ loggedInUser, newLoginId, setCreate, setIsPositive, setShowMessage, setMessage, isShowAddDeck, invokeModalAddDeck, reload, reloadNow }) => {
 
 const [newName, setNewName] = useState('')
 const [newFormatId, setNewFormatId] = useState('')
-const [newLoginId, setNewLoginId] = useState('')
+// const [newLoginId, setNewLoginId] = useState('')
 
 const [optionList, setOptionList] = useState([]) // Backendiltä saadut formaatit
 const [selected, setSelected] = useState([])
@@ -46,7 +46,7 @@ const handleSubmit = (event) => {
     // deckId: newDeckId,
     name: newName,
     formatId: parseInt(newFormatId),
-    loginId: parseInt(newLoginId)
+    loginId: newLoginId
   }
 
   // uuden deckin lisääminen
@@ -107,11 +107,11 @@ const handleClose = () => {
                           // onChange={(value) => console.log("X onChange: ", value)} 
                           onChange={(value) => value.map((option) => (setNewFormatId(option.formatId)))} />
                     </Form.Group>
-                    <Form.Group>
+                    {/* <Form.Group>
                         <Form.Label>login_id: </Form.Label>
                         <Form.Control type='number' placeholder='login_id'
                             value={newLoginId} onChange={({target}) => setNewLoginId(target.value)} required />
-                    </Form.Group>
+                    </Form.Group> */}
                     <Form.Group>
                         <Button variant='primary' type='submit' value='Save'>Save</Button>
                     </Form.Group>

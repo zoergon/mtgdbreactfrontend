@@ -6,6 +6,7 @@ import MainDecksService from './services/MainDecks'
 import MaybeboardsService from './services/Maybeboards'
 import SideboardsService from './services/Sideboards'
 import TokensService from './services/Tokens'
+import FormatsService from './services/Formats'
 // import MainDeck from './MainDeck'
 // import MainDeckAdd from './MainDeckAdd'
 // import MainDeckEdit from './MainDeckEdit'
@@ -23,6 +24,8 @@ const [cardsMainDeck, setCardsMainDeck] = useState([]) // deckId:llä haettu dat
 const [cardsMaybeboard, setCardsMaybeboard] = useState([]) // deckId:llä haettu data backendistä - Maybeboard
 const [cardsSideboard, setCardsSideboard] = useState([]) // deckId:llä haettu data backendistä - Sideboard
 const [cardsTokens, setCardsTokens] = useState([]) // deckId:llä haettu data backendistä - Tokens
+
+const [formats, setFormats] = useState([]) // deckId:llä haettu data backendistä - Tokens
 // const [showCards, setShowCards] = useState(false)
 const [reload, reloadNow] = useState(false) // Komponentin uudelleen päivitystä varten oleva state
 
@@ -59,6 +62,22 @@ const [img, setImg] = useState() // Kortin kuvalinkki
 //   if (query !== "")
 //   handleFetch(query)
 // })
+
+// useEffect(() => {
+
+//   const token = localStorage.getItem('token')
+//       FormatsService
+//             .setToken(token)
+
+//   if (query !== "") // Ei hae tyhjällä stringillä
+//   FormatsService.getByDeckId(query) // parseInt stringille
+//   .then(data => {
+//     // console.log("getByDeckId", data)    
+//     setFormats(data)
+// })
+//   .catch(error => console.log(error))
+// },[reload]
+// )
 
 useEffect(() => {
 
