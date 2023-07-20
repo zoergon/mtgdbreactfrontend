@@ -6,7 +6,7 @@ import DecksService from './services/Decks'
 import FormatsService from './services/Formats'
 import DropdownFormats from './components/DropdownFormats.js'
 
-const ModalDeckAdd = ({ loggedInUser, newLoginId, setCreate, setIsPositive, setShowMessage, setMessage, isShowAddDeck, invokeModalAddDeck, reload, reloadNow }) => {
+const ModalDeckAdd = ({ loggedInUser, newLoginId, accesslevelId, setCreate, setIsPositive, setShowMessage, setMessage, isShowAddDeck, invokeModalAddDeck, reload, reloadNow }) => {
 
 const [newName, setNewName] = useState('')
 const [newFormatId, setNewFormatId] = useState('')
@@ -113,7 +113,7 @@ const handleClose = () => {
                             value={newLoginId} onChange={({target}) => setNewLoginId(target.value)} required />
                     </Form.Group> */}
                     <Form.Group>
-                        <Button variant='primary' type='submit' value='Save'>Save</Button>
+                        {accesslevelId < 3 && <Button variant='primary' type='submit' value='Save'>Save</Button>}
                     </Form.Group>
                 </Form>                
             </Modal.Body>

@@ -17,7 +17,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCards = ({ tbodyData, addToCollection, renderRowSubComponent, expandRows, expandedRowObj }) => {
+export const TableAllCards = ({ tbodyData, addToCollection, accesslevelId, setIsPositive, setShowMessage, setMessage, renderRowSubComponent, expandRows, expandedRowObj }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -153,9 +153,20 @@ export const TableAllCards = ({ tbodyData, addToCollection, renderRowSubComponen
             },
           ], [], )
 
-    function handleAdd(row) {        
-        const addId = (row)
-        addToCollection(addId)
+    function handleAdd(row) {
+        if (accesslevelId < 3) {
+            const addId = (row)
+            addToCollection(addId)
+        } else {
+            setMessage("Not allowed for the guests.")
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+      
+            setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+        }        
     }
     
     function handleShowDetails(row) {

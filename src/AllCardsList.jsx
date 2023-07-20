@@ -10,7 +10,7 @@ import { TableAllCardData } from "./components/TableAllCardData"
 
 // 
 
-const AllCardsList = ({ loggedInUser, newLoginId, setIsPositive, setShowMessage, setMessage }) => {
+const AllCardsList = ({ loggedInLoginId, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage }) => {
 
 // Komponentin tilan määritys
 const [allCards, setAllCards] = useState([]) // Kaikki kortit allCards-taulusta
@@ -178,7 +178,10 @@ const subTable = React.useCallback(
         // columns={details}
         // data={row.original.groupDetails}
         query={row.original.id}
-        imgUris={(JSON.parse(row.original.imageUris))}
+        imgUris={(JSON.parse(row.original.imageUris))}        
+        setIsPositive={setIsPositive}
+        setMessage={setMessage}
+        setShowMessage={setShowMessage}
         // setQuery={setQuery}
       />
       ),
@@ -217,7 +220,8 @@ const expandedRows = React.useMemo(() => {
             {showAllCards &&
             <div className='table'>
                 <button ref={buttonRef} className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '}
-                <TableAllCards tbodyData={allCards} addToCollection={addToCollection} addId={addId}
+                <TableAllCards tbodyData={allCards} addToCollection={addToCollection} addId={addId} accesslevelId={accesslevelId}
+                setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
                 renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />
             </div>}
           </div>

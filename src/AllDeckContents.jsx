@@ -16,7 +16,7 @@ import { TableAllDeckContents } from "./components/TableAllDeckContents"
 // subRow:na näytettävä deckin koko sisältö (kaikki deckit omilla riveillään)
 // kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> subRow
 
-const AllDeckContents = ({ query }) => {
+const AllDeckContents = ({ query, setIsPositive, setShowMessage, setMessage }) => {
 
 const [cardsCommander, setCardsCommander] = useState([]) // deckId:llä haettu data backendistä - Commander
 const [cardsCompanion, setCardsCompanion] = useState([]) // deckId:llä haettu data backendistä - Company
@@ -235,7 +235,8 @@ var imageUri = ""
           {cardsCommander.length > 0 ? (
             <div className='table'><br/>              
                 <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"}
-                  imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                  imgUris={imgUris} imageUri={imageUri} setImg={setImg}
+                  setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} />
             </div>
           ) : (
             <span>          
@@ -246,7 +247,8 @@ var imageUri = ""
           {cardsCompanion.length > 0 ? (
             <div className='table'><br/>              
                 <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"}
-                  imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                  imgUris={imgUris} imageUri={imageUri} setImg={setImg}
+                  setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} />
             </div>
           ) : (
             <span>
@@ -257,7 +259,8 @@ var imageUri = ""
           {cardsMainDeck.length > 0 ? (
             <div className='table'><br/>              
                 <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"}
-                imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                imgUris={imgUris} imageUri={imageUri} setImg={setImg}
+                setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} />
             </div>
           ) : (
             <span>
@@ -268,7 +271,8 @@ var imageUri = ""
           {cardsSideboard.length > 0 ? (
             <div className='table'><br/>              
                 <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"}
-                  imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                  imgUris={imgUris} imageUri={imageUri} setImg={setImg}
+                  setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} />
             </div>
           ) : (
             <span>
@@ -279,7 +283,8 @@ var imageUri = ""
           {cardsMaybeboard.length > 0 ? (
             <div className='table'><br/>              
                 <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"}
-                  imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                  imgUris={imgUris} imageUri={imageUri} setImg={setImg}
+                  setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} />
             </div>
           ) : (
             <span>
@@ -290,7 +295,8 @@ var imageUri = ""
           {cardsTokens.length > 0 ? (
             <div className='table'><br/>              
                 <TableAllDeckContents reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"}
-                  imgUris={imgUris} imageUri={imageUri} setImg={setImg} />
+                  imgUris={imgUris} imageUri={imageUri} setImg={setImg}
+                  setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} />
             </div>
           ) : (
             <span>

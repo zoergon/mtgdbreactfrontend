@@ -17,7 +17,9 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbodyData, renderRowSubComponent, expandRows, expandedRowObj }) => {
+export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbodyData,
+    setIsPositive, setShowMessage, setMessage, accesslevelId,
+    renderRowSubComponent, expandRows, expandedRowObj }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -168,18 +170,51 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
         // setShowDecks(showDecks => !showDecks) // Vaihtaa boolean-arvoa & näyttää/ei näytä MainDecksListiä
     }
 
-    function handlePlus(row) {
-        increaseCount(row)
+    function handlePlus(row) {        
+        if (accesslevelId < 3) {
+            increaseCount(row)
+        } else {
+            setMessage("Not allowed for the guests.")
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+      
+            setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+        }   
     }
 
-    function handleMinus(row) {
-        decreaseCount(row)
+    function handleMinus(row) {        
+        if (accesslevelId < 3) {
+            decreaseCount(row)
+        } else {
+            setMessage("Not allowed for the guests.")
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+      
+            setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+        }   
     }
 
     // Käsittelee ko. riviltä painetun Deletee-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
-    function handleDelete(row) {
-        console.log("row.id", row.id)
-        deleteCard(row)
+    function handleDelete(row) {        
+        if (accesslevelId < 3) {
+            // console.log("row.id", row.id)
+            deleteCard(row)
+        } else {
+            setMessage("Not allowed for the guests.")
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+      
+            setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+        }   
     }
 
     const {

@@ -23,6 +23,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, setShowDeck, showDecks, setShowDecks,
+    setIsPositive, setShowMessage, setMessage, accesslevelId,
     edit, setEdit, create, setCreate, editDeck, setEditDeck, deck, updateDeck, deleteDeck, tbodyData, renderRowSubComponent, expandRows,
     expandedRowObj }) => {
     
@@ -125,8 +126,19 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
     }
 
     // Käsittelee ko. riviltä painetun Delete-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
-    function handleDelete(row) {
-        deleteDeck(row) // DecksList.jsx (parent)
+    function handleDelete(row) {        
+        if (accesslevelId < 3) {
+            deleteDeck(row) // DecksList.jsx (parent)
+        } else {
+            setMessage("Not allowed for the guests.")
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+      
+            setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+        }   
     }   
 
     // rivin painalluksesta aukaisee deckin sisällön tablena alle <MainDecksListDeckId

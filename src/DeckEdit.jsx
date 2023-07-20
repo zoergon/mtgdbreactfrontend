@@ -10,7 +10,7 @@ import './components/modal.css'
 // parent: DecksList.jsx
 // TableDecks.js Settings-buttonin aukaisema deckin tietojen editointiin modal-ikkuna
 
-const ModalDeckEdit = ({ isShowDeckSettings, invokeModalDeckSettings, setEdit, newLoginId, setIsPositive, setShowMessage, setMessage, editDeck }) => {
+const ModalDeckEdit = ({ isShowDeckSettings, invokeModalDeckSettings, setEdit, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, editDeck }) => {
 
 const [newDeckId, setNewDeckId] = useState(editDeck.deckId)
 const [newName, setNewName] = useState(editDeck.name)
@@ -128,7 +128,7 @@ useEffect(() => {
                     value={newLoginId} onChange={({target}) => setNewLoginId(target.value)} />
             </Form.Group> */}
             <Form.Group>
-              <Button variant='primary' type='submit' value='Save'>Save</Button>
+              {accesslevelId < 3 && <Button variant='primary' type='submit' value='Save'>Save</Button>}
 
             {/* <input type='button' value='Cancel' onClick={() => setEdit(false)} /> */}
             </Form.Group>

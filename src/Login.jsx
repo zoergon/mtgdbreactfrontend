@@ -84,7 +84,7 @@ const emptyFields = () => {
                     <Form.Group>
                       <div style={{ color: 'whitesmoke' }} >
                         <p>
-                            Registering is not available for now. To try pages as a guest:<br/>                            
+                            Registering is not available for now. To try pages as a guest with limited access:<br/>                            
                             Username: guest<br/>
                             Password: guest<br/>                            
                         </p>

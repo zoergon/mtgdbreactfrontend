@@ -27,6 +27,7 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
     // queryCompanion, setQueryCompanion,
     // newId, setNewId, newName, setNewName, selected, setSelected, optionListCompanion, setOptionListCompanion, options, handleAdd, 
     servicerChild, servicerX, updateCard, deleteCard, increaseCount, decreaseCount, deckPart, tbodyData,
+    setIsPositive, setShowMessage, setMessage, accesslevelId,
     imgUris, imageUri, setImg, setEditableDeckPart }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
@@ -122,14 +123,36 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
     //     handleAdd(e, servicerChild) // Palautetaan oieka XService servicerChildina varsinaisen datan kera
     // }
 
-    function handlePlus(row) {
-        servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
-        increaseCount(row, servicerChild)
+    function handlePlus(row) {        
+        if (accesslevelId < 3) {
+            servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
+            increaseCount(row, servicerChild)
+        } else {
+            setMessage("Not allowed for the guests.")
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+      
+            setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+        }        
     }
 
-    function handleMinus(row) {
-        servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService        
-        decreaseCount(row, servicerChild)
+    function handleMinus(row) {        
+        if (accesslevelId < 3) {
+            servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService        
+            decreaseCount(row, servicerChild)
+        } else {
+            setMessage("Not allowed for the guests.")
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+      
+            setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+        }        
     }
 
     // Käsittelee ko. riviltä painetun Edit-nappulan pyynnön & asettaa ko. rivin originaali datan parentin updateDeck-funktioon
@@ -140,18 +163,40 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
 
     // Käsittelee ko. riviltä painetun Delete-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
     function handleDelete(row) {        
-        servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
-        // console.log("servicerChild:", servicerChild)        
-        deleteCard(row, servicerChild) // Palautetaan oieka XService servicerChildina varsinaisen datan kera
+        if (accesslevelId < 3) {
+            servicerChild = servicerX // Sijoitetaan parentilta tuleva oikea XService
+            // console.log("servicerChild:", servicerChild)        
+            deleteCard(row, servicerChild) // Palautetaan oieka XService servicerChildina varsinaisen datan kera
+        } else {
+            setMessage("Not allowed for the guests.")
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+      
+            setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+        }        
     }
 
     // Kortin kuvan näyttämiseen funktio
-    function handleShowCard(row) { 
-        // console.log(row)
-        imgUris = JSON.parse(row.imageUris) // Parseroidaan row.original.imageUris
-        // console.log("imgUris", imgUris.normal)
-        imageUri = imgUris.normal // Parseroidusta imageUrista valitaan normal-kuvalinkki
-        fetchImage()
+    function handleShowCard(row) {
+        try {
+            // console.log(row)
+            imgUris = JSON.parse(row.imageUris) // Parseroidaan row.original.imageUris
+            // console.log("imgUris", imgUris.normal)
+            imageUri = imgUris.normal // Parseroidusta imageUrista valitaan normal-kuvalinkki
+            fetchImage()
+        } catch (error) {
+            setMessage("Image not found.", error)
+            setIsPositive(false)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+      
+            setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+        }
     }
 
     const {
@@ -226,12 +271,12 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
 
     // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
     const fetchImage = async () => {
-        // console.log("imageUrl", imageUrl)
-        // console.log("imageUri", imageUri)
-        const res = await fetch(imageUri)
-        const imageBlob = await res.blob()
-        const imageObjectURL = URL.createObjectURL(imageBlob)
-        setImg(imageObjectURL)
+            // console.log("imageUrl", imageUrl)
+            // console.log("imageUri", imageUri)
+            const res = await fetch(imageUri)
+            const imageBlob = await res.blob()
+            const imageObjectURL = URL.createObjectURL(imageBlob)
+            setImg(imageObjectURL)
     }
 
     // useEffect(() => {        

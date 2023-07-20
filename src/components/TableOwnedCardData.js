@@ -17,7 +17,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableOwnedCardData = ({ tbodyData, imgId, imgUris }) => {
+export const TableOwnedCardData = ({ tbodyData, imgId, imgUris, setIsPositive, setShowMessage, setMessage }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     const columns = useMemo(() => COLUMNS, [])
@@ -116,21 +116,32 @@ export const TableOwnedCardData = ({ tbodyData, imgId, imgUris }) => {
     //     ])
     //   }
 
-    const imageUri = imgUris.normal
+    var imageUri = ""
+
+    try {
+        imageUri = imgUris.normal    
+    } catch (error) {
+        setMessage("Image not found.", error)
+        setIsPositive(false)
+        setShowMessage(true)
+        window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+  
+        setTimeout(() => {
+          setShowMessage(false)
+        }, 2000)
+    }
+    
+    useEffect(() => {        
+        fetchImage()        
+    }, [])
 
     // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
     const fetchImage = async () => {
-        // console.log("imageUrl", imageUrl)
-        console.log("imageUri", imageUri)
-        const res = await fetch(imageUri)
+        const res = await fetch(imageUri)        
         const imageBlob = await res.blob()
         const imageObjectURL = URL.createObjectURL(imageBlob)
-        setImg(imageObjectURL)
-    }
-
-    useEffect(() => {        
-        fetchImage()
-    }, [])
+        setImg(imageObjectURL)        
+    }    
 
     // Alkuperäisen tbodyDatan eli kortin datarivienn key-avaimet.
     // subRow:ssa esitettävään taulukkoon mapataan tämän mukaisesti rivit

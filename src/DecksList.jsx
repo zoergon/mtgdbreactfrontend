@@ -27,7 +27,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 // DeckEdit.jsx -> deckin settings-buttonin ModalDeckEdit
 // DeckContents.jsx -> deckin koko sisällön hallinta ModalDeckContents
 
-const DecksList = ({ loggedInLoginId, newLoginId, setIsPositive, setShowMessage, setMessage }) => {
+const DecksList = ({ loggedInLoginId, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage }) => {
 
 const [decks, setDecks] = useState([]) // Backendiltä tuleva data
 const [showDeck, setShowDeck] = useState(false) // Deckin sisällön näyttämistä varten
@@ -417,6 +417,9 @@ const subTable = React.useCallback(
       <AllDeckContents
         query={row.original.deckId}
         setQuery={setQuery}
+        setIsPositive={setIsPositive}
+        setShowMessage={setShowMessage}
+        setMessage={setMessage}
         // columns={details}
         // data={row.original.groupDetails}
         // data={row.original.deckId}
@@ -463,7 +466,7 @@ const expandedRows = React.useMemo(() => {
               <button className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '}
               {/* {!edit && <button className="button" onClick={() => setEdit(true)}>Edit the selected deck</button>}{' '} */}
               <TableDecks edit={edit} setEdit={setEdit} create={create} setCreate={setCreate} editDeck={editDeck} setEditDeck={setEditDeck} reloadNow={reloadNow} reload={reload}
-                      setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
+                      setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} accesslevelId={accesslevelId}
                       updateDeck={updateDeck} deleteDeck={deleteDeck} tbodyData={decks} showDeck={showDeck} setShowDeck={setShowDeck} editDeckContents={editDeckContents}
                       showDecks={showDecks} setShowDecks={setShowDecks} setQuery={setQuery} setDeckName={setDeckName}
                       renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />              
@@ -496,11 +499,11 @@ const expandedRows = React.useMemo(() => {
           <input placeholder="Search decks by format" value={searchFormat} onChange={handleSearchFormatInputChange} />
         } */}
 
-        {create && <ModalDeckAdd isShowAddDeck={isShowAddDeck} invokeModalAddDeck={invokeModalAddDeck} setCreate={setCreate} newLoginId={newLoginId}
+        {create && <ModalDeckAdd isShowAddDeck={isShowAddDeck} invokeModalAddDeck={invokeModalAddDeck} setCreate={setCreate} newLoginId={newLoginId} accesslevelId={accesslevelId}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} reload={reload} reloadNow={reloadNow}
         />}
 
-        {edit && <ModalDeckEdit isShowDeckSettings={isShowDeckSettings} invokeModalDeckSettings={invokeModalDeckSettings} setEdit={setEdit} newLoginId={newLoginId}
+        {edit && <ModalDeckEdit isShowDeckSettings={isShowDeckSettings} invokeModalDeckSettings={invokeModalDeckSettings} setEdit={setEdit} newLoginId={newLoginId} accesslevelId={accesslevelId}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
         editDeck={editDeck}
         />}
@@ -508,7 +511,7 @@ const expandedRows = React.useMemo(() => {
         {/* {showDecks && <MainDecksListDeckId query={query} setQuery={setQuery} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />} */}
 
         {showDeck && <ModalDeckContents isShowEditDeck={isShowEditDeck} invokeModalEditDeck={invokeModalEditDeck} newLoginId={newLoginId}
-        query={query} setQuery={setQuery} editDeck={editDeck} setEditDeck={setEditDeck}
+        query={query} setQuery={setQuery} editDeck={editDeck} setEditDeck={setEditDeck} accesslevelId={accesslevelId}
         setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} deckName={deckName} columns={details} />}
 
         {/* {

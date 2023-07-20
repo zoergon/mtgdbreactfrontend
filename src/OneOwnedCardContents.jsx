@@ -7,7 +7,7 @@ import { TableOwnedCardData } from "./components/TableOwnedCardData"
 // Kortin kuvan fetchiin saatava id tulee tätä kautta
 // Parent: OwnedCardsList.jsx
 
-const OneOwnedCardContents = ({ query, imgUris }) => {
+const OneOwnedCardContents = ({ query, imgUris, setIsPositive, setShowMessage, setMessage }) => {
 
 const [card, setCard] = useState([]) // id:llä haettu yksi kortti
 // const [imgUri, setImgUri] = useState([]) // id:llä haettu yksi kortti
@@ -61,7 +61,7 @@ useEffect(() => {
     <>
       {card.length > 0 ? (
         <div className='table'><br/>              
-            <TableOwnedCardData tbodyData={card} imgId={query} imgUris={imgUris} />
+            <TableOwnedCardData tbodyData={card} imgId={query} imgUris={imgUris} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} />
         </div>
       ) : (
         <span>

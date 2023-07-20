@@ -1,26 +1,31 @@
 import './App.css'
 import React, { useState, useEffect, useRef } from 'react'
+import AllCardsService from './services/AllCards'
 import OwnedCardsService from './services/OwnedCards'
-import OneOwnedCardContents from './OneOwnedCardContents'
-import { TableOwnedCards } from "./components/TableOwnedCards"
-import { TableOwnedCardData } from "./components/TableOwnedCardData"
+import AllCard from './AllCard'
+import OneCardContents from './OneCardContents'
+import OwnedCardsList from './OwnedCardsList'
+import { TableAllCards } from "./components/TableAllCards"
+import { TableAllCardData } from "./components/TableAllCardData"
 
-// Parent
-// Kontrolloi kaikkea ownedCardsiin liittyvää
+// 
 
-const OwnedCardsList = ({ loggedInLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage }) => {
+const DatabaseAndCollection = ({ loggedInLoginId, newLoginId, setIsPositive, setShowMessage, setMessage }) => {
 
 // Komponentin tilan määritys
 const [allCards, setAllCards] = useState([]) // Kaikki kortit allCards-taulusta
 const [showAllCards, setShowAllCards] = useState(false)
 const [reload, reloadNow] = useState(false)
-
 // const [search, setSearch] = useState("")
-const [query, setQuery] = useState('') // Bäckendille lähtevä hakusana
+const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana
 
-// Muuttujat kortin count-määrän muuttamiseen
-var editCount = ''
-var updateRow = ''
+const [newId, setNewId] = useState('') // haetun kortin id
+const [newCount, setNewCount] = useState(1) // vaihdettava lukumäärä
+// const [newLoginId, setNewLoginId] = useState(loggedInUser) // käyttäjätunnuksen id
+
+var addId = ''
+// var checkId = ''
+// var checkSame = ''
 
 // useRef refresh-buttonille
 const buttonRef = useRef(null)
@@ -33,11 +38,14 @@ function clickHandler(event) {
 useEffect(() => {
 
   const token = localStorage.getItem('token')
-        OwnedCardsService
+        AllCardsService
               .setToken(token)
+        // OwnedCardsService
+        //       .setToken(token)
 
-  // OwnedCardsService.getAll()
-  OwnedCardsService.getCardsByLoginId(loggedInLoginId)
+  console.log("newLoginId", newLoginId)
+
+    AllCardsService.getAll()
   .then(data => {
     console.log(data)
     setAllCards(data)
@@ -46,97 +54,74 @@ useEffect(() => {
 },[reload]
 )
 
-// Kortin lukumäärän (count) kasvattamiseen funktio
-const increaseCount = (row) => {
-  updateRow = (row)
-  editCount = parseInt(updateRow.count) + 1  
-  updateCount(updateRow, editCount)
-}
-
-// Kortin lukumäärän (count) vähentämiseen funktio
-const decreaseCount = (row) => {
-  updateRow = (row)
-  if (updateRow.count != 1) {    
-    editCount = parseInt(updateRow.count) - 1
-    updateCount(updateRow, editCount)
+const addToCollection = (event) => {  
+    // console.log("submit", event.id)
+    var newCard = {    
+    id: event.id,
+    count: parseInt(newCount),
+    loginId: newLoginId
   }
-}
 
-// Varsinainen päivittävä toiminto kortin countin muuttamiseen
-const updateCount = (updateRow, editCount) => {  
-  // luodaan newCard-olio, joka poimii muuttujasta datan
-  var newCard = {
-      indexId: parseInt(updateRow.indexId),      
-      id: updateRow.id,
-      count: parseInt(editCount),
-      loginId: parseInt(updateRow.loginId)
-  }
-  // Kortin update
-  OwnedCardsService.update(newCard)
-  .then(response => {
-  if (response.status === 200) {      
-      editCount = ''
-      updateRow = ''      
-      buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
-      buttonRef.current.click() // Käskee klikata refresh-buttonia
-  }
-  })
-  .catch(error => {
-  console.log(newCard)
-  setMessage(error.message)
-  setIsPositive(false)
-  setShowMessage(true)
+  // Tarkistaa löytyykö OwnedCardsista vastaavuutta
+  // Asettaa .id:t checkId & checkSame -muuttujiin
+  // Ongelmana toinen on alunperin objekti ja toinen array= !==  
+  // if (event !== "") // Ei hae tyhjällä stringillä
+  //   OwnedCardsService.getById(event.id)
+  //   .then(data => {      
+  //     // console.log("data", data)
+  //     checkId = (event.id)      
+  //     checkId = JSON.stringify(event.id)
+  //     checkSame = (data.map(e => e.id))
+  //     checkSame = JSON.stringify(checkSame)      
+  //     console.log("event.id", checkId)
+  //     console.log("data.id", checkSame)
+  //   })
+  //   .catch(error => console.log(error))
 
-  setTimeout(() => {
-      setShowMessage(false)
-  }, 6000)
-  })
-}
+  // Antaa virheilmoituksen, mikäli koittaa lisätä jo olemassa olevalla id:llä korttia
+  // if (checkId === checkSame) {
+  //   setMessage("There is already a: " + event.name + " | " + event.setName)      
+  //   setIsPositive(false)
+  //   setShowMessage(true)
 
-// Delete-funktio kortille
-const deleteCard = (card) => {
-  let answer = window.confirm(`Are you sure you want to permanently delete the card: ${card.idNavigation.name}?`)
+  //   setTimeout(() => {
+  //     setShowMessage(false)
+  //   }, 2000)
+  // }
+  // console.log("checkId", checkId)
+  // console.log("checkSame", checkSame)
 
-  if(answer === true) {
+  // if (event !== "" && checkId !== "" && checkSame !== "" && checkId !== checkSame) {
+  if (event !== "") {
+    console.log("POST:", event)
+
+    const token = localStorage.getItem('token')
+        OwnedCardsService
+              .setToken(token)
+
+    OwnedCardsService.create(newCard)
+    .then(response => {
+      if (response.status === 200) {
+        // buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
+        // buttonRef.current.click() // Käskee klikata refresh-buttonia
+        setMessage("Added a new Card: " + newCard.id)      
+        setIsPositive(true)
+        setShowMessage(true)
   
-    OwnedCardsService.remove(card.indexId)
-  .then(res => {
-      if (res.status === 200) {
-          setMessage(`Succesfully deleted the card: ${card.idNavigation.name}.`)
-          buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
-          buttonRef.current.click() // Käskee klikata refresh-buttonia
-          setIsPositive(true)
-          setShowMessage(true)
-          window.scrollBy(0, -10000) // Scrollaa ylös ruudun
-
-          // Ilmoituksen piilotus
-          setTimeout(() => {
-              setShowMessage(false)
-            }, 2000)
-            reloadNow(!reload)
+        setTimeout(() => {
+          setShowMessage(false)
+        }, 1000)  
       }
-  })
-  .catch(error => {
+    })
+    .catch(error => {
       setMessage(error)
       setIsPositive(false)
       setShowMessage(true)
-      window.scrollBy(0, -10000) // Scrollaa ylös ruudun
-
+  
       setTimeout(() => {
         setShowMessage(false)
       }, 6000)
     })
-
-  } // Jos poisto perutaan, annetaan ilmoitus onnistuneesta perumisesta.
-  else {
-      setMessage('Canceled the deletion of the card.')
-          setIsPositive(true)
-          setShowMessage(true)
-          window.scrollBy(0, -10000) // Scrollaa ylös ruudun
-
-          setTimeout(() => {
-              setShowMessage(false)
-            }, 3000)
   }
 }
 
@@ -189,13 +174,13 @@ const subTable = React.useCallback(
     // row.original.id.length > 0 ? (
       (      
       // <TableDeckContents
-      <OneOwnedCardContents
+      <OneCardContents
         // query={row.original.id}
         // setQuery={setQuery}
         // columns={details}
         // data={row.original.groupDetails}
         query={row.original.id}
-        imgUris={(JSON.parse(row.original.idNavigation.imageUris))}
+        imgUris={(JSON.parse(row.original.imageUris))}        
         setIsPositive={setIsPositive}
         setMessage={setMessage}
         setShowMessage={setShowMessage}
@@ -212,11 +197,11 @@ const subTable = React.useCallback(
 const expandedRows = React.useMemo(() => {
   // if (data?.data) {
   // if (MainDecksList?.decks) {
-  if (OneOwnedCardContents?.id) {
+  if (OneCardContents?.id) {
     let arr
     let c = allCards
     if (c.id.length > 0) {
-      arr = c.id.map((id, ind) => {        
+      arr = c.id.map((id, ind) => {
         return { [ind]: true }
       })
     }
@@ -231,14 +216,13 @@ const expandedRows = React.useMemo(() => {
         {allCards.length > 0 ? (
           <div>
             <h3><nobr style={{ cursor: 'pointer'}}
-            onClick={() => setShowAllCards(!showAllCards)}>Collection</nobr>        
+            onClick={() => setShowAllCards(!showAllCards)}>Database</nobr>        
             </h3>
           
             {showAllCards &&
             <div className='table'>
                 <button ref={buttonRef} className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '}
-                <TableOwnedCards tbodyData={allCards} setQuery={setQuery} deleteCard={deleteCard} increaseCount={increaseCount} decreaseCount={decreaseCount} accesslevelId={accesslevelId}
-                setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
+                <TableAllCards tbodyData={allCards} addToCollection={addToCollection} addId={addId}
                 renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />
             </div>}
           </div>
@@ -247,6 +231,11 @@ const expandedRows = React.useMemo(() => {
             <em>...searching for the data...</em>
           </span>
         )}
+        
+        <div>
+          <OwnedCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} />
+        </div>
+        
 
         {/* <h2 onClick={() => setShowAllCards(!showAllCards)}>All cards</h2> */}
         {/* <h1><nobr style={{ cursor: 'pointer'}}
@@ -279,6 +268,13 @@ const expandedRows = React.useMemo(() => {
 
     </>
   )
+// } else {
+//   return (
+//     <div>      
+//       <p>*** now loading ***</p>
+//     </div>
+//   )
+// }
 }
 
-export default OwnedCardsList
+export default DatabaseAndCollection

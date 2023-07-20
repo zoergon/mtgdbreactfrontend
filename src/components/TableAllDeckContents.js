@@ -19,7 +19,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, imageUri, setImg }) => {
+export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, imageUri, setImg, setIsPositive, setShowMessage, setMessage }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     // const columns = useMemo(() => COLUMNS, [])
@@ -121,12 +121,23 @@ export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, image
     // }
 
     function handleShowCard(row) {
-        // console.log(row)
-        imgUris = JSON.parse(row.imageUris)
-        // console.log("imgUris", imgUris.normal)
-        imageUri = imgUris.normal
-        fetchImage()
-    }
+        try {
+            // console.log(row)        
+            imgUris = JSON.parse(row.imageUris)
+            // console.log("imgUris", imgUris)
+            imageUri = imgUris.normal
+            fetchImage()
+        } catch (error) {
+            setMessage("Image not found.", error)
+            setIsPositive(false)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+      
+            setTimeout(() => {
+              setShowMessage(false)
+            }, 2000)
+          }
+        }
 
     const {
         getTableProps,
@@ -200,10 +211,12 @@ export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, image
     const fetchImage = async () => {
         // console.log("imageUrl", imageUrl)
         // console.log("imageUri", imageUri)
-        const res = await fetch(imageUri)
-        const imageBlob = await res.blob()
-        const imageObjectURL = URL.createObjectURL(imageBlob)
-        setImg(imageObjectURL)
+        try {
+            const res = await fetch(imageUri)
+            const imageBlob = await res.blob()
+            const imageObjectURL = URL.createObjectURL(imageBlob)
+            setImg(imageObjectURL)
+        } catch (error) {console.error(error)}
     }
 
     // useEffect(() => {        

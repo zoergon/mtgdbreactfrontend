@@ -94,7 +94,7 @@ return (
           <Nav className="mr-auto">
             <Nav.Link href={'/'} className='nav-link'>Home</Nav.Link>
             <Nav.Link href={'/AllCards'} className='nav-link'>All cards</Nav.Link>
-            <Nav.Link href={'/OwnedCards'} className='nav-link'>Owned cards</Nav.Link>
+            <Nav.Link href={'/OwnedCards'} className='nav-link'>Owned cards</Nav.Link>            
             <Nav.Link href={'/Decks'} className='nav-link'>Decks</Nav.Link>
             {/* <Nav.Link href={'/Commanders'} className='nav-link'>Commanders</Nav.Link> */}
             {/* <Nav.Link href={'/Companions'} className='nav-link'>Companions</Nav.Link> */}
@@ -122,9 +122,12 @@ return (
         {/* sen mukaan mitä routessa lukee, niin renderöidään sen mukainen komponentti */}
         <Switch>
           {/* <Route path="/AllCards"> element={<AllCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} />}</Route> */}
-          <Route path="/AllCards"> <AllCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
-          <Route path="/OwnedCards"> <OwnedCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
-          <Route path="/Decks"> <DecksList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
+          <Route path="/AllCards"> <AllCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId}  accesslevelId={accesslevelId}
+          setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
+          <Route path="/OwnedCards"> <OwnedCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} accesslevelId={accesslevelId}
+          setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>          
+          <Route path="/Decks"> <DecksList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} accesslevelId={accesslevelId}
+          setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route>
           {/* <Route path="/Commanders"> <CommandersList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Companions"> <CompanionsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/MainDecks"> <MainDecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}

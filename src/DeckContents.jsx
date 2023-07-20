@@ -24,7 +24,7 @@ import { Modal, Button } from 'react-bootstrap'
 // delete jokaisen kortin kohdalla
 // kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> edit-button rivillä
 
-const ModalDeckContents = ({ isShowEditDeck, invokeModalEditDeck, newLoginId, query, editDeck, setEditDeck, setIsPositive, setShowMessage, setMessage }) => {
+const ModalDeckContents = ({ isShowEditDeck, invokeModalEditDeck, newLoginId, accesslevelId, query, editDeck, setEditDeck, setIsPositive, setShowMessage, setMessage }) => {
 
 const [cardsCommander, setCardsCommander] = useState([]) // deckId:llä haettu data backendistä - Commander
 const [cardsCompanion, setCardsCompanion] = useState([]) // deckId:llä haettu data backendistä - Company
@@ -407,7 +407,7 @@ const refreshAndClose = () => {
               <DropdownDeckParts newId={newDeckPartId} setNewId={setNewDeckPartId} newDeckPartName={newDeckPartName} setNewDeckPartName={setNewDeckPartName} 
               selected={selectedDeckPart} setSelected={setSelectedDeckPart} isSearchable isMulti placeHolder={queryDeckParts}
               options={optionListDeckParts} onChange={(value) => value.map((option) => (setNewDeckPartId(option.partId)))} />
-              <button className='button' onClick={(e) => {handleAdd(e)}} >Add a card</button>
+              {accesslevelId < 3 && <button className='button' onClick={(e) => {handleAdd(e)}} >Add a card</button>}
               <button ref={buttonRef} className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>
             </div>
 
@@ -418,6 +418,7 @@ const refreshAndClose = () => {
                 <div className='tableEditDeck'>
                     <TableDeckContents servicerChild={servicerChild} servicerX={servicerCommander} deleteCard={deleteCard} updateCard={updateCard}
                     reloadNow={reloadNow} reload={reload} tbodyData={cardsCommander} deckPart={"Commander"}
+                    setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} accesslevelId={accesslevelId}
                     imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                 </div>
                 ) : (
@@ -430,6 +431,7 @@ const refreshAndClose = () => {
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerCompanion} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsCompanion} deckPart={"Companion"}
+                        setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} accesslevelId={accesslevelId}
                         imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                     </div>
                 ) : (
@@ -442,6 +444,7 @@ const refreshAndClose = () => {
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerMainDeck} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsMainDeck} deckPart={"Main deck"}
+                        setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} accesslevelId={accesslevelId}
                         imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                     </div>
                 ) : (
@@ -454,6 +457,7 @@ const refreshAndClose = () => {
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerSideboard} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsSideboard} deckPart={"Sideboard"}
+                        setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} accesslevelId={accesslevelId}
                         imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                     </div>
                 ) : (
@@ -466,6 +470,7 @@ const refreshAndClose = () => {
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerMaybeboard} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsMaybeboard} deckPart={"Maybeboard"}
+                        setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} accesslevelId={accesslevelId}
                         imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                     </div>
                 ) : (
@@ -478,6 +483,7 @@ const refreshAndClose = () => {
                     <div className='tableEditDeck'>
                         <TableDeckContents servicerChild={servicerChild} servicerX={servicerTokens} deleteCard={deleteCard} updateCard={updateCard}
                         reloadNow={reloadNow} reload={reload} tbodyData={cardsTokens} deckPart={"Tokens"}
+                        setIsPositive={setIsPositive} setShowMessage={setShowMessage} setMessage={setMessage} accesslevelId={accesslevelId}
                         imgUris={imgUris} imageUri={imageUri} setImg={setImg} setEditableDeckPart={setEditableDeckPart} increaseCount={increaseCount} decreaseCount={decreaseCount} />
                     </div>
                 ) : (
@@ -495,7 +501,7 @@ const refreshAndClose = () => {
             </div>
 
             {edit && <ModalCardEdit isShowModalCardEdit={isShowModalCardEdit} invokeModalCardEdit={invokeModalCardEdit} setEdit={setEdit}
-              setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
+              setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} accesslevelId={accesslevelId}
               editCard={editCard} reload={reload} reloadNow={reloadNow} img={img} setImg={setImg} servicer={editableDeckPart}
             />}
 

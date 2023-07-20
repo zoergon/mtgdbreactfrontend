@@ -17,7 +17,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-export const TableAllCardData = ({ tbodyData, imgId, imgUris }) => {
+export const TableAllCardData = ({ tbodyData, imgId, imgUris, setIsPositive, setShowMessage, setMessage }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
     const columns = useMemo(() => COLUMNS, [])
@@ -195,7 +195,20 @@ export const TableAllCardData = ({ tbodyData, imgId, imgUris }) => {
 
     // const imageUrl = "https://cards.scryfall.io/normal/front/5/3/5355873e-39f6-4833-9c67-418f3a67895e.jpg?"
     // const imageUrl = `https://cards.scryfall.io/normal/front/5/3/${imgId}.jpg?`
-    const imageUri = imgUris.normal
+    var imageUri = ""
+
+    try {
+        imageUri = imgUris.normal    
+    } catch (error) {
+        setMessage("Image not found.", error)
+        setIsPositive(false)
+        setShowMessage(true)
+        window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+  
+        setTimeout(() => {
+          setShowMessage(false)
+        }, 2000)
+    }
 
     // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
     const fetchImage = async () => {

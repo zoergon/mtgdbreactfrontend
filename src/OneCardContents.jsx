@@ -7,7 +7,7 @@ import { TableAllCardData } from "./components/TableAllCardData"
 // Kortin kuvan fetchiin saatava id tulee tätä kautta
 // Parent: AllCardsList.jsx
 
-const OneCardContents = ({ query, imgUris }) => {
+const OneCardContents = ({ query, imgUris, setIsPositive, setShowMessage, setMessage }) => {
 
 const [card, setCard] = useState([]) // id:llä haettu yksi kortti
 // const [imgUri, setImgUri] = useState([]) // id:llä haettu yksi kortti
@@ -61,7 +61,7 @@ useEffect(() => {
     <>
       {card.length > 0 ? (
         <div className='table'><br/>              
-            <TableAllCardData tbodyData={card} imgId={query} imgUris={imgUris} />
+            <TableAllCardData tbodyData={card} imgId={query} imgUris={imgUris} setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} />
         </div>
       ) : (
         <span>

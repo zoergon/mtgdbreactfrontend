@@ -16,7 +16,7 @@ import DropdownCardEdit from "./components/DropdownCardEdit.js"
 // Dropdown, josta voidaan valita ja asettaa uusi versio kortille
 
 const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, editCard, img, setImg, servicer,
-    reload, reloadNow, setIsPositive, setShowMessage, setMessage }) => {
+    reload, reloadNow, setIsPositive, setShowMessage, setMessage, accesslevelId }) => {
 
     const [optionList, setOptionList] = useState([]) // Backendistä saatu data sijoitetaan tänne (dropdowneja varten)
     const [selected, setSelected] = useState([]) // Dropdownin valinta
@@ -54,10 +54,21 @@ const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, edit
     const newDropdownId = (value) => {
         value.map(option => setNewId(option.id))
         var imgUrit = value.map((option) => option.imageUris)
-        if (imgUrit != "") {
-            var imageUris = JSON.parse(imgUrit) // Parseroidaan             
-            imageUri = imageUris.normal // Parseroidusta imageUrista valitaan normal-kuvalinkki            
-            fetchImage(imageUri)
+        if (imgUrit != "") {            
+            try {
+                var imageUris = JSON.parse(imgUrit) // Parseroidaan             
+                imageUri = imageUris.normal // Parseroidusta imageUrista valitaan normal-kuvalinkki            
+                fetchImage(imageUri)
+            } catch (error) {
+                setMessage("Image not found.", error)
+                setIsPositive(false)
+                setShowMessage(true)
+                window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+          
+                setTimeout(() => {
+                  setShowMessage(false)
+                }, 2000)
+            }
           }
     }
 
@@ -146,7 +157,7 @@ const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, edit
                         </div>
                     </Form.Group>
                     <Form.Group>
-                        <Button variant='primary' type='submit' value='Save'>Save</Button>
+                        {accesslevelId < 3 && <Button variant='primary' type='submit' value='Save'>Save</Button>}
                     </Form.Group>
                 </Form>                
             </Modal.Body>
