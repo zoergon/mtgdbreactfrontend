@@ -12,9 +12,8 @@ import Dropdown from "./components/Dropdown.js"
 import DropdownDeckParts from "./components/DropdownDeckParts.js"
 import ModalCardEdit from './CardEdit.jsx'
 import { TableDeckContents } from "./components/TableDeckContents"
-import './components/modal.css'
-
 import { Modal, Button } from 'react-bootstrap'
+import './components/modal.css'
 
 // parent: DecksList.jsx
 //
@@ -405,10 +404,12 @@ const refreshAndClose = () => {
         </Modal.Header >
         <Modal.Body className='modalContent'>
             <div style={{ display: "flex" }} title="I am the tooltip text">
-              <input placeholder='Search for a card...' type='text' value={queryCards} onChange={(e) => {setQueryCards(e.target.value)}} style={{ marginLeft: "0rem" }}/>              
-              <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected}
+              <input placeholder='Search for a card...' type='text' value={queryCards} onChange={(e) => {setQueryCards(e.target.value)}} style={{ marginLeft: "0rem" }}/>                        
+              <Dropdown
+              newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected}
               isSearchable isMulti placeHolder={queryCards} options={optionListCards} onChange={(value) => value.map((option) => (setNewId(option.id)))} />              
-              <DropdownDeckParts newId={newDeckPartId} setNewId={setNewDeckPartId} newDeckPartName={newDeckPartName} setNewDeckPartName={setNewDeckPartName} 
+              <DropdownDeckParts 
+              newId={newDeckPartId} setNewId={setNewDeckPartId} newDeckPartName={newDeckPartName} setNewDeckPartName={setNewDeckPartName} 
               selected={selectedDeckPart} setSelected={setSelectedDeckPart} isSearchable isMulti placeHolder={queryDeckParts}
               options={optionListDeckParts} onChange={(value) => value.map((option) => (setNewDeckPartId(option.partId)))} />
               {accesslevelId < 3 && <button className='button' onClick={(e) => {handleAdd(e)}} >Add a card</button>}
@@ -502,7 +503,7 @@ const refreshAndClose = () => {
                 <img style={{ height: '100%', width: '100%', paddingLeft: '0rem', paddingTop: '3rem' }} src={img}></img>
               </div>
 
-            </div>
+            </div>            
 
             {edit && <ModalCardEdit isShowModalCardEdit={isShowModalCardEdit} invokeModalCardEdit={invokeModalCardEdit} setEdit={setEdit}
               setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} accesslevelId={accesslevelId}

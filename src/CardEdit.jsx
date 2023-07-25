@@ -137,7 +137,7 @@ const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, edit
         size='xl'        
         show={isShowModalCardEdit}>
             <Modal.Header className='modalHeader' closeButton onClick={initModal}>
-                <Modal.Title>Change the version of a card</Modal.Title>
+                <Modal.Title>Change the version of the selected card</Modal.Title>
             </Modal.Header>
             <Modal.Body className='modalContent'>
                 <Form id="cardEdit" onSubmit={handleSubmit}>

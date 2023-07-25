@@ -163,13 +163,13 @@ export const TableOwnedCardData = ({ tbodyData, imgId, imgUris, setIsPositive, s
 
             <table className="subTableAllCards">
                 <tbody>
-                    {cols.map(e =>
-                        <tr>
-                            <th key={e} align="left" style={{ maxWidth: 'auto' }} >{e}</th>
+                    {cols.map((e, i) =>
+                        <tr key={i} >
+                            <th key={i} align="left" style={{ maxWidth: 'auto' }} >{e}</th>
                             
                     {data.map(row =>            
                         // {cols.map(col =>
-                            <td key={e} align="left" style={{ maxWidth: 'auto' }} >{JSON.stringify(row[e])}</td>
+                            <td key={i} align="left" style={{ maxWidth: 'auto' }} >{JSON.stringify(row[e])}</td>
                         )}
                         </tr>)}
                     {/* {data.map(row =>  */}
