@@ -20,8 +20,14 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
-// Taulu eckin osioiden sisällön näyttämiseen
-// Parent DeckContents.jsx
+// parent: DeckContents.jsx
+//
+// Latautuu DeckContents.jsx:n useEffectin (x)Service.getByDeckId(query) jälkeen
+//
+// Taulu deckin eri osioiden sisällön näyttämiseen (käytetään samaa kaikkiin):
+// Commanders, Companions, MainDecks, Maybeboards, Sideboards, Tokens
+//
+// Palauttaa parentille klikatun rivin .imageUris.normal Scryfallin-urlin kuvalle
 
 export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, editCard, card, 
     // queryCompanion, setQueryCompanion,
@@ -239,14 +245,14 @@ export const TableDeckContents = ({ deckName, edit, setEdit, create, setCreate, 
         useRowSelect,
         hooks => {
             hooks.visibleColumns.push(columns => [
-                {
-                id: 'selection',
-                width: 40,
-                Header: ({ getToggleAllRowsSelectedProps }) => (
-                    <Checkbox {...getToggleAllRowsSelectedProps()} />
-                ),
-                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />
-                },
+                // {
+                // id: 'selection',
+                // width: 40,
+                // Header: ({ getToggleAllRowsSelectedProps }) => (
+                //     <Checkbox {...getToggleAllRowsSelectedProps()} />
+                // ),
+                // Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />
+                // },
                 ...columns
             ])
         }

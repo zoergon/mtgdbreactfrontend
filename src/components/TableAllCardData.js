@@ -121,7 +121,7 @@ export const TableAllCardData = ({ tbodyData, imgId, imgUris, setIsPositive, set
     // }
 
     function handleShowCard(row) {
-        console.log(row)
+        // console.log(row)
         // showCard(row)        
     }
 
@@ -213,7 +213,7 @@ export const TableAllCardData = ({ tbodyData, imgId, imgUris, setIsPositive, set
     // Hakee imageUrlin mukaisella linkillä kuvan Scryfallin apista
     const fetchImage = async () => {
         // console.log("imageUrl", imageUrl)
-        console.log("imageUri", imageUri)
+        // console.log("imageUri", imageUri)
         const res = await fetch(imageUri)
         const imageBlob = await res.blob()
         const imageObjectURL = URL.createObjectURL(imageBlob)

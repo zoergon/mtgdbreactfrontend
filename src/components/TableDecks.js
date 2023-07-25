@@ -22,6 +22,13 @@ import {
   faAngleUp
 } from '@fortawesome/free-solid-svg-icons'
 
+// parent: DecksList.jsx
+//
+// Latautuu DecksList.jsx:n useEffectin backendille lähettämän HttpGet-pyynnön jälkeen: DecksService.getDecksByLoginId(loggedInLoginId)
+//
+// Taulukko, joka näyttää kaikki käyttäjän deckit
+// subRow/expandable -taulukko: TableAllDeckContents.js
+
 export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, setShowDeck, showDecks, setShowDecks,
     setIsPositive, setShowMessage, setMessage, accesslevelId,
     edit, setEdit, create, setCreate, editDeck, setEditDeck, deck, updateDeck, deleteDeck, tbodyData, renderRowSubComponent, expandRows,
@@ -58,17 +65,17 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
     const columns = useMemo(
         () => [
         
-        {
-            id: 'deckId', // luultavimmin voi poistaa
-            Header: 'deckId',
-            Footer: 'deckId',
-            accessor: 'deckId',
-            // Filter: ColumnFilter,
-            // disableFilters: true
-            maxWidth: 100,
-            minWidth: 40,
-            width: 80,
-        },
+        // {
+        //     id: 'deckId', // luultavimmin voi poistaa
+        //     Header: 'deckId',
+        //     Footer: 'deckId',
+        //     accessor: 'deckId',
+        //     // Filter: ColumnFilter,
+        //     // disableFilters: true
+        //     maxWidth: 100,
+        //     minWidth: 40,
+        //     width: 80,
+        // },
         {
             Header: 'Deck',
             Footer: 'Deck',
@@ -85,24 +92,24 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
             minWidth: 80,
             width: 150,
         },
+        // {
+        //     Header: 'loginId',
+        //     Footer: 'loginId',
+        //     accessor: 'loginId',
+        //     maxWidth: 100,
+        //     minWidth: 40,
+        //     width: 60,
+        // },
         {
-            Header: 'loginId',
-            Footer: 'loginId',
-            accessor: 'loginId',
-            maxWidth: 100,
+            maxWidth: 180,
             minWidth: 40,
-            width: 60,
-        },
-        {
-            maxWidth: 140,
-            minWidth: 40,
-            width: 115,
-            Header: ('Action'),
+            width: 140,
+            Header: ('Actions'),
             // accessor: 'action',
             Cell: row => (
             <div>
-                <button className='button' onClick={e=> handleEditDeckContents(row.row.original)}>Edit</button>{' '}
-                <button className='button' onClick={e=> handleSettings(row.row.original)}>Settings</button>{' '}
+                <button className='button' onClick={e=> handleEditDeckContents(row.row.original)}>Edit</button>
+                <button className='button' onClick={e=> handleSettings(row.row.original)}>Settings</button>
                 <button className='button' onClick={e=> handleDelete(row.row.original)}>Delete</button>
             </div>
             ),
@@ -191,14 +198,14 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
         useRowSelect,
         hooks => {
             hooks.visibleColumns.push(columns => [
-                {
-                id: 'selection',
-                width: 40,
-                Header: ({ getToggleAllRowsSelectedProps }) => (
-                    <Checkbox {...getToggleAllRowsSelectedProps()} />
-                ),
-                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => setRowToADeck(row.original)}/>
-                },
+                // {
+                // id: 'selection',
+                // width: 40,
+                // Header: ({ getToggleAllRowsSelectedProps }) => (
+                //     <Checkbox {...getToggleAllRowsSelectedProps()} />
+                // ),
+                // Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => setRowToADeck(row.original)}/>
+                // },
                 {                    
                     maxWidth: 60,
                     minWidth: 40,
@@ -254,9 +261,9 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
             <div className='aligned'>
-                <div>
+                {/* <div>
                     <Checkbox {...getToggleHideAllColumnsProps()} /> Toggle All
-                </div>
+                </div> */}
                 {allColumns.map(column => (
                     <div key={column.id}>
                         <label style={{background: 'transparent', color: 'orange'}} className='label'>

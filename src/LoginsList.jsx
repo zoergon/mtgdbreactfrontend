@@ -4,7 +4,7 @@ import LoginsService from './services/Logins'
 import LoginsAdd from './LoginsAdd'
 import LoginsEdit from './LoginsEdit'
 
-const LoginsList = ({ setIsPositive, setShowMessage, setMessage }) => {
+const LoginsList = ({ setIsPositive, setShowMessage, setMessage, setShowWelcome }) => {
 
 const [users, setUsers] = useState([])
 const [create, setCreate] = useState(false)
@@ -16,6 +16,7 @@ const [search, setSearch] = useState("")
 
 // Backend vaatii tokenin, jotta logins-lista saadaan näkyville
 useEffect(() => {
+  setShowWelcome(false)
 
   const token = localStorage.getItem('token')
         LoginsService

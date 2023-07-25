@@ -17,6 +17,13 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
+// parent: OneOwnedCardContents.jsx
+//
+// Aukeaa TableOwnedCards.js:n subRow:na riviä laajentamalla
+//
+// Latautuu DecksList.jsx:n useEffectin backendille lähettämän HttpGet-pyynnön jälkeen: OwnedCardsService.getById(query)
+// Palauttaa parentille klikatun rivin .imageUris.normal Scryfallin-urlin kuvalle
+
 export const TableOwnedCardData = ({ tbodyData, imgId, imgUris, setIsPositive, setShowMessage, setMessage }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.

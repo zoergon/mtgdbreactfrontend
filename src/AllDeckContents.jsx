@@ -13,8 +13,12 @@ import FormatsService from './services/Formats'
 // import { TableMainDecks } from "./components/TableMainDecks"
 import { TableAllDeckContents } from "./components/TableAllDeckContents"
 
-// subRow:na näytettävä deckin koko sisältö (kaikki deckit omilla riveillään)
-// kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> subRow
+// parent: DecksList.jsx
+// child: TableAllDeckContents.js
+//
+// kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> subRow: TableAllDeckContents.js
+//
+// TableAllDeckContents.js:n subRow:na näytettävä deckin koko sisältö (kaikki deckit omilla riveillään)
 
 const AllDeckContents = ({ query, setIsPositive, setShowMessage, setMessage }) => {
 
@@ -305,7 +309,7 @@ var imageUri = ""
           )}
         </div>
         <div className="floatChild">
-          <img style={{ height: '60%', width: '60%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
+          <img style={{ height: '80%', width: '80%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
         </div>
       </div>
     </>

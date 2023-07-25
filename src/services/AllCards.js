@@ -1,9 +1,9 @@
 import axios from "axios"
 
 const baseUrl = "https://localhost:7120/api/allcards"
-const nameUrl = "https://localhost:7120/api/allcards/name"
-const partialNameUrl = "https://localhost:7120/api/allcards/partialname"
-const idUrl = "https://localhost:7120/api/allcards/id"
+// const nameUrl = "https://localhost:7120/api/allcards/name"
+// const partialNameUrl = "https://localhost:7120/api/allcards/partialname"
+// const idUrl = "https://localhost:7120/api/allcards/id"
 
 let token = null
 
@@ -25,7 +25,7 @@ const getOneCardById = (query) => {
     const config = {
         headers: { Authorization: token },        
     }
-    const request = axios.get(`${idUrl}/${query}`, config)
+    const request = axios.get(`${baseUrl}/id/${query}`, config)
     return request.then(response => response.data)
 }
 
@@ -33,7 +33,7 @@ const getName = (query) => {
     const config = {
         headers: { Authorization: token },        
     }
-    const request = axios.get(`${nameUrl}/${query}`, config)
+    const request = axios.get(`${baseUrl}/name/${query}`, config)
     return request.then(response => response.data)
 }
 
@@ -41,7 +41,7 @@ const getPartialName = (query) => {
     const config = {
         headers: { Authorization: token },        
     }
-    const request = axios.get(`${partialNameUrl}/${query}`, config)
+    const request = axios.get(`${baseUrl}/partialname/${query}`, config)
     return request.then(response => response.data)
 }
 

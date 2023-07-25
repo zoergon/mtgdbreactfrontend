@@ -6,6 +6,14 @@ import DecksService from './services/Decks'
 import FormatsService from './services/Formats'
 import DropdownFormats from './components/DropdownFormats.js'
 
+// parent: DecksList.jsx
+//
+// Aukeaa Create a new deck -buttonista
+//
+// Modal-ikkuna deckin lisäämistä varten
+// Deckin nimen asettaminen inputilla
+// Deckin formaatin asettaminen dropdownista
+
 const ModalDeckAdd = ({ loggedInUser, newLoginId, accesslevelId, setCreate, setIsPositive, setShowMessage, setMessage, isShowAddDeck, invokeModalAddDeck, reload, reloadNow }) => {
 
 const [newName, setNewName] = useState('')

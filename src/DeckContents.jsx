@@ -16,13 +16,17 @@ import './components/modal.css'
 
 import { Modal, Button } from 'react-bootstrap'
 
-// modal-ikkunana näytettävä yhden deckin koko sisältö
-// deckin kaikkien osioiden muokkaus: add, edit, delete cards
-// formin kautta submit
-// add kaikissa osioissa erikseen
-// edit jokaisen kortin kohdalla - kortin vaihto eri versioon tai korttiin
-// delete jokaisen kortin kohdalla
-// kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> edit-button rivillä
+// parent: DecksList.jsx
+//
+// Kontrollointi & aukeaminen tapahtuu: DeckList.jsx -> TableDecks.js -> edit-button rivillä
+//
+// Modal-ikkunana näytettävä yhden deckin koko sisältö
+// Deckin kaikkien osioiden muokkaus: add, edit, delete cards, increase & decrease count
+// Modal.Formin kautta submit
+// Edit jokaisen kortin kohdalla - kortin vaihto eri versioon tai korttiin
+// Delete jokaisen kortin kohdalla
+// Increase & decrease count - lisää tai vähentää deckissä olevan kortin lukumäärää (ei voi olla < 1)
+
 
 const ModalDeckContents = ({ isShowEditDeck, invokeModalEditDeck, newLoginId, accesslevelId, query, editDeck, setEditDeck, setIsPositive, setShowMessage, setMessage }) => {
 
@@ -400,10 +404,10 @@ const refreshAndClose = () => {
           <Modal.Title>Deck edit</Modal.Title>
         </Modal.Header >
         <Modal.Body className='modalContent'>
-            <div style={{ display: "flex" }}>            
-              <input placeholder='Search for cards...' type='text' value={queryCards} onChange={(e) => {setQueryCards(e.target.value)}} style={{ marginLeft: "0rem" }}/>
+            <div style={{ display: "flex" }} title="I am the tooltip text">
+              <input placeholder='Search for a card...' type='text' value={queryCards} onChange={(e) => {setQueryCards(e.target.value)}} style={{ marginLeft: "0rem" }}/>              
               <Dropdown newId={newId} setNewId={setNewId} newName={newName} setNewName={setNewName} selected={selected} setSelected={setSelected}
-              isSearchable isMulti placeHolder={queryCards} options={optionListCards} onChange={(value) => value.map((option) => (setNewId(option.id)))} />
+              isSearchable isMulti placeHolder={queryCards} options={optionListCards} onChange={(value) => value.map((option) => (setNewId(option.id)))} />              
               <DropdownDeckParts newId={newDeckPartId} setNewId={setNewDeckPartId} newDeckPartName={newDeckPartName} setNewDeckPartName={setNewDeckPartName} 
               selected={selectedDeckPart} setSelected={setSelectedDeckPart} isSearchable isMulti placeHolder={queryDeckParts}
               options={optionListDeckParts} onChange={(value) => value.map((option) => (setNewDeckPartId(option.partId)))} />

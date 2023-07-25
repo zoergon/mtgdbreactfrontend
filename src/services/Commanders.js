@@ -1,8 +1,8 @@
 import axios from "axios"
 
 const baseUrl = "https://localhost:7120/api/commanders"
-const nameUrl = "https://localhost:7120/api/commanders/name"
-const deckIdUrl = "https://localhost:7120/api/commanders/deckid"
+// const nameUrl = "https://localhost:7120/api/commanders/name"
+// const deckIdUrl = "https://localhost:7120/api/commanders/deckid"
 
 let token = null
 
@@ -24,7 +24,7 @@ const getByDeckId = (query) => {
     const config = {
         headers: { Authorization: token },        
     }
-    const request = axios.get(`${deckIdUrl}/${query}`, config)
+    const request = axios.get(`${baseUrl}/deckid/${query}`, config)
     return request.then(response => response.data)
 }
 

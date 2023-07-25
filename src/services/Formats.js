@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const baseUrl = "https://localhost:7120/api/formats"
-const nameUrl = "https://localhost:7120/api/formats/id"
+// const nameUrl = "https://localhost:7120/api/formats/id"
 
 let token = null
 
@@ -23,7 +23,7 @@ const getFormat = (query) => {
     const config = {
         headers: { Authorization: token },        
     }
-    const request = axios.get(`${nameUrl}/${query}`, config)
+    const request = axios.get(`${baseUrl}/id/${query}`, config)
     return request.then(response => response.data)
 }
 

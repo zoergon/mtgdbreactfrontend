@@ -1,8 +1,8 @@
 import axios from "axios"
 
 const baseUrl = "https://localhost:7120/api/decks"
-const nameUrl = "https://localhost:7120/api/decks/name"
-const loginIdUrl = "https://localhost:7120/api/decks/loginid"
+// const nameUrl = "https://localhost:7120/api/decks/name"
+// const loginIdUrl = "https://localhost:7120/api/decks/loginid"
 
 let token = null
 
@@ -24,7 +24,7 @@ const getName = (query) => {
     const config = {
         headers: { Authorization: token },        
     }
-    const request = axios.get(`${nameUrl}/${query}`, config)
+    const request = axios.get(`${baseUrl}/name/${query}`, config)
     return request.then(response => response.data)
 }
 
@@ -32,7 +32,8 @@ const getDecksByLoginId = (query) => {
     const config = {
         headers: { Authorization: token },        
     }
-    const request = axios.get(`${loginIdUrl}/${query}`, config)
+    // const request = axios.get(`${loginIdUrl}/${query}`, config)
+    const request = axios.get(`${baseUrl}/loginid/${query}`, config)
     return request.then(response => response.data)
 }
 

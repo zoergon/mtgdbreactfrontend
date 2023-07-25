@@ -19,6 +19,18 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
+// parent: AllDeckContents.jsx
+//      parent: DecksList.jsx
+//
+// Aukeaa TableDecsk.js:n riviä/rivit laajentamalla
+// Data tulee AllDeckContents.jsx:n useEffectin (x)Service.getByDeckId(query) jälkeen
+//
+// subRow/expandable -taulukko TableDecks.js:lle
+// Näyttää yhden deckin koko sisällön laajennetussa alirivissä TableDecks.js:n taulukossa:
+// Commanders, Companions, MainDecks, Maybeboards, Sideboards, Tokens
+//
+// Palauttaa parentille klikatun rivin .imageUris.normal Scryfallin-urlin kuvalle
+
 export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, imageUri, setImg, setIsPositive, setShowMessage, setMessage }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
@@ -45,14 +57,14 @@ export const TableAllDeckContents = ({ deckPart, card, tbodyData, imgUris, image
         //     minWidth: 40,
         //     width: 70,
         // },
-        {
-            Header: 'deckId',
-            Footer: 'deckId',
-            accessor: 'deckId',
-            maxWidth: 120,
-            minWidth: 40,
-            width: 70,      
-        },
+        // {
+        //     Header: 'deckId',
+        //     Footer: 'deckId',
+        //     accessor: 'deckId',
+        //     maxWidth: 120,
+        //     minWidth: 40,
+        //     width: 70,      
+        // },
         {
             Header: 'count',
             Footer: 'count',

@@ -8,10 +8,11 @@ export const GlobalFilter = ({ filter, setFilter }) => {
   }, 500) // Kuinka pitkä viive on haun toteuttamiseen viimeisen muutoksen jälkeen
   return (
     <span>
-      Search:{' '}
+      Search from all instances:{' '}
       <input
         className='input'      
         value={value || ''}
+        placeholder='Type for the search...'
         onChange={e => {
           setValue(e.target.value)
           onChange(e.target.value)

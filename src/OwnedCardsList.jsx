@@ -5,10 +5,13 @@ import OneOwnedCardContents from './OneOwnedCardContents'
 import { TableOwnedCards } from "./components/TableOwnedCards"
 import { TableOwnedCardData } from "./components/TableOwnedCardData"
 
-// Parent
-// Kontrolloi kaikkea ownedCardsiin liittyvää
+// Parent kaikkiin OwnedCards / oman kokoelman hallintaan liittyvään
+//
+// Aukeaa App.js:n navigointipalkin linkin kautta
+//
+//
 
-const OwnedCardsList = ({ loggedInLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage }) => {
+const OwnedCardsList = ({ loggedInLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, setShowWelcome }) => {
 
 // Komponentin tilan määritys
 const [allCards, setAllCards] = useState([]) // Kaikki kortit allCards-taulusta
@@ -31,6 +34,7 @@ function clickHandler(event) {
 }
 
 useEffect(() => {
+  setShowWelcome(false)
 
   const token = localStorage.getItem('token')
         OwnedCardsService
@@ -39,7 +43,7 @@ useEffect(() => {
   // OwnedCardsService.getAll()
   OwnedCardsService.getCardsByLoginId(loggedInLoginId)
   .then(data => {
-    console.log(data)
+    // console.log(data)
     setAllCards(data)
   })
   .catch(error => console.log(error))

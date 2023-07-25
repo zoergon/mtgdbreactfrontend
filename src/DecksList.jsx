@@ -20,14 +20,17 @@ import AllDeckContents from './AllDeckContents'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 // Parent kaikkeen deckeihin liittyvään
+//
+// Avautuu App.js:n navigointi palkin kautta linkistä
+//
 // DecksList.jsx -> TableDecks.js | deckien listaus taulukkona
 // subRow -> AllDeckContents.jsx -> TableAllDeckContents.js | deckin koko sisältö subRow:na taulukossa
-
+//
 // DeckAdd.jsx -> deckin lisääminen ModalDeckAdd
 // DeckEdit.jsx -> deckin settings-buttonin ModalDeckEdit
-// DeckContents.jsx -> deckin koko sisällön hallinta ModalDeckContents
+// DeckContents.jsx -> deckin koko sisällön hallinta ModalDeckContents 
 
-const DecksList = ({ loggedInLoginId, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage }) => {
+const DecksList = ({ loggedInLoginId, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, setShowWelcome }) => {
 
 const [decks, setDecks] = useState([]) // Backendiltä tuleva data
 const [showDeck, setShowDeck] = useState(false) // Deckin sisällön näyttämistä varten
@@ -59,6 +62,7 @@ const [isShowEditDeck, invokeModalEditDeck] = useState(false) // ModalDeckConten
 
 // UseEffect ajetaan aina alussa kerran
 useEffect(() => {
+  setShowWelcome(false)
 
   const token = localStorage.getItem('token')
         DecksService
@@ -67,7 +71,7 @@ useEffect(() => {
   DecksService.getDecksByLoginId(loggedInLoginId)
   // DecksService.getAll()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     setDecks(data)
   })
   .catch(error => console.log(error))

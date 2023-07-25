@@ -17,6 +17,19 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
+// parent: AllCardsList.jsx
+//
+// Latautuu AllCardsList.jsx:n useEffectin backendille lähettämän HttpGet-pyynnön jälkeen: AllCardsService.getAll()
+//
+// Näyttää taulukossa kaikki AllCards-taulukon kortit (Scryfallin tietokannasta manuaalisesti tietokantaan haettu bulkdata):
+// https://scryfall.com/docs/api/bulk-data
+//
+// subRow:na aukea riviä laajentamalla aukeaa TableOwnedCardData.js
+//
+// Riveillä add-buttonit,
+// joiden pyynnöt palautuvat parentille varsinaiseen funktioon:
+// const addToCollection -> TableAllCards.js:n rivin lisääminen Add-buttonin kautta OwnedCards tauluun
+
 export const TableAllCards = ({ tbodyData, addToCollection, accesslevelId, setIsPositive, setShowMessage, setMessage, renderRowSubComponent, expandRows, expandedRowObj }) => {
     
     // Tämä oli käytössä, ennen kuin siirsin columnit tänne. ColumnsDecks.js alkuperäinen componentti.
@@ -51,7 +64,7 @@ export const TableAllCards = ({ tbodyData, addToCollection, accesslevelId, setIs
                 accessor: 'rarity',
                 maxWidth: 150,
                 minWidth: 10,
-                width: 50,
+                width: 65,
             },
             {
                 Header: 'Set',
@@ -142,8 +155,8 @@ export const TableAllCards = ({ tbodyData, addToCollection, accesslevelId, setIs
                 minWidth: 20,
                 width: 40,
             },{
-              width: 45,
-              Header: ('Add'),
+              width: 60,
+              Header: ('Add to Collection'),
               // accessor: 'action',
               Cell: row => (
               <div>

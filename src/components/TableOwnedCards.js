@@ -17,6 +17,16 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 
+// parent: OwnedCardsList.jsx
+//
+// Latautuu OwnedCardsList.jsx:n useEffectin backendille lähettämän HttpGet-pyynnön jälkeen: OwnedCardsService.getCardsByLoginId(loggedInLoginId)
+//
+// Näyttää taulukossa kaikki ko. kirjautuneen käyttäjän OwnedCards-taulukon kortit
+// subRow:na aukea riviä laajentamalla aukeaa TableOwnedCardData.js
+//
+// Riveillä increase & decrease count- ja delete-buttonit,
+// joiden pyynnöt palautuvat parentille varsinaisiin funktioihin
+
 export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbodyData,
     setIsPositive, setShowMessage, setMessage, accesslevelId,
     renderRowSubComponent, expandRows, expandedRowObj }) => {
@@ -134,25 +144,27 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
             //   // Filter: ColumnFilter,
             //   // disableFilters: true
             // },
+            // {
+            //     Header: 'Border color',
+            //     Footer: 'border_color',
+            //     accessor: 'idNavigation.borderColor',
+            //     maxWidth: 110,
+            //     minWidth: 10,
+            //     width: 40,
+            // },
+            // {
+            //     Header: 'Object',
+            //     Footer: 'object',
+            //     accessor: 'idNavigation.object',
+            //     maxWidth: 100,
+            //     minWidth: 10,
+            //     width: 40,
+            // },
             {
-                Header: 'Border color',
-                Footer: 'border_color',
-                accessor: 'idNavigation.borderColor',
-                maxWidth: 110,
+                maxWidth: 200,
                 minWidth: 10,
-                width: 40,
-            },
-            {
-                Header: 'Object',
-                Footer: 'object',
-                accessor: 'idNavigation.object',
-                maxWidth: 100,
-                minWidth: 10,
-                width: 40,
-            },
-            {
-              width: 90,
-              Header: ('Add'),
+                width: 90,
+              Header: ('Actions'),
               // accessor: 'action',
               Cell: row => (
               <div>
@@ -261,14 +273,14 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
         useRowSelect,
         hooks => {
             hooks.visibleColumns.push(columns => [
-                {
-                id: 'selection',
-                width: 40,
-                Header: ({ getToggleAllRowsSelectedProps }) => (
-                    <Checkbox {...getToggleAllRowsSelectedProps()} />
-                ),
-                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => console.log(row.original)}/>
-                },
+                // {
+                // id: 'selection',
+                // width: 40,
+                // Header: ({ getToggleAllRowsSelectedProps }) => (
+                //     <Checkbox {...getToggleAllRowsSelectedProps()} />
+                // ),
+                // Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} onClick={() => console.log(row.original)}/>
+                // },
                 {                    
                     maxWidth: 60,
                     minWidth: 10,
@@ -333,9 +345,9 @@ export const TableOwnedCards = ({ increaseCount, decreaseCount, deleteCard, tbod
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
             <div className='aligned'>
-                <div>
+                {/* <div>
                     <Checkbox {...getToggleHideAllColumnsProps()} /> Toggle All
-                </div>
+                </div> */}
                 {allColumns.map(column => (
                     <div key={column.id}>
                         <label style={{background: 'transparent', color: 'orange'}} className='label'>

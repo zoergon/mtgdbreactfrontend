@@ -8,7 +8,11 @@ import { Modal, Button, Form } from 'react-bootstrap'
 import './components/modal.css'
 
 // parent: DecksList.jsx
-// TableDecks.js Settings-buttonin aukaisema deckin tietojen editointiin modal-ikkuna
+//
+// TableDecks.js Settings-buttonista aukaistava deckin tietojen editointiin tarkoitettu modal-ikkuna
+//
+// Deckin nimen vaihto inputilla
+// Deckin formaatin vaihto dropdownista
 
 const ModalDeckEdit = ({ isShowDeckSettings, invokeModalDeckSettings, setEdit, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, editDeck }) => {
 
@@ -97,10 +101,10 @@ useEffect(() => {
         </Modal.Header>
         <Modal.Body className='modalContent'>
           <Form id="settings" onSubmit={handleSubmit}>
-            <Form.Group>
+            {/* <Form.Group>
               <Form.Label>deck_id: </Form.Label>
                 <Form.Control type='number' value={newDeckId} disabled />
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group>
                 <Form.Label>Deck's name: </Form.Label>
                 <Form.Control type='text' placeholder='Deck Name'

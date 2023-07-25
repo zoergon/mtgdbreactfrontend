@@ -8,9 +8,16 @@ import OwnedCardsList from './OwnedCardsList'
 import { TableAllCards } from "./components/TableAllCards"
 import { TableAllCardData } from "./components/TableAllCardData"
 
-// 
+// parent kaikelle AllCards liittyvään
+//
+// Avautuu App.js:n navigointi palkin kautta linkistä
+//
+// AllCardsList.jsx -> TableAllCards.js | kaikkien AllCards-taulun korttien listaus taulukkona
+// subRow -> OneCardContents.jsx -> TableAllCardData.js | kortin kaikki mahdollinen data subRow:na taulukossa
+//
+// const addToCollection -> TableAllCards.js:n rivin lisääminen Add-buttonin kautta OwnedCards tauluun
 
-const AllCardsList = ({ loggedInLoginId, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage }) => {
+const AllCardsList = ({ loggedInLoginId, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, setShowWelcome }) => {
 
 // Komponentin tilan määritys
 const [allCards, setAllCards] = useState([]) // Kaikki kortit allCards-taulusta
@@ -36,16 +43,17 @@ function clickHandler(event) {
 }
 
 useEffect(() => {
+  setShowWelcome(false)
 
   const token = localStorage.getItem('token')
         AllCardsService
               .setToken(token)
 
-  console.log("newLoginId", newLoginId)
+  // console.log("newLoginId", newLoginId)
 
     AllCardsService.getAll()
   .then(data => {
-    console.log(data)
+    // console.log(data)
     setAllCards(data)
   })
   .catch(error => console.log(error))
@@ -91,7 +99,7 @@ const addToCollection = (event) => {
 
   // if (event !== "" && checkId !== "" && checkSame !== "" && checkId !== checkSame) {
   if (event !== "") {
-    console.log("POST:", event)
+    // console.log("POST:", event)
 
     const token = localStorage.getItem('token')
         OwnedCardsService
