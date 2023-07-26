@@ -309,7 +309,7 @@ var imageUri = ""
           )}
         </div>
         <div className="floatChild">
-          <img style={{ height: '80%', width: '80%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
+          <img style={{ height: '60%', width: '60%', paddingLeft: '3rem', paddingTop: '0rem' }} src={img}></img>
         </div>
       </div>
     </>

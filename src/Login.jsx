@@ -5,6 +5,12 @@ import md5 from 'md5'
 import { Modal, Button, Form } from 'react-bootstrap'
 import './components/modal.css'
 
+// Modal-ikkuna, joka toimii Login-sivuna.
+//
+// Aukeaa ensimmäisenä, mikäli käyttäjä ei ole kirjautunut sisälle.
+// Kirjautuminen määrittelee navbarissa näytettävät linkit ja linkkeihin vaadittavat accesslevelId:n.
+// Kirjautumattoman käyttäjän ei pitäisi voida edetä ikkunaa pidemmälle.
+
 const ModalLogin = ({ isShowModalLogin, invokeModalLogin, setIsPositive, setShowMessage, setMessage, setLoggedInUser }) => {
 
 const [username, setUsername] = useState('')

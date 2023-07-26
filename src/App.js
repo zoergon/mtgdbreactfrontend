@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import './App.css';
+import About from './About'
 import AllCardsList from './AllCardsList'
 import CommandersList from './CommandersList'
 import DecksList from './DecksList'
@@ -110,6 +111,7 @@ return (
             {/* <Nav.Link href={'/Maybeboards'} className='nav-link'>Maybeboards</Nav.Link> */}
             {/* <Nav.Link href={'/Sideboards'} className='nav-link'>Sideboards</Nav.Link> */}
             {/* <Nav.Link href={'/Tokens'} className='nav-link'>Tokens</Nav.Link> */}
+            <Nav.Link href={'/About'} className='nav-link'>About</Nav.Link>
             {accesslevelId === '1' && <Nav.Link href={'/Logins'} className='nav-link'>Logins</Nav.Link>}
             <Nav.Link id='loggedIn' >{loggedInUser}</Nav.Link>
             <button onClick={() => logout()}>Logout</button>
@@ -140,7 +142,7 @@ return (
 
             <br/><br/>
 
-            -admin<br/><br/>
+            -admin<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
           </p>
         </ div>}
         
@@ -163,6 +165,7 @@ return (
             setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} reload={reload} reloadNow={reloadNow} /></Route>
           <Route path="/Decks"> <DecksList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} accesslevelId={accesslevelId}
           setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} /></Route>
+          <Route path="/About"> <About loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} accesslevelId={accesslevelId} setShowWelcome={setShowWelcome} /></Route>
           {/* <Route path="/Commanders"> <CommandersList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/Companions"> <CompanionsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {/* <Route path="/MainDecks"> <MainDecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}

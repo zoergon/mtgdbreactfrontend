@@ -4,6 +4,12 @@ import LoginsService from './services/Logins'
 import LoginsAdd from './LoginsAdd'
 import LoginsEdit from './LoginsEdit'
 
+// Parent kaikelle Loginseihin liityvään
+//
+// Avautuu App.js:n navigointi palkin kautta linkistä
+//
+// Näkyy vain admin tason käyttäjälle
+
 const LoginsList = ({ setIsPositive, setShowMessage, setMessage, setShowWelcome }) => {
 
 const [users, setUsers] = useState([])

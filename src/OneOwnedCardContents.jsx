@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react'
 import OwnedCardsService from './services/OwnedCards'
 import { TableOwnedCardData } from "./components/TableOwnedCardData"
 
+// parent: OwnedCardsList.jsx
+//
 // Hakee yhden kortin id:n perusteella kaiken datan taulukkoon näytettäväksi -> TableAllCardDataHC
 // Kortin kuvan fetchiin saatava id tulee tätä kautta
-// Parent: OwnedCardsList.jsx
 
 const OneOwnedCardContents = ({ query, imgUris, setIsPositive, setShowMessage, setMessage }) => {
 

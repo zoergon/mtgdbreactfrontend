@@ -10,7 +10,8 @@ import { Modal, Button, Form } from 'react-bootstrap'
 import './components/modal.css'
 import DropdownCardEdit from "./components/DropdownCardEdit.js"
 
-// Parent: DeckContents.jsx
+// parent: DeckContents.jsx
+//
 // DeckContentsin modal-ikkunan sisällä olevan taulukon TableDeckContents Edit-buttonilla aukaistu päällekkäinen modal-ikkuna
 // Yhden kortin muokkaaminen, eli version vaihtaminen editCard-statessa tulleen row-datan perusteella
 // Dropdown, josta voidaan valita ja asettaa uusi versio kortille

@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react'
 import AllCardsService from './services/AllCards'
 import { TableAllCardData } from "./components/TableAllCardData"
 
+// parent: AllCardsList.jsx
+//
 // Hakee yhden kortin id:n perusteella kaiken datan taulukkoon näytettäväksi -> TableAllCardDataHC
 // Kortin kuvan fetchiin saatava id tulee tätä kautta
-// Parent: AllCardsList.jsx
 
 const OneCardContents = ({ query, imgUris, setIsPositive, setShowMessage, setMessage }) => {
 

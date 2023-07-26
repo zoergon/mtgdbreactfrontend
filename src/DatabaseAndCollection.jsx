@@ -3,7 +3,12 @@ import React, { useState, useEffect, useRef } from 'react'
 import AllCardsList from './AllCardsList'
 import OwnedCardsList from './OwnedCardsList'
 
-// 
+// Parent AllCardsList.jsx:lle & OwnedCardsList.jsx:lle
+//
+// Avautuu App.js:n navigointi palkin kautta linkistä
+//
+// Näyttää AllCardsList.jsx:n & OwnedCardsList.jsx:n päällekkäin samalla sivulla mielekkäämpää käyttöä varten.
+// Mahdollistaa kortin lisäyksen jälkeen OwnedCardsListin refreshin suorittamisen suoraan.
 
 const DatabaseAndCollection = ({ loggedInLoginId, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, setShowWelcome, reload, reloadNow }) => {
 

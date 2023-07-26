@@ -3,6 +3,10 @@ import React, {useState} from 'react'
 import LoginsService from './services/Logins'
 import md5 from 'md5'
 
+// parent: LoginsList.jsx
+//
+// Avautuu LoginsList.jsx:n Edit-buttonin kautta
+
 //setLisäystila-props - päästään lähtemään pois lisäyslomakkeelta!
 const UserEdit = ({ setEdit, setIsPositive, setShowMessage, setMessage, editUser }) => {
 

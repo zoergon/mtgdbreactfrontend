@@ -9,7 +9,7 @@ import { TableOwnedCardData } from "./components/TableOwnedCardData"
 //
 // Aukeaa App.js:n navigointipalkin linkin kautta
 //
-//
+// Näyttää käyttäjäkohtaisesti käyttäjän lisäämät kortit kokoelmaansa
 
 const OwnedCardsList = ({ loggedInLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, setShowWelcome, reload, reloadNow }) => {
 

@@ -2,7 +2,6 @@ import './App.css'
 import React, { useState, useEffect, useRef } from 'react'
 import AllCardsService from './services/AllCards'
 import OwnedCardsService from './services/OwnedCards'
-import AllCard from './AllCard'
 import OneCardContents from './OneCardContents'
 import OwnedCardsList from './OwnedCardsList'
 import { TableAllCards } from "./components/TableAllCards"
@@ -131,8 +130,7 @@ const addToCollection = (event) => {
   }
 }
 
-// Nämä Expandable-mallista
-// XXX - tästä saakka
+// Nämä Expandable-mallia returniin saakka
 const details = React.useMemo(
   () => [
     {
@@ -173,7 +171,7 @@ const details = React.useMemo(
 // TableDecksin expandable subRowiin lähetetään tämä = renderRowSubComponent={subTable}
 // TableDecksin mappaaman row-datan mukaisesti = row.original.mainDecks = Entity Frameworkin fk:n mukaisesti mappaama taulu tietokannassa
 // ts. jos kyseisellä rivillä eli deckillä on kortteja = .length > 0
-// -> <                       Contents tekee queryn mukaisen haun backendistä ja taulun niistä, details-muuttujassa määritettyjen headereitten ja accessorien mukaisesti
+// -> <OneCardContents tekee queryn mukaisen haun backendistä ja taulun niistä, details-muuttujassa määritettyjen headereitten ja accessorien mukaisesti
 const subTable = React.useCallback(  
   ({ row }) =>
     // row.original.groupDetails.length > 0 ? (
@@ -214,9 +212,7 @@ const expandedRows = React.useMemo(() => {
     return arr
   }
 }, [])
-// XXX - tänne saakka Expandable-mallista
 
-// if (allCards.length > 0) {
   return (
     <>
         {allCards.length > 0 ? (
@@ -240,44 +236,8 @@ const expandedRows = React.useMemo(() => {
           </span>
         )}
 
-        {/* <h2 onClick={() => setShowAllCards(!showAllCards)}>All cards</h2> */}
-        {/* <h1><nobr style={{ cursor: 'pointer'}}
-        onClick={() => setShowAllCards(!showAllCards)}>All cards</nobr>
-        </h1> */}
-
-        {/* hakukenttä */}
-        {/* onChange viittaus omaan hakukentän funktioon yllä */}
-        {/* {
-          <input placeholder="Search cards by name" value={search} onChange={handleSearchInputChange} />
-        } */}
-
-        {/* {
-          // Viimeisen && jälkeen se mitä tehdään
-          // Kaikki sitä edeltävät ovat ehtoja -ja -ja -ja
-          // {}-jälkeen hakutoimintoihin liittyvät asiat
-          showAllCards && allCards && allCards.map(c => 
-            {
-              const lowerCaseName = c.name.toLowerCase()
-              if (lowerCaseName.indexOf(search) > -1) {
-                return(
-                <AllCard key={c.id} allCard={c} reloadNow={reloadNow} reload={reload}
-                setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-                />
-            )
-              }
-            }
-            )
-        } */}
-
     </>
   )
-// } else {
-//   return (
-//     <div>      
-//       <p>*** now loading ***</p>
-//     </div>
-//   )
-// }
 }
 
 export default AllCardsList
