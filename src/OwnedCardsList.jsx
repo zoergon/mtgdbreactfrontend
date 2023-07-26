@@ -11,12 +11,12 @@ import { TableOwnedCardData } from "./components/TableOwnedCardData"
 //
 //
 
-const OwnedCardsList = ({ loggedInLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, setShowWelcome }) => {
+const OwnedCardsList = ({ loggedInLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, setShowWelcome, reload, reloadNow }) => {
 
 // Komponentin tilan määritys
 const [allCards, setAllCards] = useState([]) // Kaikki kortit allCards-taulusta
 const [showAllCards, setShowAllCards] = useState(false)
-const [reload, reloadNow] = useState(false)
+// const [reload, reloadNow] = useState(false)
 
 // const [search, setSearch] = useState("")
 const [query, setQuery] = useState('') // Bäckendille lähtevä hakusana
@@ -240,7 +240,8 @@ const expandedRows = React.useMemo(() => {
           
             {showAllCards &&
             <div className='table'>
-                <button ref={buttonRef} className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '}
+                {/* <button ref={buttonRef} className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '} */}
+                <button ref={buttonRef} className='button' onClick={(e) => clickHandler(e)}>Refresh</button>{' '}
                 <TableOwnedCards tbodyData={allCards} setQuery={setQuery} deleteCard={deleteCard} increaseCount={increaseCount} decreaseCount={decreaseCount} accesslevelId={accesslevelId}
                 setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
                 renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />

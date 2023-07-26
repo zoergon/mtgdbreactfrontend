@@ -17,12 +17,12 @@ import { TableAllCardData } from "./components/TableAllCardData"
 //
 // const addToCollection -> TableAllCards.js:n rivin lisääminen Add-buttonin kautta OwnedCards tauluun
 
-const AllCardsList = ({ loggedInLoginId, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, setShowWelcome }) => {
+const AllCardsList = ({ loggedInLoginId, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, setShowWelcome, reload, reloadNow }) => {
 
 // Komponentin tilan määritys
 const [allCards, setAllCards] = useState([]) // Kaikki kortit allCards-taulusta
 const [showAllCards, setShowAllCards] = useState(false)
-const [reload, reloadNow] = useState(false)
+// const [reload, reloadNow] = useState(false)
 // const [search, setSearch] = useState("")
 const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana
 
@@ -39,7 +39,7 @@ const buttonRef = useRef(null)
 
 // reload-staten kääntely
 function clickHandler(event) {
-  reloadNow(!reload)
+  reloadNow(!reload)  
 }
 
 useEffect(() => {
@@ -108,8 +108,8 @@ const addToCollection = (event) => {
     OwnedCardsService.create(newCard)
     .then(response => {
       if (response.status === 200) {
-        // buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
-        // buttonRef.current.click() // Käskee klikata refresh-buttonia
+        buttonRef.current.addEventListener('click', clickHandler) // eventListener clickHandler-funktioon
+        buttonRef.current.click() // Käskee klikata refresh-buttonia
         setMessage("Added a new Card: " + newCard.id)      
         setIsPositive(true)
         setShowMessage(true)
@@ -227,7 +227,8 @@ const expandedRows = React.useMemo(() => {
           
             {showAllCards &&
             <div className='table'>
-                <button ref={buttonRef} className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '}
+                {/* <button ref={buttonRef} className='button' onClick={(e) => {reloadNow(!reload)}}>Refresh</button>{' '} */}
+                <button ref={buttonRef} className='button' onClick={(e) => clickHandler(e)}>Refresh</button>{' '}
                 <TableAllCards tbodyData={allCards} addToCollection={addToCollection} addId={addId} accesslevelId={accesslevelId}
                 setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
                 renderRowSubComponent={subTable} expandRows expandedRowObj={expandedRows} />

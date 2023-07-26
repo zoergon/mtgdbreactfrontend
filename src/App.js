@@ -20,6 +20,7 @@ import "@popperjs/core"
 
 // BrowserRouter aliasoitu Routeriksi
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import DatabaseAndCollection from './DatabaseAndCollection';
 
 const App = () => {
 
@@ -40,6 +41,8 @@ const [newLoginId, setNewLoginId] = useState(0) // käyttäjätunnuksen id
 const [loggedInUser, setLoggedInUser] = useState('')
 const [loggedInLoginId, setLoggedInLoginId] = useState('')
 const [accesslevelId, setAccesslevelId] = useState('3')
+
+const [reload, reloadNow] = useState(false)
 
 // Modal-ikkunan aukaiseminen ja sulkeminen
 // const initModal = () => {
@@ -95,10 +98,11 @@ return (
         {/* nämä linkit vaihtelevat osoiterivin tekstiä selaimessa */}
         <Navbar className="navbar" bg="dark" variant="dark">
           <Nav className="mr-auto">
-            <Nav.Link href={'/'} className='nav-link'>Home</Nav.Link>
-            <Nav.Link href={'/AllCards'} className='nav-link'>Database</Nav.Link>
-            <Nav.Link href={'/OwnedCards'} className='nav-link'>Collection</Nav.Link>            
+            <Nav.Link href={'/'} className='nav-link'>Home</Nav.Link>            
+            <Nav.Link href={'/DatabaseAndCollection'} className='nav-link'>Database & Collection</Nav.Link>
             <Nav.Link href={'/Decks'} className='nav-link'>Decks</Nav.Link>
+            <Nav.Link href={'/AllCards'} className='nav-link'>Only Database</Nav.Link>
+            <Nav.Link href={'/OwnedCards'} className='nav-link'>Only Collection</Nav.Link>
             {/* <Nav.Link href={'/Commanders'} className='nav-link'>Commanders</Nav.Link> */}
             {/* <Nav.Link href={'/Companions'} className='nav-link'>Companions</Nav.Link> */}
             {/* <Nav.Link href={'/MainDecks'} className='nav-link'>MainDecks</Nav.Link> */}
@@ -115,7 +119,7 @@ return (
         <h1>MtG:db</h1>
 
         {showWelcome && <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <p style={{ width: '40%' }}>
+          <p style={{ width: '40%' }}>          
           <br/><br/>Welcome {loggedInUser} to Mtg:db pages!<br/><br/>
 
             In the navbar you will find correct links for each sections.<br/><br/><br/>
@@ -132,9 +136,9 @@ return (
 
             And nothing prevents you to make even a your own cube here!<br/><br/><br/><br/>
 
-            Please notice! Pages are still underconstruction, in it's first alpha version.<br/><br/>
+            Please notice! Pages are still underconstruction. This is the alpha version.<br/><br/>
 
-            More to come later!<br/><br/>
+            <br/><br/>
 
             -admin<br/><br/>
           </p>
@@ -152,9 +156,11 @@ return (
         <Switch>
           {/* <Route path="/AllCards"> element={<AllCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} />}</Route> */}
           <Route path="/AllCards"> <AllCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId}  accesslevelId={accesslevelId}
-          setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} /></Route>
+          setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} reload={reload} reloadNow={reloadNow} /></Route>
           <Route path="/OwnedCards"> <OwnedCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} accesslevelId={accesslevelId}
-            setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} /></Route>          
+            setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} reload={reload} reloadNow={reloadNow} /></Route>
+          <Route path="/DatabaseAndCollection"> <DatabaseAndCollection loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} accesslevelId={accesslevelId}
+            setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} reload={reload} reloadNow={reloadNow} /></Route>
           <Route path="/Decks"> <DecksList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} accesslevelId={accesslevelId}
           setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} /></Route>
           {/* <Route path="/Commanders"> <CommandersList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
