@@ -30,6 +30,7 @@ useEffect(() => {
 
   LoginsService.getAll()
   .then(data => {
+    console.log("getAll", data)
     setUsers(data)
   })
 },[create, reload, edit]
@@ -86,23 +87,26 @@ const updateUser = (user) =>  {
 
 //delete-user
 const deleteUser = (user) => {
-  let answer = window.confirm(`Remove User ${user.lastName}`)
+  console.log("delete", user)  
+  let answer = window.confirm(`Remove User ${user.username}`)
 
   if(answer === true) {
-      
-  LoginsService.remove(user.loginId)
-  .then(res => {
-      if (res.status === 200) {
-          setMessage(`Succesfully removed user ${user.lastName}`)
-          setIsPositive(true)
-          setShowMessage(true)
-          window.scrollBy(0, -10000) // Scrollaa ylös ruudun
 
-          // Ilmoituksen piilotus
-          setTimeout(() => {
-              setShowMessage(false)
-            }, 5000)
-            reloadNow(!reload)
+    let userId = user.loginId
+        
+    LoginsService.remove(userId)
+    .then(res => {
+        if (res.status === 200) {
+            setMessage(`Succesfully removed user ${user.username}`)
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollaa ylös ruudun
+
+            // Ilmoituksen piilotus
+            setTimeout(() => {
+                setShowMessage(false)
+              }, 5000)
+              reloadNow(!reload)
       }
   })
   .catch(error => {
@@ -142,7 +146,7 @@ const deleteUser = (user) => {
         </h1>
 
         {!create && !edit &&
-          <input placeholder="Search by Last Name" value={search} onChange={handleSearchInputChange} />
+          <input placeholder="Search by Username" value={search} onChange={handleSearchInputChange} />
         }
 
         {edit && <LoginsEdit setEdit={setEdit}
@@ -168,7 +172,7 @@ const deleteUser = (user) => {
 
             {users && users.map(u => 
             {
-              const lowerCaseName = u.lastName.toLowerCase()
+              const lowerCaseName = u.username.toLowerCase()
               if (lowerCaseName.indexOf(search) > -1) {
                 return(                  
                     <tr key={u.loginId}>

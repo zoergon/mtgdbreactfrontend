@@ -11,13 +11,14 @@ import md5 from 'md5'
 const UserEdit = ({ setEdit, setIsPositive, setShowMessage, setMessage, editUser }) => {
 
 //komponentin tilan määritys
+const [newLoginId, setNewLoginId] = useState(editUser.loginId)
 const [newFirstName, setNewFirstName] = useState(editUser.firstName)
 const [newLastName, setNewLastName] = useState(editUser.lastName)
 const [newEmail, setNewEmail] = useState(editUser.email)
 
 const [newAccesslevelId, setNewAccesslevelId] = useState(editUser.accesslevelId)
 const [newUsername, setNewUsername] = useState(editUser.username)
-const [newPassword, setNewPassword] = useState(editUser.password)
+const [newPassword, setNewPassword] = useState('')
 const [newAdmin, setNewAdmin] = useState(editUser.admin)
 
 // onSubmit tapahtumankäsittelijä-funktio
@@ -26,6 +27,7 @@ const handleSubmit = (event) => {
   event.preventDefault()
   // luodaan customer-olio, joka poimii stateistä datan
   var newUser = {
+    loginId: newLoginId,
     firstName: newFirstName,
     lastName: newLastName,
     email: newEmail,
@@ -37,6 +39,7 @@ const handleSubmit = (event) => {
 
   // userin muokkaaminen
   LoginsService.update(editUser.loginId, newUser)
+  // LoginsService.update(newUser)
   .then(response => {
     if (response.status === 200) {
       setMessage(`Updated User: ${newUser.firstName} ${newUser.lastName}`)
@@ -82,22 +85,22 @@ const handleSubmit = (event) => {
           <div>
               <label>Email: </label>
               <input type='email' placeholder='Email'
-                  value={newEmail} onChange={({target}) => setNewEmail(target.value)} />
+                  value={newEmail} onChange={({target}) => setNewEmail(target.value)} required />
           </div>
           <div>
               <label>Accesslevel: </label>
               <input type='number' placeholder='Accesslevel'
-                  value={newAccesslevelId} onChange={({target}) => setNewAccesslevelId(target.value)} />
+                  value={newAccesslevelId} onChange={({target}) => setNewAccesslevelId(target.value)} required />
           </div>
           <div>
               <label>Username: </label>
               <input type='text' placeholder='Username'
-                  value={newUsername} onChange={({target}) => setNewUsername(target.value)} />
+                  value={newUsername} onChange={({target}) => setNewUsername(target.value)} required />
           </div>
           <div>
               <label>Password: </label>
               <input type='password' placeholder='Password'
-                  value={newPassword} onChange={({target}) => setNewPassword(target.value)} />
+                  value={newPassword} onChange={({target}) => setNewPassword(target.value)} required />
           </div>
           
           <input type='submit' value='Save' />

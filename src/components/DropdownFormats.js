@@ -95,12 +95,12 @@ const Dropdown = ({ newId, setNewId, newFormatName, setNewFormatName, selected, 
       const newValue = removeOption(option)
       // setSelectedValue(removeOption(option)) // Tämä on kommentoitu pois jo alkuperäisestä, ennen multiselectiä. Voinee poistaa.
       setSelected(newValue)      
-      console.log("@ REMOVED selected:", selected)
+      // console.log("@ REMOVED selected:", selected)
       
       if (newValue === []) {
         var noId = ([])
         setNewId(noId) // Tämä state palautuu parentille, joka pitäisi saada päivittymään input-valueen 
-        console.log("ID - NO ID", newId)
+        // console.log("ID - NO ID", newId)
         setNewFormatName(noId)
       }
       
@@ -130,7 +130,7 @@ const Dropdown = ({ newId, setNewId, newFormatName, setNewFormatName, selected, 
       // console.log("@ selected:", selected)
       const selectedId = selected.map((s) => s.formatId)
       setNewId(selectedId) // Tämä state palautuu parentille
-      console.log("ID - newId:", newId)
+      // console.log("ID - newId:", newId)
       const selectedFormat = selected.map((s) => s.formatName)
       setNewFormatName(selectedFormat) // Tämä state palautuu parentille    
 

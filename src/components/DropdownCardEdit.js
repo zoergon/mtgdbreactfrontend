@@ -87,7 +87,7 @@ const DropdownCardEdit = ({ setNewId, setNewName,
       e.stopPropagation()
       const newValue = removeOption(option)
       setSelected(newValue)      
-      console.log("@ REMOVED selected:", selected)
+      // console.log("@ REMOVED selected:", selected)
       
       if (newValue === []) {
         var noId = ([])

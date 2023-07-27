@@ -32,10 +32,13 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 const DecksList = ({ loggedInLoginId, newLoginId, accesslevelId, setIsPositive, setShowMessage, setMessage, setShowWelcome }) => {
 
+const [isLoading, setIsLoading] = useState(true) // Jos backend antaa response code === 200
 const [decks, setDecks] = useState([]) // Backendiltä tuleva data
 const [showDeck, setShowDeck] = useState(false) // Deckin sisällön näyttämistä varten
+
 const [showDecks, setShowDecks] = useState(false) // MainDeckien näyttämistä varten. (Nimeä paremmin muiden osioiden myötä.) Tämä näyttää siis vain MainDeckin tablena alla nyt.
 const [reload, reloadNow] = useState(false) // State reloadia varten
+
 // const [searchName, setSearchName] = useState("") // Vanha hakukenttä
 // const [searchFormat, setSearchFormat] = useState("") // Vanha hakukenttä
 const [create, setCreate] = useState(false) // Create-tilan määritys (Add)
@@ -114,7 +117,7 @@ const updateDeck = (deck) =>  {
   invokeModalDeckSettings(!isShowDeckSettings) // avaa/sulkee ko. modal-ikkunan
 }
 
-// Tämä on ollut alunperin vain Deck.jsx:ssä. En tiedä tarvitaanko sitä vastaisuudessa, joten käytännöllisempi se olisi tässä.
+// Deckin poisto
 const deleteDeck = (deck) => {
   let answer = window.confirm(`Are you sure you want to permanently remove the deck: ${deck.name}?`)
 

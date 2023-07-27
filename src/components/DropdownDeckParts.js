@@ -95,12 +95,12 @@ const DropdownDeckParts = ({ newId, setNewId, newDeckPartName, setNewDeckPartNam
       const newValue = removeOption(option)
       // setSelectedValue(removeOption(option)) // Tämä on kommentoitu pois jo alkuperäisestä, ennen multiselectiä. Voinee poistaa.
       setSelected(newValue)      
-      console.log("@ REMOVED selected:", selected)
+      // console.log("@ REMOVED selected:", selected)
       
       if (newValue === []) {
         var noId = ([])
         setNewId(noId) // Tämä state palautuu parentille, joka pitäisi saada päivittymään input-valueen 
-        console.log("ID - NO ID", newId)
+        // console.log("ID - NO ID", newId)
         setNewDeckPartName(noId)
       }
       
@@ -130,7 +130,7 @@ const DropdownDeckParts = ({ newId, setNewId, newDeckPartName, setNewDeckPartNam
       // console.log("@ selected:", selected)
       const selectedId = selected.map((s) => s.partId)
       setNewId(selectedId) // Tämä state palautuu parentille
-      console.log("ID - newId:", newId)
+      // console.log("ID - newId:", newId)
       const selectedDeckPart = selected.map((s) => s.part)
       setNewDeckPartName(selectedDeckPart) // Tämä state palautuu parentille    
 
