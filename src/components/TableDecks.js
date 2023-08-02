@@ -134,7 +134,7 @@ export const TableDecks = ({ editDeckContents, setDeckName, setQuery, showDeck, 
 
     // Käsittelee ko. riviltä painetun Delete-nappulan pyynnön & asettaa ko. rivin originaali datan parentin deleteDeck-funktioon
     function handleDelete(row) {        
-        if (accesslevelId < 3) {
+        if (accesslevelId < 4) {
             deleteDeck(row) // DecksList.jsx (parent)
         } else {
             setMessage("Not allowed for the guests.")

@@ -1,6 +1,7 @@
 import axios from "axios"
 
-const baseUrl = "https://localhost:7120/api/allcards"
+// const baseUrl = "https://localhost:7120/api/allcards"
+const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/allcards"
 // const nameUrl = "https://localhost:7120/api/allcards/name"
 // const partialNameUrl = "https://localhost:7120/api/allcards/partialname"
 // const idUrl = "https://localhost:7120/api/allcards/id"

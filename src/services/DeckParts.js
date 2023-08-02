@@ -1,6 +1,7 @@
 import axios from "axios"
 
-const baseUrl = "https://localhost:7120/api/deckparts"
+// const baseUrl = "https://localhost:7120/api/deckparts"
+const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/deckparts"
 // const nameUrl = "https://localhost:7120/api/deckparts/id"
 
 let token = null
