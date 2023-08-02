@@ -229,7 +229,6 @@ const expandedRows = React.useMemo(() => {
 }, [])
 // XXX - tänne saakka Expandable-mallista
 
-// if (allCards.length > 0) {
   return (
     <>
         {allCards.length > 0 ? (
@@ -252,35 +251,6 @@ const expandedRows = React.useMemo(() => {
             <em>...searching for the data...</em>
           </span>
         )}
-
-        {/* <h2 onClick={() => setShowAllCards(!showAllCards)}>All cards</h2> */}
-        {/* <h1><nobr style={{ cursor: 'pointer'}}
-        onClick={() => setShowAllCards(!showAllCards)}>All cards</nobr>
-        </h1> */}
-
-        {/* hakukenttä */}
-        {/* onChange viittaus omaan hakukentän funktioon yllä */}
-        {/* {
-          <input placeholder="Search cards by name" value={search} onChange={handleSearchInputChange} />
-        } */}
-
-        {/* {
-          // Viimeisen && jälkeen se mitä tehdään
-          // Kaikki sitä edeltävät ovat ehtoja -ja -ja -ja
-          // {}-jälkeen hakutoimintoihin liittyvät asiat
-          showAllCards && allCards && allCards.map(c => 
-            {
-              const lowerCaseName = c.name.toLowerCase()
-              if (lowerCaseName.indexOf(search) > -1) {
-                return(
-                <AllCard key={c.id} allCard={c} reloadNow={reloadNow} reload={reload}
-                setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
-                />
-            )
-              }
-            }
-            )
-        } */}
 
     </>
   )

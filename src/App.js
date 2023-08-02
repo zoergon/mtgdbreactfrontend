@@ -2,11 +2,8 @@ import React, {useState, useEffect} from 'react'
 import './App.css';
 import About from './About'
 import AllCardsList from './AllCardsList'
-import CommandersList from './CommandersList'
 import DecksList from './DecksList'
 import LoginsList from './LoginsList'
-import MainDecksList from './MainDecksList'
-import MainDecksListDeckId from './MainDecksListDeckId'
 import Message from './Message'
 import OwnedCardsList from './OwnedCardsList'
 
@@ -104,13 +101,6 @@ return (
             <Nav.Link href={'/Decks'} className='nav-link'>Decks</Nav.Link>
             <Nav.Link href={'/AllCards'} className='nav-link'>Only Database</Nav.Link>
             <Nav.Link href={'/OwnedCards'} className='nav-link'>Only Collection</Nav.Link>
-            {/* <Nav.Link href={'/Commanders'} className='nav-link'>Commanders</Nav.Link> */}
-            {/* <Nav.Link href={'/Companions'} className='nav-link'>Companions</Nav.Link> */}
-            {/* <Nav.Link href={'/MainDecks'} className='nav-link'>MainDecks</Nav.Link> */}
-            {/* <Nav.Link href={'/MainDecks'} className='nav-link'>MainDecksDeckId</Nav.Link> */}
-            {/* <Nav.Link href={'/Maybeboards'} className='nav-link'>Maybeboards</Nav.Link> */}
-            {/* <Nav.Link href={'/Sideboards'} className='nav-link'>Sideboards</Nav.Link> */}
-            {/* <Nav.Link href={'/Tokens'} className='nav-link'>Tokens</Nav.Link> */}
             <Nav.Link href={'/About'} className='nav-link'>About</Nav.Link>
             {accesslevelId === '1' && <Nav.Link href={'/Logins'} className='nav-link'>Logins</Nav.Link>}
             <Nav.Link id='loggedIn' >{loggedInUser}</Nav.Link>
@@ -148,15 +138,7 @@ return (
         
         {showMessage && <Message message={message} isPositive={isPositive} /> }
 
-        {/* {showAllCards && <AllCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /> } */}
-
-        {/* {showOwnedCards && <OwnedCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /> } */}
-
-        {/* {showDecks && <DecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /> } */}
-
-        {/* sen mukaan mitä routessa lukee, niin renderöidään sen mukainen komponentti */}
         <Switch>
-          {/* <Route path="/AllCards"> element={<AllCardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} />}</Route> */}
           <Route path="/AllCards"> <AllCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId}  accesslevelId={accesslevelId}
           setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} reload={reload} reloadNow={reloadNow} /></Route>
           <Route path="/OwnedCards"> <OwnedCardsList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} accesslevelId={accesslevelId}
@@ -166,13 +148,6 @@ return (
           <Route path="/Decks"> <DecksList loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} accesslevelId={accesslevelId}
           setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} /></Route>
           <Route path="/About"> <About loggedInLoginId={loggedInLoginId} newLoginId={newLoginId} accesslevelId={accesslevelId} setShowWelcome={setShowWelcome} /></Route>
-          {/* <Route path="/Commanders"> <CommandersList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
-          {/* <Route path="/Companions"> <CompanionsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
-          {/* <Route path="/MainDecks"> <MainDecksList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
-          {/* <Route path="/MainDecks"> <MainDecksListDeckId setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
-          {/* <Route path="/Maybeboards"> <MaybeboardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
-          {/* <Route path="/Sideboards"> <SideboardsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
-          {/* <Route path="/Tokens"> <TokensList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} /></Route> */}
           {accesslevelId === '1' && <Route path="/Logins"> <LoginsList setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage} setShowWelcome={setShowWelcome} /></Route>}
         </Switch>
 

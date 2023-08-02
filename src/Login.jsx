@@ -117,33 +117,6 @@ const emptyFields = () => {
                 </Form>                
             </Modal.Body>
         </Modal>
-        {/* <h2 id="login">Login</h2>        
-
-        <form onSubmit={handleSubmit}>
-            <div>
-                <p>
-                    Registering is not available for now. To try pages as a quest:<br/>
-                    Username: quest<br/>
-                    Password: quest<br/>
-                </p>
-            </div>
-          <div>
-              <label>Username: </label>
-              <input id='username' type='text' placeholder='Username'
-                  value={username} onChange={({target}) => setUsername(target.value)} />
-          </div>
-          <div>
-              <label>Password: </label>
-              <input id='password' type='password' placeholder='Password'
-                  value={password} onChange={({target}) => setPassword(target.value)} />
-          </div>
-          
-          <input id='loggaus' type='submit' value='Login' />
-
-          <input type='button' value='Empty'onClick={() => emptyFields()} />
-
-        </form> */}
-
     </div>
   )
 }

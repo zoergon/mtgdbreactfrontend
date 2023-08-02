@@ -7,10 +7,6 @@ import MaybeboardsService from './services/Maybeboards'
 import SideboardsService from './services/Sideboards'
 import TokensService from './services/Tokens'
 import FormatsService from './services/Formats'
-// import MainDeck from './MainDeck'
-// import MainDeckAdd from './MainDeckAdd'
-// import MainDeckEdit from './MainDeckEdit'
-// import { TableMainDecks } from "./components/TableMainDecks"
 import { TableAllDeckContents } from "./components/TableAllDeckContents"
 
 // parent: DecksList.jsx
@@ -34,54 +30,6 @@ const [formats, setFormats] = useState([]) // deckId:llä haettu data backendist
 const [reload, reloadNow] = useState(false) // Komponentin uudelleen päivitystä varten oleva state
 
 const [img, setImg] = useState() // Kortin kuvalinkki
-
-// const [searchName, setSearchName] = useState("")
-// const [searchFormat, setSearchFormat] = useState("")
-// const [create, setCreate] = useState(false)
-// const [edit, setEdit] = useState(false)
-// const [editCard, setEditCard] = useState(false)
-// const [loading, setLoading] = useState(true) // Mahdollinen loading-tekstin näyttö statella
-
-// useEffect(() => {
-//     MainDecksService.getAll()
-//   .then(data => {
-//     console.log(data)
-//     setCards(data)
-//   })
-//   .catch(error => console.log(error))
-// },[create, edit, reload]
-// )
-
-// const [optionList, setOptionList] = useState([]) // Backendistä saatu data sijoitetaan tänne
-// const [query, setQuery] = useState("") // Bäckendille lähtevä hakusana (deckId)
-
-// const handleFetch = (query) => {
-//   MainDecksService.getByDeckId(query).then((res) => {
-//     setCards(res.data)
-//     // setLoading(false)
-//   }).catch(error => console.log(error))}
-  
-
-// useEffect(() => {
-//   if (query !== "")
-//   handleFetch(query)
-// })
-
-// useEffect(() => {
-
-//   const token = localStorage.getItem('token')
-//       FormatsService
-//             .setToken(token)
-
-//   if (query !== "") // Ei hae tyhjällä stringillä
-//   FormatsService.getByDeckId(query) // parseInt stringille
-//   .then(data => {
-//     // console.log("getByDeckId", data)    
-//     setFormats(data)
-// })
-//   .catch(error => console.log(error))
-// },[reload]
-// )
 
 useEffect(() => {
 
