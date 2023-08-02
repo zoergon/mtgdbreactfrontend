@@ -19,7 +19,7 @@
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "feature/allcards" ]
   workflow_dispatch:
 
 env:
