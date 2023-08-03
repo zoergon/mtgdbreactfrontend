@@ -1,7 +1,7 @@
 import axios from "axios"
 
-const baseUrl = "https://localhost:7120/api/logins"
-// const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/logins"
+// const baseUrl = "https://localhost:7120/api/logins"
+const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/logins"
 // const baseUrl = "https://mtgdbwebapi.azure-api.net/api/logins"
 
 let token = null
