@@ -1,5 +1,35 @@
-.App {
-  text-align: center;
+.App {  text-align: center;
+  /* background-color: #282c34; */
+  background-color: black;  
+  /* background-position: cover; */
+  /* background-size: contain; */
+  /* overflow: visible; */
+  /* background-size: 100% 100%; */
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  color: orange;
+  /* justify-content: space-evenly; */
+  /* align-items: center; */
+}
+
+/* unvisited link */
+a:link {
+  color: orange;
+}
+
+/* visited link */
+a:visited {
+  color: orangered;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: purple;
 }
 
 .App-logo {
@@ -35,4 +65,365 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* message-muotoilut */
+.neg {
+  color: red;
+  /* background: lightgrey; */
+  background-color: #282c34;
+  font-size: 36px;
+  font-weight: bold;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  width: 70%;
+  margin-left: 15%;
+}
+
+.pos {
+  color: orange;
+  /* background: darkcyan; */
+  background-color: #282c34;
+  font-size: 36px;
+  font-weight: bold;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  width: 70%;
+  margin-left: 15%;
+}
+
+/* yleiset */
+.aligned {  
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  margin-top: 2px;  
+}
+
+/* tablen ja kuvan rinnakkain sijoittamiseen float-containerit */
+.floatContainer {  
+  /* justify-content: center; */
+  /* display: relative;
+  flex-direction: column; */
+  /* margin-right: 2rem; */
+  margin-top: 2px;
+  /* border: 3px solid #fff; */
+  padding: 0px;
+}
+
+.floatChild {
+  width: 50%;
+  float: left;
+  padding: 0px;
+  /* border: 2px solid red; */
+}
+
+.floatChildEditDeckTable {
+  width: 70%;
+  float: left;
+  padding: 0px;
+  /* border: 2px solid red; */
+}
+
+.floatChildEditDeckImage {
+  width: 30%;
+  float: left;
+  padding: 0px;
+  /* border: 2px solid red; */
+}
+
+.floatChildModalCardEdit {
+  width: 80%;
+  float: left;
+  padding: 0px;
+  /* border: 2px solid red; */
+}
+
+.floatChildModalCardEditImage {
+  width: 20%;
+  float: left;
+  padding: 0px;
+  /* border: 2px solid red; */
+}
+
+.button {
+  border-radius: 1px;
+  margin-left: 10px;
+  font-size: 16px;
+  /* background-color: darkcyan; */
+  background-color:rgb(45, 36, 36);
+  color: orange;
+}
+
+.checkbox {
+  /* background-color: black; */
+  fill: black;
+  background-color: transparent;
+  accent-color: black;
+  color: black;
+}
+
+.input {
+  background-color: rgb(56, 55, 55);
+  border-color:darkorange;
+  color: whitesmoke;
+  /* accent-color: black; */
+}
+
+.label {
+  /* background-color:#282c34; */
+  background-color: black;
+  /* background-color: transparent; */
+  color: black;
+  accent-color: black;  
+  fill: black;
+  margin-top: -10px;
+}
+
+.navbar {
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.deckNameStyles {
+  float: "left";
+  font-size: 24px;
+  color: blueviolet;
+  align-items: left;
+  padding: 10px;
+  /* font-weight: bold; */
+}
+.deckHeadlineStyles {
+  float: "left";
+  font-size: 16px;  
+  align-items: left;
+  padding: 10px;
+}
+
+/* taulukon expandable subRown deckin osien sisältöjen otsikoinnin muotoilut: */
+.deckParts {
+  float: "left";
+  font-size: 18px;
+  color: blueviolet;  
+  align-items: left;
+  text-align: center;
+  margin-left: 3rem;
+  margin-top: -1rem;
+  margin-bottom: -1rem;
+  padding: 0px;  
+  flex-direction: row;
+  justify-content: left;
+  display: flex;
+}
+
+/* taulukon subRow osioiden info, kun tietokannan taulu on tyhjä */
+.subRowDataInfo {
+  float: "left";
+  font-size: 12px;
+  color: whitesmoke;  
+  align-items: left;
+  /* text-align: center; */
+  margin-left: 3rem;  
+  margin-bottom: 0rem;
+  /* padding-bottom: -1px; */
+  /* flex-direction: row; */
+  /* justify-content: left; */
+  display: flex;
+}
+
+/* korttien muotoilut */
+.deckDetails {
+  background-color: powderblue;
+  border-style: solid;
+  width: 40%;
+  margin: auto;
+  margin-bottom: 50px;
+  border-radius: 10px;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.allCardDetails {
+  background-color: antiquewhite;
+  border-style: solid;
+  width: 95%;
+  margin: auto;
+  margin-bottom: 50px;
+  border-radius: 10px;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+/* table-muotoilut */
+/* table {
+  background-color: white;
+  border-style: solid;
+  width: 60%;
+  margin: 5rem auto;
+  margin-bottom: 50px;
+  border-radius: 5px;
+  border-collapse: collapse;
+  box-shadow: 0 0 0 1px black;
+  overflow: hidden;
+  max-width: 80rem;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+thead {
+  font-size: 1.2rem;
+  background-color: #443C68;
+  color: #fff;  
+}
+
+th, td {
+  border: 1px solid #443C68;
+  min-width: 5rem;
+  padding: 0.75rem;
+  line-height: 1.7;
+}
+
+td {
+  font-size: 1rem;
+} */
+
+/* dropdown-muotoilut */
+.dropdown-container {
+  /* display: inline-block !important; */
+  overflow: visible;
+  color: whitesmoke;
+  background-color: black;
+  margin: auto;
+  width: 30%;  
+  text-align: left;
+  /* border: 1px solid #ccc; */
+  border: 1px solid black;
+  position: relative;
+  border-radius: 5px;
+}
+
+.dropdown-input {
+  /* display: inline-block !important; */
+  overflow: visible;
+  color: black;
+  background-color: whitesmoke;
+  padding: 10px;
+  height: 100%;
+  /* display: flex; */
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.dropdown-menu {
+  /* display: inline-block !important; */
+  display:inline !important;
+  overflow: visible;
+  color: black;
+  /* position: absolute;   */
+  /* transform: translateY(40px); */
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* overflow: auto; */
+  max-height: 400px;
+  background-color: whitesmoke;
+  overflow-y: scroll;
+}
+
+.dropdown-item {
+  /* display: inline-block !important; */
+  overflow: visible;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  /* display: inline-block !important; */
+  overflow: visible;
+  background-color: #9fc3f870;
+}
+
+.dropdown-item.selected {
+  /* display: inline-block !important; */
+  overflow: visible;
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.dropdown-tags {
+  /* display: inline-block !important; */
+  overflow: visible;
+  /* display: flex; */
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.dropdown-tag-item {
+  /* display: inline-block !important; */
+  overflow: visible;
+  /* background-color: #ddd; */
+  background-color: black;
+  color: whitesmoke;
+  padding: 2px 4px;
+  border-radius: 2px;
+  /* display: flex; */
+  align-items: center;
+}
+.dropdown-tag-close {
+  /* display: inline-block !important; */
+  overflow: visible;
+  /* display: flex; */
+  align-items: center;
+}
+
+.search-box {
+  /* display: inline-block !important; */
+  overflow: visible;
+  padding: 5px;
+  /* background-color: #eee; */
+  /* background-color: black; */
+  /* color: whitesmoke; */
+  background-color: orange;
+  color: red;
+}
+.search-box input {
+  /* display: inline-block !important; */
+  overflow: visible;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* background-color: black; */
+  /* color: whitesmoke; */
+  background-color: orange;
+  color: red;
+}
+
+/* modal */
+
+.primaryBtn {
+  margin: 20px 10px;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 13px 25px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  border: none;
+  color: white;
+  background: #185adb;
+  transition: all 0.25s ease;
+}
+
+.primaryBtn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px -10px rgba(24, 90, 219, 0.6);
 }
