@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const baseUrl = "https://localhost:7120/api/formats"
-const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/formats"
+const baseUrl = "https://localhost:7120/api/formats"
+// const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/formats"
 // const nameUrl = "https://localhost:7120/api/formats/id"
 
 let token = null

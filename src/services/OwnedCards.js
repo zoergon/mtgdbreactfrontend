@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const baseUrl = "https://localhost:7120/api/ownedcards"
-const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/ownedcards"
+const baseUrl = "https://localhost:7120/api/ownedcards"
+// const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/ownedcards"
 // const loginIdUrl = "https://localhost:7120/api/ownedcards/loginid"
 // const idUrl = "https://localhost:7120/api/ownedcards/id"
 // const nameUrl = "https://localhost:7120/api/ownedcards/name"

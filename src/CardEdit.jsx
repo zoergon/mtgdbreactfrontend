@@ -55,7 +55,7 @@ const ModalCardEdit = ({ isShowModalCardEdit, invokeModalCardEdit, setEdit, edit
     const newDropdownId = (value) => {
         value.map(option => setNewId(option.id))
         var imgUrit = value.map((option) => option.imageUris)
-        if (imgUrit != "") {            
+        if (imgUrit !== "") {            
             try {
                 var imageUris = JSON.parse(imgUrit) // Parseroidaan             
                 imageUri = imageUris.normal // Parseroidusta imageUrista valitaan normal-kuvalinkki            

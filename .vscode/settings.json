@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/990737ab-649e-4e18-9f60-1a027de3e819/resourceGroups/rgcareeriaville-pekka/providers/Microsoft.Web/sites/MtGdbFrontend",
+    "appService.deploySubpath": "."
+}

@@ -347,7 +347,7 @@ const increaseCount = (row, servicer) => {
 // Kortin lukumäärän (count) vähentämiseen funktio
 const decreaseCount = (row, servicer) => {
   updateRow = (row)
-  if (updateRow.count != 1) {    
+  if (updateRow.count !== 1) {    
     editCount = parseInt(updateRow.count) - 1
     updateCount(updateRow, editCount, servicer)
   }

@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const baseUrl = "https://localhost:7120/api/companions"
-const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/companions"
+const baseUrl = "https://localhost:7120/api/companions"
+// const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/companions"
 // const nameUrl = "https://localhost:7120/api/companions/name"
 // const deckIdUrl = "https://localhost:7120/api/companions/deckid"
 
