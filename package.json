@@ -1,6 +1,10 @@
 {
   "name": "mtgdbreactfrontend",
   "version": "0.1.0",
+  "engines": {
+    "node": "16.x",
+    "npm": "9.6.5"
+  },
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",

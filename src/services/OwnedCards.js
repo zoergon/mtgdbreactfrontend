@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const baseUrl = "https://localhost:7120/api/ownedcards"
-const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/ownedcards"
+const baseUrl = "https://localhost:7120/api/ownedcards"
+// const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/ownedcards"
 // const loginIdUrl = "https://localhost:7120/api/ownedcards/loginid"
 // const idUrl = "https://localhost:7120/api/ownedcards/id"
 // const nameUrl = "https://localhost:7120/api/ownedcards/name"
@@ -15,28 +15,31 @@ const setToken = newToken => {
     token = `bearer ${newToken}`
 }
 
-const getAll = () => {
+const getAll = async () => {
     const config = {
         headers: { Authorization: token },
     }
     const request = axios.get(baseUrl, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
-const getCardsByLoginId = (query) => {
+const getCardsByLoginId = async (query) => {
     const config = {
         headers: { Authorization: token },        
     }
     const request = axios.get(`${baseUrl}/loginid/${query}`, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
-const getById = (query) => {
+const getOneCardById = async (query) => {
     const config = {
         headers: { Authorization: token },        
     }
     const request = axios.get(`${baseUrl}/id/${query}`, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
 // const getAllById = (query) => {
@@ -47,20 +50,22 @@ const getById = (query) => {
 //     return request.then(response => response.data)
 // }
 
-const getByName = (query) => {
+const getByName = async (query) => {
     const config = {
         headers: { Authorization: token },        
     }
     const request = axios.get(`${baseUrl}/name/${query}`, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
-const getPartialName = (query) => {
+const getPartialName = async (query) => {
     const config = {
         headers: { Authorization: token },        
     }
     const request = axios.get(`${baseUrl}/partialname/${query}`, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
 const create = newCard => {
@@ -85,5 +90,5 @@ const update = object => {
 }
 
 
-export default { getAll, getCardsByLoginId, getById, getByName, getPartialName, create, remove, update, setToken }
+export default { getAll, getCardsByLoginId, getOneCardById, getByName, getPartialName, create, remove, update, setToken }
 

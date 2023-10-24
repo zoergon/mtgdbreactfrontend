@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const baseUrl = "https://localhost:7120/api/logins"
-const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/logins"
+const baseUrl = "https://localhost:7120/api/logins"
+// const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/logins"
 // const baseUrl = "https://mtgdbwebapi.azure-api.net/api/logins"
 
 let token = null
@@ -12,12 +12,13 @@ const setToken = newToken => {
     token = `bearer ${newToken}`
 }
 
-const getAll = () => {
+const getAll = async () => {
     const config = {
         headers: { Authorization: token },
     }
     const request = axios.get(baseUrl, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
 // uuden käyttäjän lisääminen

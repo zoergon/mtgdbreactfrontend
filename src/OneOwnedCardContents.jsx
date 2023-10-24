@@ -17,11 +17,11 @@ const [reload, reloadNow] = useState(false) // Komponentin uudelleen päivityst�
 
 useEffect(() => {
   if (query !== "") // Ei hae tyhjällä stringillä
-  OwnedCardsService.getById(query) //query = id
+  OwnedCardsService.getOneCardById(query) //query = id
   .then(data => {    
-    // console.log("getById", data)
+    console.log("getById", data)
     setCard(data.map(e => e.idNavigation))    
-    // console.log("AFTER", card)
+    console.log("AFTER", card)
 })
   .catch(error => console.log(error))
 },[reload]

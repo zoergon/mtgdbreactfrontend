@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const baseUrl = "https://localhost:7120/api/formats"
-const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/formats"
+const baseUrl = "https://localhost:7120/api/formats"
+// const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/formats"
 // const nameUrl = "https://localhost:7120/api/formats/id"
 
 let token = null
@@ -12,20 +12,22 @@ const setToken = newToken => {
     token = `bearer ${newToken}`
 }
 
-const getAll = () => {
+const getAll = async () => {
     const config = {
         headers: { Authorization: token },
     }
     const request = axios.get(baseUrl, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
-const getFormat = (query) => {
+const getFormat = async (query) => {
     const config = {
         headers: { Authorization: token },        
     }
     const request = axios.get(`${baseUrl}/id/${query}`, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
 const create = newFormat => {

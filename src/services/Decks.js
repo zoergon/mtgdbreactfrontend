@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const baseUrl = "https://localhost:7120/api/decks"
-const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/decks"
+const baseUrl = "https://localhost:7120/api/decks"
+// const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/decks"
 // const nameUrl = "https://localhost:7120/api/decks/name"
 // const loginIdUrl = "https://localhost:7120/api/decks/loginid"
 
@@ -13,29 +13,32 @@ const setToken = newToken => {
     token = `bearer ${newToken}`
 }
 
-const getAll = () => {
+const getAll = async () => {
     const config = {
         headers: { Authorization: token },
     }
     const request = axios.get(baseUrl, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
-const getName = (query) => {
+const getName = async (query) => {
     const config = {
         headers: { Authorization: token },        
     }
     const request = axios.get(`${baseUrl}/name/${query}`, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
-const getDecksByLoginId = (query) => {
+const getDecksByLoginId = async (query) => {
     const config = {
         headers: { Authorization: token },        
     }
     // const request = axios.get(`${loginIdUrl}/${query}`, config)
     const request = axios.get(`${baseUrl}/loginid/${query}`, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
 const create = newDeck => {

@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const baseUrl = "https://localhost:7120/api/commanders"
-const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/commanders"
+const baseUrl = "https://localhost:7120/api/commanders"
+// const baseUrl = "https://mtgdbwebapibackend20230728.azurewebsites.net/api/commanders"
 // const nameUrl = "https://localhost:7120/api/commanders/name"
 // const deckIdUrl = "https://localhost:7120/api/commanders/deckid"
 
@@ -13,20 +13,22 @@ const setToken = newToken => {
     token = `bearer ${newToken}`
 }
 
-const getAll = () => {
+const getAll = async () => {
     const config = {
         headers: { Authorization: token },
     }
     const request = axios.get(baseUrl, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
-const getByDeckId = (query) => {
+const getByDeckId = async (query) => {
     const config = {
         headers: { Authorization: token },        
     }
     const request = axios.get(`${baseUrl}/deckid/${query}`, config)
-    return request.then(response => response.data)
+    const response = await request
+    return response.data
 }
 
 const create = newCommander => {
